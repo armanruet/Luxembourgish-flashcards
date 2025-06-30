@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Volume2, Info, Tag, Clock } from 'lucide-react';
+import { Volume2, Tag, Clock } from 'lucide-react';
 import { Flashcard as FlashcardType } from '@/types';
 
 interface FlashcardProps {
@@ -26,6 +26,36 @@ const Flashcard: React.FC<FlashcardProps> = ({
       utterance.rate = 0.8;
       speechSynthesis.speak(utterance);
     }
+  };
+
+  // Helper function to parse conjugations and examples from notes
+  const parseBackContent = () => {
+    if (!card.notes) return { conjugations: '', example: '' };
+    
+    // Check if notes contains an example (indicated by " - " separator)
+    const parts = card.notes.split(' - ');
+    if (parts.length >= 2) {
+      return {
+        conjugations: parts[0].trim(),
+        example: parts[1].trim()
+      };
+    }
+    
+    // If no separator, treat entire notes as conjugations/forms
+    return {
+      conjugations: card.notes,
+      example: ''
+    };
+  };
+
+  // Extract conjugations from luxembourgish field if it contains parentheses
+  const getMainWord = () => {
+    return card.luxembourgish.split('(')[0].trim();
+  };
+
+  const getConjugations = () => {
+    const match = card.luxembourgish.match(/\((.*)\)/);
+    return match ? match[1] : '';
   };
 
   const cardVariants = {
@@ -96,19 +126,23 @@ const Flashcard: React.FC<FlashcardProps> = ({
 
             {/* Main content */}
             <div className="flex-1 flex items-center justify-center text-center">
-              <div>
-                <h2 className="text-3xl font-bold text-gray-900 mb-4 luxembourgish-text">
-                  {card.luxembourgish}
+              <div className="space-y-4">
+                <h2 className="text-4xl font-bold text-gray-900 luxembourgish-text">
+                  {getMainWord()}
                 </h2>
+                
+                <p className="text-xl text-gray-700 font-medium">
+                  ({card.english})
+                </p>
                 
                 {showPronunciation && card.pronunciation && (
                   <motion.p
-                    className="text-lg text-gray-600 font-mono"
+                    className="text-lg text-gray-600 font-mono bg-gray-50 px-4 py-2 rounded-lg inline-block"
                     initial={{ opacity: 0 }}
-                    animate={{ opacity: isHovered ? 1 : 0.7 }}
+                    animate={{ opacity: isHovered ? 1 : 0.8 }}
                     transition={{ duration: 0.2 }}
                   >
-                    /{card.pronunciation}/
+                    {card.pronunciation}
                   </motion.p>
                 )}
               </div>
@@ -151,23 +185,50 @@ const Flashcard: React.FC<FlashcardProps> = ({
 
             {/* Main content */}
             <div className="flex-1 flex items-center justify-center text-center">
-              <div>
-                <h2 className="text-3xl font-bold mb-4">
-                  {card.english}
-                </h2>
-                
-                {card.notes && (
-                  <motion.div
-                    className="mt-4 p-4 bg-white bg-opacity-10 rounded-lg"
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3 }}
-                  >
-                    <div className="flex items-start space-x-2">
-                      <Info className="h-4 w-4 mt-0.5 flex-shrink-0" />
-                      <p className="text-sm text-left">{card.notes}</p>
+              <div className="space-y-6">
+                {/* Conjugations/Different forms */}
+                {(getConjugations() || parseBackContent().conjugations) && (
+                  <div className="bg-white bg-opacity-10 rounded-lg p-4">
+                    <h3 className="text-lg font-semibold mb-3 text-yellow-200">
+                      {card.category.includes('verb') ? 'Conjugations:' : 'Forms:'}
+                    </h3>
+                    <div className="text-base leading-relaxed">
+                      {getConjugations() && (
+                        <p className="mb-2 font-mono text-yellow-100">
+                          {getConjugations()}
+                        </p>
+                      )}
+                      {parseBackContent().conjugations && (
+                        <p className="text-white">
+                          {parseBackContent().conjugations}
+                        </p>
+                      )}
                     </div>
-                  </motion.div>
+                  </div>
+                )}
+                
+                {/* Example sentence */}
+                {parseBackContent().example ? (
+                  <div className="bg-white bg-opacity-10 rounded-lg p-4">
+                    <h3 className="text-lg font-semibold mb-3 text-yellow-200">Example:</h3>
+                    <div className="text-base leading-relaxed">
+                      <p className="italic text-white">
+                        {parseBackContent().example}
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="bg-white bg-opacity-10 rounded-lg p-4">
+                    <h3 className="text-lg font-semibold mb-3 text-yellow-200">Usage:</h3>
+                    <div className="text-base leading-relaxed">
+                      <p className="italic text-white">
+                        Ech schwätzen {getMainWord()}.
+                      </p>
+                      <p className="text-sm mt-2 opacity-80">
+                        (I speak {card.english.toLowerCase()}.)
+                      </p>
+                    </div>
+                  </div>
                 )}
               </div>
             </div>
