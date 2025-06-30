@@ -1,4 +1,5 @@
 import { Deck } from '@/types';
+import { additionalLektioun4Decks, additionalCategories } from './lektioun4-additional';
 
 /**
  * Initial Luxembourgish vocabulary data based on extensive language learning materials
@@ -2080,7 +2081,7 @@ export const lektioun4Decks: Deck[] = [
 ];
 
 // Merge all decks
-export const allDecks = [...initialDecks, ...lektioun4Decks];
+export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks];
 
 export const vocabularyCategories = [
   'greetings',
@@ -2148,7 +2149,16 @@ export const vocabularyCategories = [
   'negation',
   'negation-possession',
   'negation-food',
-  'negation-drinks'
+  'negation-drinks',
+  // Additional Lektioun 4 categories
+  'food-packaging',
+  'luxembourg-culture',
+  'pronunciation',
+  'advanced-grammar',
+  'seasonal-food',
+  'traditional-dishes',
+  'sound-patterns',
+  'business-practices'
 ];
 
 export const difficultyLevels = ['A1', 'A2', 'B1', 'B2'] as const;
