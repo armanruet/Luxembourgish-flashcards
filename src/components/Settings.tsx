@@ -2,10 +2,6 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { 
   Settings as SettingsIcon, 
-  Moon, 
-  Sun, 
-  Volume2, 
-  VolumeX,
   Download,
   Upload,
   Trash2,
@@ -293,7 +289,7 @@ const Settings: React.FC = () => {
                           onChange={(e) => updateSetting(setting.key, Number(e.target.value) as any)}
                           min={setting.min}
                           max={setting.max}
-                          step={setting.step || 1}
+                          step={(setting as any).step || 1}
                           className="border border-gray-300 rounded-lg px-3 py-2 text-sm w-20 focus:ring-2 focus:ring-primary focus:border-primary"
                         />
                       )}

@@ -16,7 +16,7 @@ import { useStudyStore } from '@/store/studyStore';
 import { getDueCardsCount, calculateRetentionRate } from '@/utils/spacedRepetition';
 
 const Dashboard: React.FC = () => {
-  const { decks, getAllCards } = useDeckStore();
+  const { getAllCards } = useDeckStore();
   const { userProgress } = useStudyStore();
 
   const allCards = getAllCards();
@@ -104,7 +104,7 @@ const Dashboard: React.FC = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.1 }}
       >
-        {stats.map((stat, index) => {
+        {stats.map((stat) => {
           const Icon = stat.icon;
           return (
             <motion.div
@@ -134,7 +134,7 @@ const Dashboard: React.FC = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
       >
-        {quickActions.map((action, index) => {
+        {quickActions.map((action) => {
           const Icon = action.icon;
           return (
             <motion.div

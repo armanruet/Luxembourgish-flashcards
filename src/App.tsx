@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
@@ -18,7 +18,7 @@ import Settings from '@/components/Settings';
 import { initialDecks } from '@/data/vocabulary';
 
 function App() {
-  const { loadDecks, decks, addDeck } = useDeckStore();
+  const { loadDecks, addDeck } = useDeckStore();
   const { loadUserProgress } = useStudyStore();
 
   useEffect(() => {

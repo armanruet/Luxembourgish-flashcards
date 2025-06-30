@@ -8,8 +8,7 @@ import {
   Trash2, 
   BookOpen,
   Clock,
-  Target,
-  Users
+  Target
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -116,7 +115,7 @@ const DeckList: React.FC = () => {
                       <button
                         onClick={() => {
                           // TODO: Implement edit functionality
-                          toast.info('Edit functionality coming soon!');
+                          toast.success('Edit functionality coming soon!');
                         }}
                         className="p-2 text-white hover:bg-white hover:bg-opacity-20 rounded-lg transition-colors"
                         title="Edit deck"
@@ -214,7 +213,7 @@ const DeckList: React.FC = () => {
                     onClick={() => {
                       setCurrentDeck(deck);
                       // TODO: Navigate to deck details/edit page
-                      toast.info('Deck details coming soon!');
+                      toast.success('Deck details coming soon!');
                     }}
                     className="w-full flex items-center justify-center space-x-2 py-2 px-4 
                              border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 

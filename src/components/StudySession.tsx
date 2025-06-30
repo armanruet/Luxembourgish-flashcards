@@ -5,8 +5,6 @@ import {
   ArrowLeft, 
   RotateCcw, 
   Play, 
-  Pause, 
-  SkipForward,
   CheckCircle,
   XCircle,
   AlertCircle,
@@ -24,7 +22,7 @@ const StudySession: React.FC = () => {
   const { deckId } = useParams<{ deckId: string }>();
   const navigate = useNavigate();
   
-  const { decks, getDeckById, getAllCards } = useDeckStore();
+  const { getDeckById, getAllCards } = useDeckStore();
   const { 
     currentSession, 
     isStudying, 
@@ -36,7 +34,6 @@ const StudySession: React.FC = () => {
   } = useStudyStore();
 
   const [isFlipped, setIsFlipped] = useState(false);
-  const [studyMode, setStudyMode] = useState<StudyMode>('review');
   const [showModeSelection, setShowModeSelection] = useState(true);
 
   const currentDeck = deckId ? getDeckById(deckId) : null;

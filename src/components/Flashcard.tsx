@@ -8,7 +8,6 @@ interface FlashcardProps {
   isFlipped: boolean;
   onFlip: () => void;
   showPronunciation?: boolean;
-  autoFlip?: boolean;
 }
 
 const Flashcard: React.FC<FlashcardProps> = ({
@@ -16,7 +15,6 @@ const Flashcard: React.FC<FlashcardProps> = ({
   isFlipped,
   onFlip,
   showPronunciation = true,
-  autoFlip = false,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 

@@ -1,4 +1,4 @@
-import { Flashcard, Deck, UserProgress, AppSettings } from '@/types';
+import { Deck, UserProgress, AppSettings } from '@/types';
 
 const STORAGE_KEYS = {
   DECKS: 'luxembourgish-flashcards-decks',
