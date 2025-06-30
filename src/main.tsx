@@ -7,7 +7,7 @@ import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <BrowserRouter basename="/luxembourgish-flashcards">
+    <BrowserRouter basename="/Luxembourgish-flashcards">
       <App />
       <Toaster 
         position="top-right"
