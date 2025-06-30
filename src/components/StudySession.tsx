@@ -262,7 +262,7 @@ const StudySession: React.FC = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto">
+    <div className="max-w-4xl mx-auto px-4 py-8">
       {/* Session Header */}
       <motion.div
         className="flex items-center justify-between mb-8"
@@ -318,7 +318,7 @@ const StudySession: React.FC = () => {
       </motion.div>
 
       {/* Flashcard */}
-      <div className="mb-8">
+      <div className="mb-16">
         <Flashcard
           card={currentCard}
           isFlipped={isFlipped}

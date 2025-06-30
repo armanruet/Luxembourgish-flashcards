@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Volume2, Tag, Clock } from 'lucide-react';
+import { Volume2, Tag } from 'lucide-react';
 import { Flashcard as FlashcardType } from '@/types';
 
 interface FlashcardProps {
@@ -46,180 +46,184 @@ const Flashcard: React.FC<FlashcardProps> = ({
     };
   };
 
-  // Extract conjugations from luxembourgish field if it contains parentheses
+  // Extract main word from luxembourgish field
   const getMainWord = () => {
     return card.luxembourgish.split('(')[0].trim();
   };
 
+  // Get simple English meaning (just the basic translation)
+  const getSimpleEnglish = () => {
+    // Extract just the basic meaning, not the detailed conjugation info
+    const englishPart = card.english;
+    // If it contains parentheses with conjugation details, extract just the basic part
+    if (englishPart.includes('(')) {
+      const basicMeaning = englishPart.split('(')[0].trim();
+      return basicMeaning;
+    }
+    return englishPart;
+  };
+
+  // Extract conjugations from luxembourgish field if it contains parentheses
   const getConjugations = () => {
     const match = card.luxembourgish.match(/\((.*)\)/);
     return match ? match[1] : '';
   };
 
   const difficultyColors: Record<string, { bg: string; text: string }> = {
-    'A1': { bg: '#E8F5E8', text: '#2E7D32' },
-    'A2': { bg: '#E3F2FD', text: '#1565C0' },
-    'B1': { bg: '#FFF3E0', text: '#EF6C00' },
-    'B2': { bg: '#FFEBEE', text: '#C62828' },
+    'A1': { bg: '#4ade80', text: '#ffffff' },
+    'A2': { bg: '#3b82f6', text: '#ffffff' },
+    'B1': { bg: '#f59e0b', text: '#ffffff' },
+    'B2': { bg: '#ef4444', text: '#ffffff' },
   };
 
   const difficultyColor = difficultyColors[card.difficulty] || difficultyColors['A1'];
 
   return (
-    <div className="px-8 flex items-center justify-center">
-      <div className="w-full max-w-4xl" style={{ perspective: '1000px' }}>
-        <motion.div
-          className={`relative w-full h-96 transition-all duration-700 cursor-pointer ${
-            isFlipped ? 'rotate-x-180' : ''
-          }`}
-          onClick={onFlip}
-          style={{ transformStyle: 'preserve-3d' }}
-          whileHover={{ y: -8 }}
-          transition={{ type: "spring", stiffness: 300, damping: 20 }}
+    <motion.div
+      className="relative w-full max-w-2xl mx-auto mb-8"
+      style={{ perspective: '1000px' }}
+      whileHover={{ y: -2 }}
+      transition={{ type: "spring", stiffness: 300, damping: 30 }}
+    >
+      <motion.div
+        className="relative w-full h-96 cursor-pointer"
+        onClick={onFlip}
+        animate={{ rotateY: isFlipped ? 180 : 0 }}
+        transition={{ duration: 0.6, ease: "easeInOut" }}
+        style={{ transformStyle: 'preserve-3d' }}
+      >
+        {/* Front of card */}
+        <div 
+          className="absolute inset-0 bg-white rounded-3xl shadow-lg flex flex-col border border-gray-200"
+          style={{ 
+            backfaceVisibility: 'hidden',
+            transform: 'rotateY(0deg)'
+          }}
         >
-          {/* Front of card */}
-          <div 
-            className="absolute inset-0 bg-white rounded-3xl shadow-xl flex flex-col p-8 backface-hidden border border-gray-100"
-            style={{ backfaceVisibility: 'hidden' }}
-          >
-            {/* Header */}
-            <div className="flex items-center justify-between mb-8">
-              <span 
-                className="px-4 py-2 rounded-full text-sm font-medium"
-                style={{ 
-                  backgroundColor: difficultyColor.bg,
-                  color: difficultyColor.text
+          {/* Header with difficulty level */}
+          <div className="flex items-center justify-between p-4">
+            <span 
+              className="px-3 py-1 rounded-full text-sm font-medium"
+              style={{ 
+                backgroundColor: difficultyColor.bg,
+                color: difficultyColor.text
+              }}
+            >
+              {card.difficulty}
+            </span>
+            <div className="flex items-center space-x-2">
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  playAudio();
                 }}
+                className="p-2 text-gray-400 hover:text-gray-600 transition-colors rounded-lg"
+                title="Play pronunciation"
               >
-                {card.difficulty}
-              </span>
-              <div className="flex items-center space-x-3">
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    playAudio();
-                  }}
-                  className="p-2 text-gray-400 hover:text-gray-600 transition-colors"
-                  title="Play pronunciation"
-                >
-                  <Volume2 className="h-5 w-5" />
-                </button>
-                {card.tags && card.tags.length > 0 && (
-                  <div className="text-gray-400">
-                    <Tag className="h-5 w-5" />
-                  </div>
-                )}
+                <Volume2 className="h-5 w-5" />
+              </button>
+              <div className="text-gray-400">
+                <Tag className="h-5 w-5" />
               </div>
-            </div>
-
-            {/* Main content - Centered rounded box */}
-            <div className="flex-1 flex items-center justify-center">
-              <div className="border-2 border-gray-300 rounded-3xl p-12 max-w-2xl w-full text-center">
-                <h2 className="text-5xl font-bold text-gray-900 mb-6 leading-tight">
-                  {getMainWord()} ({card.english})
-                </h2>
-                
-                {showPronunciation && card.pronunciation && (
-                  <p className="text-2xl text-gray-600 font-mono">
-                    [{card.pronunciation}]
-                  </p>
-                )}
-              </div>
-            </div>
-
-            {/* Footer */}
-            <div className="flex items-center justify-between text-sm text-gray-500 mt-8">
-              <span className="capitalize font-medium">{card.category.replace('-', ' ')}</span>
-              <span className="text-gray-400">Click to reveal</span>
             </div>
           </div>
 
-          {/* Back of card */}
-          <div 
-            className="absolute inset-0 bg-white rounded-3xl shadow-xl flex flex-col p-8 rotate-x-180 backface-hidden border border-gray-100"
-            style={{ 
-              backfaceVisibility: 'hidden',
-              transform: 'rotateX(180deg)'
-            }}
-          >
-            {/* Header */}
-            <div className="flex items-center justify-between mb-8">
-              <span 
-                className="px-4 py-2 rounded-full text-sm font-medium"
-                style={{ 
-                  backgroundColor: difficultyColor.bg,
-                  color: difficultyColor.text
-                }}
-              >
-                {card.difficulty}
-              </span>
-              <div className="flex items-center space-x-3">
-                <div className="text-gray-400">
-                  <Volume2 className="h-5 w-5" />
-                </div>
-                {card.reviewCount > 0 && (
-                  <div className="flex items-center space-x-1 text-sm text-gray-500">
-                    <Clock className="h-4 w-4" />
-                    <span>{card.reviewCount}</span>
-                  </div>
-                )}
-                <div className="text-gray-400">
-                  <Tag className="h-5 w-5" />
-                </div>
-              </div>
-            </div>
-
-            {/* Main content - Centered rounded box */}
-            <div className="flex-1 flex items-center justify-center">
-              <div className="border-2 border-gray-300 rounded-3xl p-12 max-w-2xl w-full text-center">
-                {/* Conjugations */}
-                {(getConjugations() || parseBackContent().conjugations) && (
-                  <div className="mb-8">
-                    <div className="text-xl text-gray-800 leading-relaxed">
-                      {getConjugations() && (
-                        <p className="mb-4 font-medium">
-                          {getConjugations()}
-                        </p>
-                      )}
-                      {parseBackContent().conjugations && (
-                        <p className="whitespace-pre-line">
-                          {parseBackContent().conjugations}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                )}
-                
-                {/* Example */}
-                <div className="border-t border-gray-200 pt-8">
-                  {parseBackContent().example ? (
-                    <div className="text-lg text-gray-700 leading-relaxed">
-                      <p className="font-medium text-gray-800 mb-2">Example:</p>
-                      <p className="whitespace-pre-line">
-                        {parseBackContent().example}
-                      </p>
-                    </div>
-                  ) : (
-                    <div className="text-lg text-gray-700 leading-relaxed">
-                      <p className="font-medium text-gray-800 mb-2">Example:</p>
-                      <p>
-                        Ech schwätzen {getMainWord()}. (I speak {card.english.toLowerCase()}.)
-                      </p>
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-
-            {/* Footer */}
-            <div className="flex items-center justify-between text-sm text-gray-500 mt-8">
-              <span className="capitalize font-medium">{card.category.replace('-', ' ')}</span>
-              <span className="text-gray-400">Click to reveal</span>
+          {/* Main content area */}
+          <div className="flex-1 flex items-center justify-center p-8">
+            <div className="w-full mx-auto p-10 bg-white border-2 border-gray-300 rounded-3xl text-center">
+              <h1 className="text-4xl font-medium text-black mb-6 leading-tight break-words">
+                {getMainWord()} ({getSimpleEnglish()})
+              </h1>
+              
+              {showPronunciation && card.pronunciation && (
+                <p className="text-2xl text-black font-normal leading-tight break-words">
+                  [{card.pronunciation}]
+                </p>
+              )}
             </div>
           </div>
-        </motion.div>
-      </div>
-    </div>
+
+          {/* Footer */}
+          <div className="flex items-center justify-between px-4 py-3 text-sm text-gray-500 bg-gray-50 rounded-b-3xl">
+            <span className="font-medium">{card.category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}</span>
+            <span className="text-gray-400">Click to reveal</span>
+          </div>
+        </div>
+
+        {/* Back of card */}
+        <div 
+          className="absolute inset-0 bg-white rounded-3xl shadow-lg flex flex-col border border-gray-200"
+          style={{ 
+            backfaceVisibility: 'hidden',
+            transform: 'rotateY(180deg)'
+          }}
+        >
+          {/* Header with difficulty level */}
+          <div className="flex items-center justify-between p-4">
+            <span 
+              className="px-3 py-1 rounded-full text-sm font-medium"
+              style={{ 
+                backgroundColor: difficultyColor.bg,
+                color: difficultyColor.text
+              }}
+            >
+              {card.difficulty}
+            </span>
+            <div className="flex items-center space-x-2">
+              <div className="text-gray-400">
+                <Volume2 className="h-5 w-5" />
+              </div>
+              <div className="text-gray-400">
+                <Tag className="h-5 w-5" />
+              </div>
+            </div>
+          </div>
+
+          {/* Main content area */}
+          <div className="flex-1 flex items-center justify-center p-8">
+            <div className="w-full mx-auto p-10 bg-white border-2 border-gray-300 rounded-3xl text-center">
+              {/* Conjugations - Single line */}
+              <div className="mb-8">
+                {getConjugations() ? (
+                  <div className="text-xl text-black leading-relaxed break-words">
+                    {getConjugations()}
+                  </div>
+                ) : parseBackContent().conjugations ? (
+                  <div className="text-xl text-black leading-relaxed break-words">
+                    {parseBackContent().conjugations.replace(/\n/g, ', ')}
+                  </div>
+                ) : (
+                  <div className="text-xl text-black leading-relaxed break-words">
+                    ech {getMainWord()}, du {getMainWord()}s, hien/si/et {getMainWord()}t, mir {getMainWord()}, dir {getMainWord()}t, si {getMainWord()}
+                  </div>
+                )}
+              </div>
+              
+              {/* Example */}
+              <div className="text-lg text-black leading-relaxed">
+                {parseBackContent().example ? (
+                  <div>
+                    <div className="font-medium mb-3">Example:</div>
+                    <div className="break-words">{parseBackContent().example}</div>
+                  </div>
+                ) : (
+                  <div>
+                    <div className="font-medium mb-3">Example:</div>
+                    <div className="break-words">Ech {getMainWord()} dir e Buch. (I {getSimpleEnglish().toLowerCase()} you a book.)</div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Footer */}
+          <div className="flex items-center justify-between px-4 py-3 text-sm text-gray-500 bg-gray-50 rounded-b-3xl">
+            <span className="font-medium">{card.category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}</span>
+            <span className="text-gray-400">Click to flip back</span>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
   );
 };
 

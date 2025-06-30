@@ -23,6 +23,17 @@
   letter-spacing: -0.02em;
 }
 
+/* Ensure proper 3D rendering */
+.flashcard-container {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+.flashcard {
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+}
+
 /* Smooth transitions for all interactive elements */
 * {
   transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
