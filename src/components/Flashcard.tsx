@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Volume2, Tag, Clock } from 'lucide-react';
 import { Flashcard as FlashcardType } from '@/types';
 
@@ -58,60 +58,84 @@ const Flashcard: React.FC<FlashcardProps> = ({
     return match ? match[1] : '';
   };
 
-  const cardVariants = {
-    front: {
-      rotateY: 0,
-      transition: { duration: 0.6 }
-    },
-    back: {
-      rotateY: 180,
-      transition: { duration: 0.6 }
-    }
+  // Get category-based colors
+  const getCategoryColors = () => {
+    const colorSchemes: Record<string, { bg: string; border: string }> = {
+      'greetings': { bg: '#E8F4FD', border: '#2196F3' },
+      'auxiliary': { bg: '#FFF3E0', border: '#FF9800' },
+      'modal': { bg: '#E8F5E8', border: '#4CAF50' },
+      'household': { bg: '#F3E5F5', border: '#9C27B0' },
+      'transport': { bg: '#FFF8E1', border: '#FFC107' },
+      'social': { bg: '#FCE4EC', border: '#E91E63' },
+      'communication': { bg: '#E1F5FE', border: '#00BCD4' },
+      'daily': { bg: '#F0F9FF', border: '#0EA5E9' },
+      'learning': { bg: '#EDE9FE', border: '#8B5CF6' },
+      'health': { bg: '#FEF2F2', border: '#DC2626' },
+      'emergency': { bg: '#FEF2F2', border: '#EF4444' },
+      'money': { bg: '#F0FDF4', border: '#16A34A' },
+      'work': { bg: '#EFEBE9', border: '#795548' },
+      'default': { bg: '#F8FAFC', border: '#64748B' }
+    };
+
+    const categoryKey = Object.keys(colorSchemes).find(key => 
+      card.category.includes(key) || card.tags?.some(tag => tag.includes(key))
+    );
+
+    return colorSchemes[categoryKey || 'default'];
   };
 
-  const difficultyColors = {
-    'A1': 'bg-green-100 text-green-800',
-    'A2': 'bg-blue-100 text-blue-800',
-    'B1': 'bg-yellow-100 text-yellow-800',
-    'B2': 'bg-red-100 text-red-800',
+  const colors = getCategoryColors();
+
+  const difficultyColors: Record<string, { bg: string; text: string }> = {
+    'A1': { bg: '#E8F5E8', text: '#2E7D32' },
+    'A2': { bg: '#E3F2FD', text: '#1565C0' },
+    'B1': { bg: '#FFF3E0', text: '#EF6C00' },
+    'B2': { bg: '#FFEBEE', text: '#C62828' },
   };
+
+  const difficultyColor = difficultyColors[card.difficulty] || difficultyColors['A1'];
 
   return (
-    <motion.div
-      className="relative w-full max-w-lg mx-auto"
-      style={{ perspective: '1000px' }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <motion.div
-        className="relative w-full h-80 cursor-pointer card-3d"
-        onClick={onFlip}
-        animate={isFlipped ? "back" : "front"}
-        variants={cardVariants}
-        whileHover={{ y: -5 }}
-        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-      >
-        {/* Front of card (Luxembourgish) */}
+    <div className="px-8 flex items-center justify-center">
+      <div className="w-full max-w-3xl" style={{ perspective: '1000px' }}>
         <motion.div
-          className="absolute inset-0 w-full h-full card-face"
-          style={{
-            backfaceVisibility: 'hidden',
-            transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)'
-          }}
+          className={`relative w-full h-96 transition-all duration-700 cursor-pointer ${
+            isFlipped ? 'rotate-x-180' : ''
+          }`}
+          onClick={onFlip}
+          onHoverStart={() => setIsHovered(true)}
+          onHoverEnd={() => setIsHovered(false)}
+          style={{ transformStyle: 'preserve-3d' }}
+          whileHover={{ y: -8 }}
+          transition={{ type: "spring", stiffness: 300, damping: 20 }}
         >
-          <div className="h-full bg-white rounded-2xl shadow-xl border-2 border-primary border-opacity-20 p-8 flex flex-col justify-between">
+          {/* Front of card */}
+          <div 
+            className="absolute inset-0 rounded-3xl shadow-xl flex flex-col p-8 backface-hidden"
+            style={{ 
+              backgroundColor: colors.bg,
+              borderLeft: `6px solid ${colors.border}`,
+              backfaceVisibility: 'hidden'
+            }}
+          >
             {/* Header */}
-            <div className="flex items-center justify-between">
-              <span className={`px-3 py-1 rounded-full text-xs font-medium ${difficultyColors[card.difficulty]}`}>
+            <div className="flex items-center justify-between mb-6">
+              <span 
+                className="px-3 py-1 rounded-full text-xs font-medium"
+                style={{ 
+                  backgroundColor: difficultyColor.bg,
+                  color: difficultyColor.text
+                }}
+              >
                 {card.difficulty}
               </span>
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-3">
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
                     playAudio();
                   }}
-                  className="p-2 text-gray-600 hover:text-primary hover:bg-blue-50 rounded-full transition-colors"
+                  className="p-2 text-gray-600 hover:text-gray-800 hover:bg-white hover:bg-opacity-50 rounded-full transition-colors"
                   title="Play pronunciation"
                 >
                   <Volume2 className="h-4 w-4" />
@@ -127,56 +151,64 @@ const Flashcard: React.FC<FlashcardProps> = ({
             {/* Main content */}
             <div className="flex-1 flex items-center justify-center text-center">
               <div className="space-y-4">
-                <h2 className="text-4xl font-bold text-gray-900 luxembourgish-text">
+                <h2 className="text-5xl font-bold text-gray-800 luxembourgish-text leading-tight">
                   {getMainWord()}
                 </h2>
                 
-                <p className="text-xl text-gray-700 font-medium">
+                <p className="text-2xl text-gray-700 font-medium">
                   ({card.english})
                 </p>
                 
                 {showPronunciation && card.pronunciation && (
-                  <motion.p
-                    className="text-lg text-gray-600 font-mono bg-gray-50 px-4 py-2 rounded-lg inline-block"
+                  <motion.div
+                    className="inline-block bg-white bg-opacity-70 px-6 py-3 rounded-2xl"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: isHovered ? 1 : 0.8 }}
                     transition={{ duration: 0.2 }}
                   >
-                    {card.pronunciation}
-                  </motion.p>
+                    <p className="text-lg text-gray-600 font-mono">
+                      {card.pronunciation}
+                    </p>
+                  </motion.div>
                 )}
               </div>
             </div>
 
             {/* Footer */}
-            <div className="flex items-center justify-between text-sm text-gray-500">
+            <div className="flex items-center justify-between text-sm text-gray-500 mt-6">
               <span className="capitalize">{card.category.replace('-', ' ')}</span>
               <motion.div
                 className="text-xs opacity-60"
                 animate={{ opacity: isHovered ? 1 : 0.6 }}
               >
-                Click to reveal
+                Click or ↑↓ to flip
               </motion.div>
             </div>
           </div>
-        </motion.div>
 
-        {/* Back of card (English) */}
-        <motion.div
-          className="absolute inset-0 w-full h-full card-face card-back"
-          style={{
-            backfaceVisibility: 'hidden',
-            transform: isFlipped ? 'rotateY(0deg)' : 'rotateY(180deg)'
-          }}
-        >
-          <div className="h-full bg-gradient-to-br from-secondary to-red-600 rounded-2xl shadow-xl p-8 flex flex-col justify-between text-white">
+          {/* Back of card */}
+          <div 
+            className="absolute inset-0 rounded-3xl shadow-xl flex flex-col p-8 rotate-x-180 backface-hidden"
+            style={{ 
+              backgroundColor: colors.bg,
+              borderLeft: `6px solid ${colors.border}`,
+              backfaceVisibility: 'hidden',
+              transform: 'rotateX(180deg)'
+            }}
+          >
             {/* Header */}
-            <div className="flex items-center justify-between">
-              <span className="px-3 py-1 bg-white bg-opacity-20 rounded-full text-xs font-medium">
-                Translation
+            <div className="flex items-center justify-between mb-6">
+              <span 
+                className="px-3 py-1 rounded-full text-xs font-medium"
+                style={{ 
+                  backgroundColor: difficultyColor.bg,
+                  color: difficultyColor.text
+                }}
+              >
+                Details
               </span>
               {card.reviewCount > 0 && (
-                <div className="flex items-center space-x-1 text-sm opacity-80">
+                <div className="flex items-center space-x-1 text-sm text-gray-500">
                   <Clock className="h-4 w-4" />
                   <span>{card.reviewCount} reviews</span>
                 </div>
@@ -184,22 +216,22 @@ const Flashcard: React.FC<FlashcardProps> = ({
             </div>
 
             {/* Main content */}
-            <div className="flex-1 flex items-center justify-center text-center">
-              <div className="space-y-6">
+            <div className="flex-1 flex items-center justify-center">
+              <div className="space-y-6 w-full">
                 {/* Conjugations/Different forms */}
                 {(getConjugations() || parseBackContent().conjugations) && (
-                  <div className="bg-white bg-opacity-10 rounded-lg p-4">
-                    <h3 className="text-lg font-semibold mb-3 text-yellow-200">
+                  <div className="bg-white bg-opacity-60 rounded-2xl p-6">
+                    <h3 className="text-lg font-semibold mb-3 text-gray-800">
                       {card.category.includes('verb') ? 'Conjugations:' : 'Forms:'}
                     </h3>
-                    <div className="text-base leading-relaxed">
+                    <div className="text-base leading-relaxed text-gray-700">
                       {getConjugations() && (
-                        <p className="mb-2 font-mono text-yellow-100">
+                        <p className="mb-2 font-mono text-gray-600 text-sm">
                           {getConjugations()}
                         </p>
                       )}
                       {parseBackContent().conjugations && (
-                        <p className="text-white">
+                        <p className="whitespace-pre-line">
                           {parseBackContent().conjugations}
                         </p>
                       )}
@@ -209,22 +241,22 @@ const Flashcard: React.FC<FlashcardProps> = ({
                 
                 {/* Example sentence */}
                 {parseBackContent().example ? (
-                  <div className="bg-white bg-opacity-10 rounded-lg p-4">
-                    <h3 className="text-lg font-semibold mb-3 text-yellow-200">Example:</h3>
+                  <div className="bg-white bg-opacity-60 rounded-2xl p-6">
+                    <h3 className="text-lg font-semibold mb-3 text-gray-800">Example:</h3>
                     <div className="text-base leading-relaxed">
-                      <p className="italic text-white">
+                      <p className="italic text-gray-700 whitespace-pre-line">
                         {parseBackContent().example}
                       </p>
                     </div>
                   </div>
                 ) : (
-                  <div className="bg-white bg-opacity-10 rounded-lg p-4">
-                    <h3 className="text-lg font-semibold mb-3 text-yellow-200">Usage:</h3>
+                  <div className="bg-white bg-opacity-60 rounded-2xl p-6">
+                    <h3 className="text-lg font-semibold mb-3 text-gray-800">Usage:</h3>
                     <div className="text-base leading-relaxed">
-                      <p className="italic text-white">
+                      <p className="italic text-gray-700">
                         Ech schwätzen {getMainWord()}.
                       </p>
-                      <p className="text-sm mt-2 opacity-80">
+                      <p className="text-sm mt-2 text-gray-600">
                         (I speak {card.english.toLowerCase()}.)
                       </p>
                     </div>
@@ -234,11 +266,11 @@ const Flashcard: React.FC<FlashcardProps> = ({
             </div>
 
             {/* Footer */}
-            <div className="flex items-center justify-between text-sm opacity-80">
+            <div className="flex items-center justify-between text-sm text-gray-500 mt-6">
               {card.tags && (
                 <div className="flex flex-wrap gap-1">
                   {card.tags.slice(0, 3).map((tag, index) => (
-                    <span key={index} className="px-2 py-1 bg-white bg-opacity-20 rounded text-xs">
+                    <span key={index} className="px-2 py-1 bg-white bg-opacity-50 rounded text-xs">
                       {tag}
                     </span>
                   ))}
@@ -253,25 +285,8 @@ const Flashcard: React.FC<FlashcardProps> = ({
             </div>
           </div>
         </motion.div>
-      </motion.div>
-
-      {/* Floating indicators */}
-      <AnimatePresence>
-        {isHovered && (
-          <motion.div
-            className="absolute -bottom-4 left-1/2 transform -translate-x-1/2"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 10 }}
-            transition={{ duration: 0.2 }}
-          >
-            <div className="bg-gray-900 text-white px-3 py-1 rounded-full text-xs">
-              {isFlipped ? 'Front' : 'Back'} • Space to flip
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </motion.div>
+      </div>
+    </div>
   );
 };
 

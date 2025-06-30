@@ -2,6 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Custom 3D Flashcard Animations */
+.rotate-x-180 {
+  transform: rotateX(180deg);
+}
+
+.backface-hidden {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.transform-style-preserve-3d {
+  transform-style: preserve-3d;
+}
+
+/* Luxembourgish font styling */
+.luxembourgish-text {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* Smooth transitions for all interactive elements */
+* {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
 @layer base {
   * {
     @apply border-gray-200;
