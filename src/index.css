@@ -1,0 +1,76 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-gray-200;
+  }
+  
+  body {
+    @apply bg-base-100 text-slate-900 font-sans;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    @apply bg-base-200;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    @apply bg-neutral rounded-full;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-slate-600;
+  }
+}
+
+@layer components {
+  .card-3d {
+    transform-style: preserve-3d;
+    perspective: 1000px;
+  }
+  
+  .card-face {
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+  }
+  
+  .card-back {
+    transform: rotateY(180deg);
+  }
+  
+  .btn-primary {
+    @apply bg-primary hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200;
+  }
+  
+  .btn-secondary {
+    @apply bg-secondary hover:bg-red-600 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200;
+  }
+  
+  .btn-outline {
+    @apply border border-primary text-primary hover:bg-primary hover:text-white font-medium py-2 px-4 rounded-lg transition-all duration-200;
+  }
+}
+
+/* Luxembourgish special characters support */
+.luxembourgish-text {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-feature-settings: "liga" 1, "calt" 1;
+}
+
+/* Animation utilities */
+.animate-flip-card {
+  animation: flipCard 0.6s ease-in-out;
+}
+
+@keyframes flipCard {
+  0% { transform: rotateY(0deg); }
+  50% { transform: rotateY(90deg); }
+  100% { transform: rotateY(0deg); }
+}
