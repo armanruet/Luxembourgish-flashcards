@@ -15,7 +15,7 @@ import Statistics from '@/components/Statistics';
 import Settings from '@/components/Settings';
 
 // Data import
-import { initialDecks } from '@/data/vocabulary';
+import { allDecks } from '@/data/vocabulary';
 
 function App() {
   const { loadDecks, addDeck } = useDeckStore();
@@ -29,7 +29,7 @@ function App() {
     // Initialize with sample data if no decks exist
     const storedDecks = localStorage.getItem('luxembourgish-flashcards-decks');
     if (!storedDecks || JSON.parse(storedDecks).length === 0) {
-      initialDecks.forEach(deck => {
+      allDecks.forEach(deck => {
         addDeck(deck);
       });
     }
