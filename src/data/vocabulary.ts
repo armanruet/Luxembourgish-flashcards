@@ -11,6 +11,7 @@ import shoppingCultureDecks from './shopping-culture-vocabulary';
 import shoppingVerbsDecks from './shopping-verbs-grammar';
 import shoppingProductsDecks from './shopping-products-categories';
 import shoppingAssistanceDecks from './shopping-assistance-phrases';
+import { virstellungDecks } from './virstellung-vocabulary';
 
 /**
  * Initial Luxembourgish vocabulary data based on extensive language learning materials
@@ -2092,12 +2093,16 @@ export const lektioun4Decks: Deck[] = [
 ];
 
 // Merge all decks
-export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks, ...allAdvancedVocabularyDecks, ...specializedFirAllDagDecks, ...completeMissingVocabularyDecks, ...shoppingCultureDecks, ...shoppingVerbsDecks, ...shoppingProductsDecks, ...shoppingAssistanceDecks];
+export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks, ...allAdvancedVocabularyDecks, ...specializedFirAllDagDecks, ...completeMissingVocabularyDecks, ...shoppingCultureDecks, ...shoppingVerbsDecks, ...shoppingProductsDecks, ...shoppingAssistanceDecks, ...virstellungDecks];
 
 export const vocabularyCategories = [
   'greetings',
   'introductions', 
   'questions',
+  'personal-info',
+  'family-status',
+  'languages',
+  'hobbies',
   'auxiliary-verbs',
   'modal-verbs',
   'communication',
