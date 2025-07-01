@@ -5,6 +5,7 @@ import { firAllDagAdditionalDecks } from './fir-all-dag-additional';
 import { firAllDagAdvancedDecks } from './fir-all-dag-advanced';
 import { firAllDagFinalDecks } from './fir-all-dag-final';
 import { allAdvancedVocabularyDecks } from './advanced-vocabulary-master';
+import specializedFirAllDagDecks from './fir-all-dag-specialized';
 
 /**
  * Initial Luxembourgish vocabulary data based on extensive language learning materials
@@ -2086,7 +2087,7 @@ export const lektioun4Decks: Deck[] = [
 ];
 
 // Merge all decks
-export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks, ...allAdvancedVocabularyDecks];
+export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks, ...allAdvancedVocabularyDecks, ...specializedFirAllDagDecks];
 
 export const vocabularyCategories = [
   'greetings',
@@ -2210,7 +2211,14 @@ export const vocabularyCategories = [
   'vacation-complete',
   'classroom',
   'verb-conjugations',
-  'food-beverages'
+  'food-beverages',
+  // Specialized categories from "Lëtzebuergesch fir all Dag" specialized vocabulary
+  'time-expressions',
+  'transport-patterns',
+  'daily-activities',
+  'shop-types',
+  'containers',
+  'professional'
 ];
 
 export const difficultyLevels = ['A1', 'A2', 'B1', 'B2'] as const;
