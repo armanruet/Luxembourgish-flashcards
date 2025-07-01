@@ -54,13 +54,51 @@ const Flashcard: React.FC<FlashcardProps> = ({
   // Get simple English meaning (just the basic translation)
   const getSimpleEnglish = () => {
     // Extract just the basic meaning, not the detailed conjugation info
-    const englishPart = card.english;
-    // If it contains parentheses with conjugation details, extract just the basic part
+    let englishPart = card.english;
+    
+    // Remove any parenthetical information like "(I buy, you buy, he/she buys)"
     if (englishPart.includes('(')) {
-      const basicMeaning = englishPart.split('(')[0].trim();
-      return basicMeaning;
+      englishPart = englishPart.split('(')[0].trim();
     }
+    
+    // Remove any additional explanatory text after the basic meaning
+    // Handle cases like "to buy something" -> "to buy"
+    if (englishPart.toLowerCase().includes(' something')) {
+      englishPart = englishPart.replace(/ something/gi, '');
+    }
+    
     return englishPart;
+  };
+
+  // Get clean pronunciation for just the main word
+  const getCleanPronunciation = () => {
+    if (!card.pronunciation) return '';
+    
+    // If pronunciation contains multiple parts, try to extract just the relevant part
+    if (card.pronunciation.includes(',') || card.pronunciation.includes(';')) {
+      const parts = card.pronunciation.split(/[,;]/);
+      return parts[0].trim();
+    }
+    
+    return card.pronunciation;
+  };
+
+  // Get front text and determine if it's too long
+  const getFrontText = () => {
+    const text = `${getMainWord()} (${getSimpleEnglish()})`;
+    return text;
+  };
+
+  // Determine font size based on text length
+  const getFrontTextSize = () => {
+    const text = getFrontText();
+    
+    // If text is longer than ~35 characters or contains long words, use smaller font
+    if (text.length > 35 || text.split(' ').some(word => word.length > 12)) {
+      return 'text-2xl'; // Smaller font like pronunciation
+    }
+    
+    return 'text-4xl'; // Default large font
   };
 
   // Extract conjugations from luxembourgish field if it contains parentheses
@@ -94,7 +132,7 @@ const Flashcard: React.FC<FlashcardProps> = ({
       >
         {/* Front of card */}
         <div 
-          className="absolute inset-0 bg-white rounded-3xl shadow-lg flex flex-col border border-gray-200"
+          className="absolute inset-0 bg-white rounded-3xl shadow-lg flex flex-col border border-gray-200 min-h-96"
           style={{ 
             backfaceVisibility: 'hidden',
             transform: 'rotateY(0deg)'
@@ -129,30 +167,30 @@ const Flashcard: React.FC<FlashcardProps> = ({
           </div>
 
           {/* Main content area */}
-          <div className="flex-1 flex items-center justify-center p-8">
-            <div className="w-full mx-auto p-10 bg-white border-2 border-gray-300 rounded-3xl text-center">
-              <h1 className="text-4xl font-medium text-black mb-6 leading-tight break-words">
-                {getMainWord()} ({getSimpleEnglish()})
+          <div className="flex-1 flex items-center justify-center p-6">
+            <div className="w-full mx-auto p-8 bg-white border-2 border-gray-300 rounded-3xl text-center">
+              <h1 className={`${getFrontTextSize()} font-medium text-black mb-4 leading-tight break-words`}>
+                {getFrontText()}
               </h1>
               
-              {showPronunciation && card.pronunciation && (
-                <p className="text-2xl text-black font-normal leading-tight break-words">
-                  [{card.pronunciation}]
+              {showPronunciation && getCleanPronunciation() && (
+                <p className="text-xl text-black font-normal leading-tight break-words">
+                  [{getCleanPronunciation()}]
                 </p>
               )}
             </div>
           </div>
 
-          {/* Footer */}
-          <div className="flex items-center justify-between px-4 py-3 text-sm text-gray-500 bg-gray-50 rounded-b-3xl">
-            <span className="font-medium">{card.category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}</span>
+          {/* Footer - Fixed positioning */}
+          <div className="flex items-center justify-between px-4 py-3 text-sm text-gray-500 bg-gray-50 rounded-b-3xl mt-auto">
+            <span className="font-medium capitalize">{card.category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}</span>
             <span className="text-gray-400">Click to reveal</span>
           </div>
         </div>
 
         {/* Back of card */}
         <div 
-          className="absolute inset-0 bg-white rounded-3xl shadow-lg flex flex-col border border-gray-200"
+          className="absolute inset-0 bg-white rounded-3xl shadow-lg flex flex-col border border-gray-200 min-h-96"
           style={{ 
             backfaceVisibility: 'hidden',
             transform: 'rotateY(180deg)'
@@ -180,35 +218,35 @@ const Flashcard: React.FC<FlashcardProps> = ({
           </div>
 
           {/* Main content area */}
-          <div className="flex-1 flex items-center justify-center p-8">
-            <div className="w-full mx-auto p-10 bg-white border-2 border-gray-300 rounded-3xl text-center">
+          <div className="flex-1 flex items-center justify-center p-6">
+            <div className="w-full mx-auto p-8 bg-white border-2 border-gray-300 rounded-3xl text-center">
               {/* Conjugations - Single line */}
-              <div className="mb-8">
+              <div className="mb-6">
                 {getConjugations() ? (
-                  <div className="text-xl text-black leading-relaxed break-words">
+                  <div className="text-lg text-black leading-relaxed break-words">
                     {getConjugations()}
                   </div>
                 ) : parseBackContent().conjugations ? (
-                  <div className="text-xl text-black leading-relaxed break-words">
+                  <div className="text-lg text-black leading-relaxed break-words">
                     {parseBackContent().conjugations.replace(/\n/g, ', ')}
                   </div>
                 ) : (
-                  <div className="text-xl text-black leading-relaxed break-words">
+                  <div className="text-lg text-black leading-relaxed break-words">
                     ech {getMainWord()}, du {getMainWord()}s, hien/si/et {getMainWord()}t, mir {getMainWord()}, dir {getMainWord()}t, si {getMainWord()}
                   </div>
                 )}
               </div>
               
               {/* Example */}
-              <div className="text-lg text-black leading-relaxed">
+              <div className="text-base text-black leading-relaxed">
                 {parseBackContent().example ? (
                   <div>
-                    <div className="font-medium mb-3">Example:</div>
+                    <div className="font-medium mb-2">Example:</div>
                     <div className="break-words">{parseBackContent().example}</div>
                   </div>
                 ) : (
                   <div>
-                    <div className="font-medium mb-3">Example:</div>
+                    <div className="font-medium mb-2">Example:</div>
                     <div className="break-words">Ech {getMainWord()} dir e Buch. (I {getSimpleEnglish().toLowerCase()} you a book.)</div>
                   </div>
                 )}
@@ -216,9 +254,9 @@ const Flashcard: React.FC<FlashcardProps> = ({
             </div>
           </div>
 
-          {/* Footer */}
-          <div className="flex items-center justify-between px-4 py-3 text-sm text-gray-500 bg-gray-50 rounded-b-3xl">
-            <span className="font-medium">{card.category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}</span>
+          {/* Footer - Fixed positioning */}
+          <div className="flex items-center justify-between px-4 py-3 text-sm text-gray-500 bg-gray-50 rounded-b-3xl mt-auto">
+            <span className="font-medium capitalize">{card.category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}</span>
             <span className="text-gray-400">Click to flip back</span>
           </div>
         </div>
