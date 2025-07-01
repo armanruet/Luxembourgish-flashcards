@@ -39,7 +39,4 @@ export function debugFlashcards() {
   };
 }
 
-// Auto-run debug on import in development
-if (import.meta.env.DEV) {
-  debugFlashcards();
-}
+// Call debugFlashcards() manually when needed
