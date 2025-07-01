@@ -1,6 +1,9 @@
 import { Deck } from '@/types';
 import { additionalLektioun4Decks } from './lektioun4-additional';
 import { firAllDagDecks } from './fir-all-dag-vocabulary';
+import { firAllDagAdditionalDecks } from './fir-all-dag-additional';
+import { firAllDagAdvancedDecks } from './fir-all-dag-advanced';
+import { firAllDagFinalDecks } from './fir-all-dag-final';
 
 /**
  * Initial Luxembourgish vocabulary data based on extensive language learning materials
@@ -2082,7 +2085,7 @@ export const lektioun4Decks: Deck[] = [
 ];
 
 // Merge all decks
-export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks];
+export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks];
 
 export const vocabularyCategories = [
   'greetings',
@@ -2168,7 +2171,35 @@ export const vocabularyCategories = [
   'politeness',
   'basic-responses',
   'countries-prepositions',
-  'verb-kommen'
+  'verb-kommen',
+  // Additional categories from "Lëtzebuergesch fir all Dag" additional vocabulary
+  'irregular-verbs',
+  'prepositions',
+  'identification',
+  'relationship-status',
+  'contact',
+  'workplace',
+  'work-verbs',
+  'office-equipment',
+  'days',
+  'time-expressions',
+  'transportation',
+  'transportation-grammar',
+  'transportation-examples',
+  'transportation-culture',
+  // Advanced categories from "Lëtzebuergesch fir all Dag" advanced vocabulary
+  'questions',
+  'responses',
+  'work-questions',
+  'work-responses',
+  'politeness',
+  'professions',
+  // Final categories from "Lëtzebuergesch fir all Dag" final vocabulary
+  'workplace-locations',
+  'work-expressions',
+  'grammar-rules',
+  'essential-phrases',
+  'luxembourg-culture'
 ];
 
 export const difficultyLevels = ['A1', 'A2', 'B1', 'B2'] as const;
