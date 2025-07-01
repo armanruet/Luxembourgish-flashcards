@@ -12,6 +12,7 @@ import shoppingVerbsDecks from './shopping-verbs-grammar';
 import shoppingProductsDecks from './shopping-products-categories';
 import shoppingAssistanceDecks from './shopping-assistance-phrases';
 import { virstellungDecks } from './virstellung-vocabulary';
+import { additionalVirstellungDecks } from './additional-virstellung-vocabulary';
 
 /**
  * Initial Luxembourgish vocabulary data based on extensive language learning materials
@@ -2093,7 +2094,7 @@ export const lektioun4Decks: Deck[] = [
 ];
 
 // Merge all decks
-export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks, ...allAdvancedVocabularyDecks, ...specializedFirAllDagDecks, ...completeMissingVocabularyDecks, ...shoppingCultureDecks, ...shoppingVerbsDecks, ...shoppingProductsDecks, ...shoppingAssistanceDecks, ...virstellungDecks];
+export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks, ...allAdvancedVocabularyDecks, ...specializedFirAllDagDecks, ...completeMissingVocabularyDecks, ...shoppingCultureDecks, ...shoppingVerbsDecks, ...shoppingProductsDecks, ...shoppingAssistanceDecks, ...virstellungDecks, ...additionalVirstellungDecks];
 
 export const vocabularyCategories = [
   'greetings',
@@ -2103,6 +2104,11 @@ export const vocabularyCategories = [
   'family-status',
   'languages',
   'hobbies',
+  'pronouns',
+  'countries',
+  'professions',
+  'time-expressions',
+  'useful-expressions',
   'auxiliary-verbs',
   'modal-verbs',
   'communication',
