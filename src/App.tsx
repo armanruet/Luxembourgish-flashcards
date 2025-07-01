@@ -13,6 +13,7 @@ import DeckList from '@/components/DeckList';
 import StudySession from '@/components/StudySession';
 import Statistics from '@/components/Statistics';
 import Settings from '@/components/Settings';
+import { VersionChecker } from '@/components/VersionChecker';
 
 // Data import
 import { allDecks } from '@/data/vocabulary';
@@ -72,6 +73,9 @@ function App() {
           </div>
         </div>
       </footer>
+
+      {/* Version checker for cache debugging */}
+      <VersionChecker />
     </div>
   );
 }

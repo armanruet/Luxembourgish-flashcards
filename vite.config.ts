@@ -13,6 +13,26 @@ export default defineConfig({
   base: '/Luxembourgish-flashcards/',
   build: {
     outDir: 'dist',
-    assetsDir: 'assets'
+    assetsDir: 'assets',
+    // Enhanced cache-busting with hash-based filenames and aggressive versioning
+    rollupOptions: {
+      output: {
+        // Add timestamp hash to filenames for aggressive cache busting
+        entryFileNames: (chunkInfo) => {
+          const timestamp = Date.now();
+          return `assets/[name]-[hash]-${timestamp}.js`;
+        },
+        chunkFileNames: (chunkInfo) => {
+          const timestamp = Date.now();
+          return `assets/[name]-[hash]-${timestamp}.js`;
+        },
+        assetFileNames: (assetInfo) => {
+          const timestamp = Date.now();
+          return `assets/[name]-[hash]-${timestamp}.[ext]`;
+        }
+      }
+    },
+    // Clear output directory before build
+    emptyOutDir: true
   }
 })
