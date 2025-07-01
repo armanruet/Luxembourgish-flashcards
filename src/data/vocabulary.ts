@@ -6,6 +6,7 @@ import { firAllDagAdvancedDecks } from './fir-all-dag-advanced';
 import { firAllDagFinalDecks } from './fir-all-dag-final';
 import { allAdvancedVocabularyDecks } from './advanced-vocabulary-master';
 import specializedFirAllDagDecks from './fir-all-dag-specialized';
+import completeMissingVocabularyDecks from './complete-missing-vocabulary';
 
 /**
  * Initial Luxembourgish vocabulary data based on extensive language learning materials
@@ -2087,7 +2088,7 @@ export const lektioun4Decks: Deck[] = [
 ];
 
 // Merge all decks
-export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks, ...allAdvancedVocabularyDecks, ...specializedFirAllDagDecks];
+export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks, ...allAdvancedVocabularyDecks, ...specializedFirAllDagDecks, ...completeMissingVocabularyDecks];
 
 export const vocabularyCategories = [
   'greetings',
@@ -2218,7 +2219,16 @@ export const vocabularyCategories = [
   'daily-activities',
   'shop-types',
   'containers',
-  'professional'
+  'professional',
+  // Complete missing vocabulary categories from comprehensive document analysis
+  'fruits',
+  'vegetables',
+  'basic-food',
+  'market-shopping',
+  'preferences',
+  'comparisons',
+  'negation',
+  'modal-verbs'
 ];
 
 export const difficultyLevels = ['A1', 'A2', 'B1', 'B2'] as const;
