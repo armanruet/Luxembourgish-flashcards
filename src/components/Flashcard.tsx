@@ -26,16 +26,53 @@ const Flashcard: React.FC<FlashcardProps> = ({
     }
   };
 
-  // Helper function to parse conjugations and examples from notes
+  // Enhanced function to parse conjugations and examples from notes
   const parseBackContent = () => {
     if (!card.notes) return { conjugations: '', example: '' };
     
-    // Check if notes contains an example (indicated by " - " separator)
-    const parts = card.notes.split(' - ');
-    if (parts.length >= 2) {
+    // Method 1: Look for " - " separator (old format)
+    if (card.notes.includes(' - ')) {
+      const parts = card.notes.split(' - ');
+      if (parts.length >= 2) {
+        const firstPart = parts[0].trim();
+        const secondPart = parts.slice(1).join(' - ').trim();
+        
+        // If first part looks like a description and second part has parentheses (likely example)
+        if (secondPart.includes('(') && secondPart.includes(')')) {
+          return {
+            conjugations: firstPart,
+            example: secondPart
+          };
+        }
+      }
+    }
+    
+    // Method 2: Look for sentences with parentheses (common example format)
+    const parenthesesMatch = card.notes.match(/(.+?)\s*-\s*(.+?\(.+?\))/);
+    if (parenthesesMatch) {
       return {
-        conjugations: parts[0].trim(),
-        example: parts[1].trim()
+        conjugations: parenthesesMatch[1].trim(),
+        example: parenthesesMatch[2].trim()
+      };
+    }
+    
+    // Method 3: Look for Luxembourgish sentence patterns in notes
+    const luxembourgishPattern = /\b(Ech|Du|Hien|Hatt|Si|Mir|Dir)\s+[^(]+\([^)]+\)/i;
+    const exampleMatch = card.notes.match(luxembourgishPattern);
+    if (exampleMatch) {
+      const example = exampleMatch[0].trim();
+      const remainingText = card.notes.replace(example, '').replace(/\s*-\s*/, '').trim();
+      return {
+        conjugations: remainingText || card.category.replace('-', ' '),
+        example: example
+      };
+    }
+    
+    // Method 4: For questions, return appropriate content
+    if (card.category.includes('question') || card.luxembourgish.includes('?')) {
+      return {
+        conjugations: 'Question word/phrase',
+        example: getSmartExample()
       };
     }
     
@@ -44,6 +81,86 @@ const Flashcard: React.FC<FlashcardProps> = ({
       conjugations: card.notes,
       example: ''
     };
+  };
+
+  // Smart example generation based on card type and category
+  const getSmartExample = (): string => {
+    const mainWord = getMainWord();
+    const english = getSimpleEnglish();
+    const category = card.category;
+    
+    // Question words and phrases
+    if (category.includes('question') || mainWord.includes('?')) {
+      if (mainWord.toLowerCase().includes('wéi vill auer') || mainWord.toLowerCase().includes('what time')) {
+        return `A: "${mainWord}" B: "Et ass achtandrësseg Auer." (A: "${english}" B: "It's eight thirty.")`;
+      }
+      if (mainWord.toLowerCase().includes('wéi') && !mainWord.includes('?')) {
+        return `"${mainWord} geet et?" (${english} are you?)`;
+      }
+      if (mainWord.toLowerCase().includes('wat')) {
+        return `"${mainWord} maacht dir?" (${english} do you do?)`;
+      }
+      if (mainWord.toLowerCase().includes('wou')) {
+        return `"${mainWord} wunnt dir?" (${english} do you live?)`;
+      }
+      return `"${mainWord}" (${english})`;
+    }
+    
+    // Time expressions
+    if (category.includes('time')) {
+      if (mainWord.includes('Auer') || mainWord.includes('o\'clock')) {
+        return `"Et ass ${mainWord}." (It's ${english}.)`;
+      }
+      return `"${mainWord} ginn ech heem." (${english} I go home.)`;
+    }
+    
+    // Greetings and social expressions
+    if (category.includes('greet') || category.includes('social')) {
+      return `A: "${mainWord}" B: "${mainWord} och!" (A: "${english}" B: "${english} too!")`;
+    }
+    
+    // Numbers
+    if (category.includes('number') || /^\d/.test(mainWord)) {
+      return `"Ech hunn ${mainWord} Bicher." (I have ${english} books.)`;
+    }
+    
+    // Auxiliary and modal verbs
+    if (category.includes('auxiliary') || category.includes('modal')) {
+      return `"Ech ${mainWord} Lëtzebuergesch léieren." (I ${english.toLowerCase()} to learn Luxembourgish.)`;
+    }
+    
+    // Regular verbs - check if it's actually a verb
+    if (category.includes('verb') || 
+        mainWord.includes('en ') || 
+        english.includes('to ') ||
+        /^(ech|du|hien|hatt|mir|dir|si)\s/i.test(card.luxembourgish)) {
+      
+      const verbRoot = mainWord.replace(/en$/, '').replace(/^ech\s+/, '').replace(/^to\s+/, '');
+      return `"Ech ${verbRoot} all Dag." (I ${english.toLowerCase().replace('to ', '')} every day.)`;
+    }
+    
+    // Nouns and objects
+    if (category.includes('food') || category.includes('object') || category.includes('thing')) {
+      return `"Ech hunn e/eng ${mainWord}." (I have a ${english}.)`;
+    }
+    
+    // Places and locations
+    if (category.includes('place') || category.includes('location') || category.includes('country')) {
+      return `"Ech ginn op ${mainWord}." (I go to ${english}.)`;
+    }
+    
+    // Adjectives and descriptions
+    if (category.includes('adjective') || category.includes('description')) {
+      return `"Dat ass ${mainWord}." (That is ${english}.)`;
+    }
+    
+    // Prepositions
+    if (category.includes('preposition')) {
+      return `"${mainWord} der Dësch." (${english} the table.)`;
+    }
+    
+    // Default fallback for phrases and expressions
+    return `"${mainWord}" (${english})`;
   };
 
   // Extract main word from luxembourgish field
@@ -101,10 +218,42 @@ const Flashcard: React.FC<FlashcardProps> = ({
     return 'text-4xl'; // Default large font
   };
 
-  // Extract conjugations from luxembourgish field if it contains parentheses
-  const getConjugations = () => {
-    const match = card.luxembourgish.match(/\((.*)\)/);
-    return match ? match[1] : '';
+  // Smart conjugation generation for verbs only
+  const getSmartConjugations = (): string => {
+    const mainWord = getMainWord();
+    const category = card.category;
+    
+    // Only generate conjugations for actual verbs
+    if (category.includes('verb') || 
+        mainWord.includes('en ') || 
+        card.english.includes('to ') ||
+        /^(ech|du|hien|hatt|mir|dir|si)\s/i.test(card.luxembourgish)) {
+      
+      const verbRoot = mainWord.replace(/en$/, '').replace(/^ech\s+/, '').replace(/^to\s+/, '');
+      return `ech ${verbRoot}, du ${verbRoot}s, hien/si/et ${verbRoot}t, mir ${verbRoot}, dir ${verbRoot}t, si ${verbRoot}`;
+    }
+    
+    // For non-verbs, return appropriate description
+    if (category.includes('question')) {
+      return 'Question word/phrase';
+    }
+    if (category.includes('time')) {
+      return 'Time expression';
+    }
+    if (category.includes('greet')) {
+      return 'Greeting/Social expression';
+    }
+    if (category.includes('number')) {
+      return 'Number';
+    }
+    if (category.includes('preposition')) {
+      return 'Preposition';
+    }
+    if (category.includes('adjective')) {
+      return 'Adjective';
+    }
+    
+    return 'Word/Phrase';
   };
 
   const difficultyColors: Record<string, { bg: string; text: string }> = {
@@ -222,9 +371,9 @@ const Flashcard: React.FC<FlashcardProps> = ({
             <div className="w-full mx-auto p-8 bg-white border-2 border-gray-300 rounded-3xl text-center">
               {/* Conjugations - Single line */}
               <div className="mb-6">
-                {getConjugations() ? (
+                {card.luxembourgish.includes('(') && card.luxembourgish.includes(')') ? (
                   <div className="text-lg text-black leading-relaxed break-words">
-                    {getConjugations()}
+                    {card.luxembourgish.match(/\((.*)\)/)?.[1] || getSmartConjugations()}
                   </div>
                 ) : parseBackContent().conjugations ? (
                   <div className="text-lg text-black leading-relaxed break-words">
@@ -232,7 +381,7 @@ const Flashcard: React.FC<FlashcardProps> = ({
                   </div>
                 ) : (
                   <div className="text-lg text-black leading-relaxed break-words">
-                    ech {getMainWord()}, du {getMainWord()}s, hien/si/et {getMainWord()}t, mir {getMainWord()}, dir {getMainWord()}t, si {getMainWord()}
+                    {getSmartConjugations()}
                   </div>
                 )}
               </div>
@@ -247,7 +396,7 @@ const Flashcard: React.FC<FlashcardProps> = ({
                 ) : (
                   <div>
                     <div className="font-medium mb-2">Example:</div>
-                    <div className="break-words">Ech {getMainWord()} dir e Buch. (I {getSimpleEnglish().toLowerCase()} you a book.)</div>
+                    <div className="break-words">{getSmartExample()}</div>
                   </div>
                 )}
               </div>
