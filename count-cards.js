@@ -33,6 +33,22 @@ try {
   const firAllDagFinalContent = fs.readFileSync('./src/data/fir-all-dag-final.ts', 'utf8');
   const firAllDagFinalCards = countCardsInFile(firAllDagFinalContent);
   
+  // Read advanced vocabulary files
+  const advPart1Content = fs.readFileSync('./src/data/advanced-vocabulary-part1.ts', 'utf8');
+  const advPart1Cards = countCardsInFile(advPart1Content);
+  
+  const advPart2Content = fs.readFileSync('./src/data/advanced-vocabulary-part2.ts', 'utf8');
+  const advPart2Cards = countCardsInFile(advPart2Content);
+  
+  const advPart3Content = fs.readFileSync('./src/data/advanced-vocabulary-part3.ts', 'utf8');
+  const advPart3Cards = countCardsInFile(advPart3Content);
+  
+  const advPart4Content = fs.readFileSync('./src/data/advanced-vocabulary-part4.ts', 'utf8');
+  const advPart4Cards = countCardsInFile(advPart4Content);
+  
+  const advPart5Content = fs.readFileSync('./src/data/advanced-vocabulary-part5.ts', 'utf8');
+  const advPart5Cards = countCardsInFile(advPart5Content);
+  
   console.log('=== FLASHCARD COUNT ANALYSIS ===');
   console.log(`Cards in vocabulary.ts: ${vocabCards}`);
   console.log(`Cards in lektioun4-additional.ts: ${additionalCards}`);
@@ -40,24 +56,27 @@ try {
   console.log(`Cards in fir-all-dag-additional.ts: ${firAllDagAdditionalCards}`);
   console.log(`Cards in fir-all-dag-advanced.ts: ${firAllDagAdvancedCards}`);
   console.log(`Cards in fir-all-dag-final.ts: ${firAllDagFinalCards}`);
-  console.log(`Total cards: ${vocabCards + additionalCards + firAllDagCards + firAllDagAdditionalCards + firAllDagAdvancedCards + firAllDagFinalCards}`);
+  console.log(`Cards in advanced-vocabulary-part1.ts: ${advPart1Cards}`);
+  console.log(`Cards in advanced-vocabulary-part2.ts: ${advPart2Cards}`);
+  console.log(`Cards in advanced-vocabulary-part3.ts: ${advPart3Cards}`);
+  console.log(`Cards in advanced-vocabulary-part4.ts: ${advPart4Cards}`);
+  console.log(`Cards in advanced-vocabulary-part5.ts: ${advPart5Cards}`);
+  
+  const totalCards = vocabCards + additionalCards + firAllDagCards + firAllDagAdditionalCards + 
+                    firAllDagAdvancedCards + firAllDagFinalCards + advPart1Cards + advPart2Cards + 
+                    advPart3Cards + advPart4Cards + advPart5Cards;
+  
+  console.log(`Total cards: ${totalCards}`);
   console.log('================================');
   
-  // Also count deck objects
-  const deckMatches = vocabContent.match(/{\s*id:\s*['"][^'"]+['"],\s*name:/g) || [];
-  const additionalDeckMatches = additionalContent.match(/{\s*id:\s*['"][^'"]+['"],\s*name:/g) || [];
-  const firAllDagDeckMatches = firAllDagContent.match(/{\s*id:\s*['"][^'"]+['"],\s*name:/g) || [];
-  const firAllDagAdditionalDeckMatches = firAllDagAdditionalContent.match(/{\s*id:\s*['"][^'"]+['"],\s*name:/g) || [];
-  const firAllDagAdvancedDeckMatches = firAllDagAdvancedContent.match(/{\s*id:\s*['"][^'"]+['"],\s*name:/g) || [];
-  const firAllDagFinalDeckMatches = firAllDagFinalContent.match(/{\s*id:\s*['"][^'"]+['"],\s*name:/g) || [];
-  
-  console.log(`Decks in vocabulary.ts: ${deckMatches.length}`);
-  console.log(`Decks in lektioun4-additional.ts: ${additionalDeckMatches.length}`);
-  console.log(`Decks in fir-all-dag-vocabulary.ts: ${firAllDagDeckMatches.length}`);
-  console.log(`Decks in fir-all-dag-additional.ts: ${firAllDagAdditionalDeckMatches.length}`);
-  console.log(`Decks in fir-all-dag-advanced.ts: ${firAllDagAdvancedDeckMatches.length}`);
-  console.log(`Decks in fir-all-dag-final.ts: ${firAllDagFinalDeckMatches.length}`);
-  console.log(`Total decks: ${deckMatches.length + additionalDeckMatches.length + firAllDagDeckMatches.length + firAllDagAdditionalDeckMatches.length + firAllDagAdvancedDeckMatches.length + firAllDagFinalDeckMatches.length}`);
+  // Advanced vocabulary summary
+  const advancedTotal = advPart1Cards + advPart2Cards + advPart3Cards + advPart4Cards + advPart5Cards;
+  console.log(`📚 NEW ADVANCED VOCABULARY: ${advancedTotal} cards`);
+  console.log(`   Part 1 (Time): ${advPart1Cards} cards`);
+  console.log(`   Part 2 (Activities): ${advPart2Cards} cards`);
+  console.log(`   Part 3 (Classroom): ${advPart3Cards} cards`);
+  console.log(`   Part 4 (Food/Questions): ${advPart4Cards} cards`);
+  console.log(`   Part 5 (Numbers/Vacation): ${advPart5Cards} cards`);
   
 } catch (error) {
   console.error('Error reading files:', error.message);

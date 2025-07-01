@@ -4,6 +4,7 @@ import { firAllDagDecks } from './fir-all-dag-vocabulary';
 import { firAllDagAdditionalDecks } from './fir-all-dag-additional';
 import { firAllDagAdvancedDecks } from './fir-all-dag-advanced';
 import { firAllDagFinalDecks } from './fir-all-dag-final';
+import { allAdvancedVocabularyDecks } from './advanced-vocabulary-master';
 
 /**
  * Initial Luxembourgish vocabulary data based on extensive language learning materials
@@ -2085,7 +2086,7 @@ export const lektioun4Decks: Deck[] = [
 ];
 
 // Merge all decks
-export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks];
+export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks, ...allAdvancedVocabularyDecks];
 
 export const vocabularyCategories = [
   'greetings',
@@ -2199,7 +2200,17 @@ export const vocabularyCategories = [
   'work-expressions',
   'grammar-rules',
   'essential-phrases',
-  'luxembourg-culture'
+  'luxembourg-culture',
+  // Advanced vocabulary categories from "Lëtzebuergesch fir all Dag Vocabulary" document
+  'advanced-time',
+  'time-of-day',
+  'number-rules',
+  'evening-activities',
+  'vacation',
+  'vacation-complete',
+  'classroom',
+  'verb-conjugations',
+  'food-beverages'
 ];
 
 export const difficultyLevels = ['A1', 'A2', 'B1', 'B2'] as const;
