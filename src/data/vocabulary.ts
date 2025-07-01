@@ -1,5 +1,5 @@
 import { Deck } from '@/types';
-import { additionalLektioun4Decks, additionalCategories } from './lektioun4-additional';
+import { additionalLektioun4Decks } from './lektioun4-additional';
 
 /**
  * Initial Luxembourgish vocabulary data based on extensive language learning materials
