@@ -17,19 +17,26 @@ try {
   const additionalContent = fs.readFileSync('./src/data/lektioun4-additional.ts', 'utf8');
   const additionalCards = countCardsInFile(additionalContent);
   
+  // Read fir all dag vocabulary file
+  const firAllDagContent = fs.readFileSync('./src/data/fir-all-dag-vocabulary.ts', 'utf8');
+  const firAllDagCards = countCardsInFile(firAllDagContent);
+  
   console.log('=== FLASHCARD COUNT ANALYSIS ===');
   console.log(`Cards in vocabulary.ts: ${vocabCards}`);
   console.log(`Cards in lektioun4-additional.ts: ${additionalCards}`);
-  console.log(`Total cards: ${vocabCards + additionalCards}`);
+  console.log(`Cards in fir-all-dag-vocabulary.ts: ${firAllDagCards}`);
+  console.log(`Total cards: ${vocabCards + additionalCards + firAllDagCards}`);
   console.log('================================');
   
   // Also count deck objects
   const deckMatches = vocabContent.match(/{\s*id:\s*['"][^'"]+['"],\s*name:/g) || [];
   const additionalDeckMatches = additionalContent.match(/{\s*id:\s*['"][^'"]+['"],\s*name:/g) || [];
+  const firAllDagDeckMatches = firAllDagContent.match(/{\s*id:\s*['"][^'"]+['"],\s*name:/g) || [];
   
   console.log(`Decks in vocabulary.ts: ${deckMatches.length}`);
   console.log(`Decks in lektioun4-additional.ts: ${additionalDeckMatches.length}`);
-  console.log(`Total decks: ${deckMatches.length + additionalDeckMatches.length}`);
+  console.log(`Decks in fir-all-dag-vocabulary.ts: ${firAllDagDeckMatches.length}`);
+  console.log(`Total decks: ${deckMatches.length + additionalDeckMatches.length + firAllDagDeckMatches.length}`);
   
 } catch (error) {
   console.error('Error reading files:', error.message);

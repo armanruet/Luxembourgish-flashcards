@@ -1,5 +1,6 @@
 import { Deck } from '@/types';
 import { additionalLektioun4Decks } from './lektioun4-additional';
+import { firAllDagDecks } from './fir-all-dag-vocabulary';
 
 /**
  * Initial Luxembourgish vocabulary data based on extensive language learning materials
@@ -2081,7 +2082,7 @@ export const lektioun4Decks: Deck[] = [
 ];
 
 // Merge all decks
-export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks];
+export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks];
 
 export const vocabularyCategories = [
   'greetings',
@@ -2158,7 +2159,16 @@ export const vocabularyCategories = [
   'seasonal-food',
   'traditional-dishes',
   'sound-patterns',
-  'business-practices'
+  'business-practices',
+  // Additional categories from "Lëtzebuergesch fir all Dag" vocabulary
+  'emergency',
+  'professions',
+  'numbers-extended',
+  'question-words',
+  'politeness',
+  'basic-responses',
+  'countries-prepositions',
+  'verb-kommen'
 ];
 
 export const difficultyLevels = ['A1', 'A2', 'B1', 'B2'] as const;
