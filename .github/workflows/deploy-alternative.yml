@@ -1,12 +1,11 @@
-name: Deploy to GitHub Pages
+name: Deploy to GitHub Pages (Alternative)
 
 on:
+  workflow_dispatch:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
-# Add permissions at the workflow level
+# Add permissions
 permissions:
   contents: read
   pages: write
@@ -18,9 +17,12 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
+    
+    # Only deploy on main branch pushes
+    if: github.ref == 'refs/heads/main'
 
     steps:
     - name: Checkout repository
@@ -44,28 +46,18 @@ jobs:
         ls -la dist/
         echo "Build size:"
         du -sh dist/
+        echo "Total file count:"
+        find dist/ -type f | wc -l
 
-    - name: Upload build artifacts with retry
+    - name: Setup Pages
+      uses: actions/configure-pages@v4
+
+    - name: Upload to GitHub Pages
       uses: actions/upload-pages-artifact@v3
       with:
         path: ./dist
         retention-days: 1
-      timeout-minutes: 5
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    
-    # Only deploy on main branch pushes
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    
-    # Deploy to the github-pages environment
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    steps:
     - name: Deploy to GitHub Pages
       id: deployment
       uses: actions/deploy-pages@v4
