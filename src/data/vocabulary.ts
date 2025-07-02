@@ -2288,7 +2288,10 @@ export const vocabularyCategories = [
   'facial-features',
   'grammar-rules',
   'grammar-examples',
-  'luxembourg-culture'
+  'luxembourg-culture',
+  'colors',
+  'professions',
+  'descriptive-adjectives'
 ];
 
 export const difficultyLevels = ['A1', 'A2', 'B1', 'B2'] as const;
