@@ -33,7 +33,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'time-periods-daily'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'td-mettes',
@@ -48,7 +51,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'time-periods-daily'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'td-nomettes',
@@ -63,7 +69,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'time-periods-daily'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'td-owes',
@@ -78,7 +87,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'time-periods-daily'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'td-nuets',
@@ -93,7 +105,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'time-periods-daily'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'td-metternuecht',
@@ -108,7 +123,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'time-periods-daily'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'td-veierel-op',
@@ -123,7 +141,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'time-periods-daily'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'td-hallwer',
@@ -138,7 +159,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'time-periods-daily'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'td-veierel-vir',
@@ -153,7 +177,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'time-periods-daily'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'td-zwanzeg-op',
@@ -168,7 +195,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'time-periods-daily'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'td-fënnef-vir',
@@ -183,7 +213,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'time-periods-daily'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'td-um-time',
@@ -198,7 +231,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'time-periods-daily'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       }
     ]
   },
@@ -229,7 +265,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'time-sequencing-connectors'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'ts-dann',
@@ -244,7 +283,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'time-sequencing-connectors'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'ts-dono',
@@ -259,7 +301,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'time-sequencing-connectors'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'ts-zum-schluss',
@@ -274,7 +319,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'time-sequencing-connectors'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'ts-endlech',
@@ -289,7 +337,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'time-sequencing-connectors'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'ts-normalerweis',
@@ -304,7 +355,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'time-sequencing-connectors'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'ts-geweinlech',
@@ -319,7 +373,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'time-sequencing-connectors'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'ts-meeschtens',
@@ -334,7 +391,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'time-sequencing-connectors'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'ts-heiansdo',
@@ -349,7 +409,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'time-sequencing-connectors'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'ts-oft',
@@ -364,7 +427,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'time-sequencing-connectors'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'ts-emmer',
@@ -379,7 +445,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'time-sequencing-connectors'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'ts-ongefeer',
@@ -394,7 +463,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'time-sequencing-connectors'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'ts-geint',
@@ -409,7 +481,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'time-sequencing-connectors'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'ts-teschent',
@@ -424,7 +499,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'time-sequencing-connectors'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'ts-vun-bis',
@@ -439,7 +517,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'time-sequencing-connectors'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       }
     ]
   },
@@ -470,7 +551,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'household-management'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'hm-kommissioune',
@@ -485,7 +569,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'household-management'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'hm-wasch-maachen',
@@ -500,7 +587,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'household-management'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'hm-kichen-botzen',
@@ -515,7 +605,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'household-management'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'hm-gaart-kucken',
@@ -530,7 +623,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'household-management'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'hm-owesiesse-preparieren',
@@ -545,7 +641,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'household-management'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'hm-mettegiesse-kachen',
@@ -560,7 +659,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'household-management'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'hm-kaffi-preparieren',
@@ -575,7 +677,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'household-management'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'hm-kichen-opraumen',
@@ -590,7 +695,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'household-management'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'hm-wunneng-opraumen',
@@ -605,7 +713,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'household-management'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'hm-kleeder-sortieren',
@@ -620,7 +731,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'household-management'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'hm-rechnungen-bezuelen',
@@ -635,7 +749,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'household-management'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'hm-kanner-erwachen',
@@ -650,7 +767,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'household-management'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'hm-kanner-undoen',
@@ -665,7 +785,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'household-management'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'hm-kanner-creche',
@@ -680,7 +803,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'household-management'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'hm-kanner-schoul',
@@ -695,7 +821,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'household-management'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'hm-kanner-siche',
@@ -710,7 +839,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'household-management'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'hm-kanner-bett',
@@ -725,7 +857,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'household-management'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       }
     ]
   },
@@ -756,7 +891,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'sports-leisure-activities'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'sl-handball',
@@ -771,7 +909,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'sports-leisure-activities'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'sl-volleyball',
@@ -786,7 +927,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'sports-leisure-activities'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'sl-basketball',
@@ -801,7 +945,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'sports-leisure-activities'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'sl-tennis',
@@ -816,7 +963,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'sports-leisure-activities'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'sl-badminton',
@@ -831,7 +981,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'sports-leisure-activities'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'sl-fechten',
@@ -846,7 +999,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'sports-leisure-activities'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'sl-schwammen',
@@ -861,7 +1017,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'sports-leisure-activities'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'sl-lafen',
@@ -876,7 +1035,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'sports-leisure-activities'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'sl-velo-fueren',
@@ -891,7 +1053,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'sports-leisure-activities'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'sl-spadsieren',
@@ -906,7 +1071,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'sports-leisure-activities'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'sl-trainieren',
@@ -921,7 +1089,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'sports-leisure-activities'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'sl-yoga-maachen',
@@ -936,7 +1107,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'sports-leisure-activities'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'sl-telee-kucken',
@@ -951,7 +1125,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'sports-leisure-activities'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'sl-musek-lauschteren',
@@ -966,7 +1143,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'sports-leisure-activities'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'sl-liesen',
@@ -981,7 +1161,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'sports-leisure-activities'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'sl-computerspiller',
@@ -996,7 +1179,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'sports-leisure-activities'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'sl-frenn-treffen',
@@ -1011,7 +1197,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'sports-leisure-activities'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'sl-kaarten-spillen',
@@ -1026,7 +1215,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'sports-leisure-activities'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'sl-restaurant-goen',
@@ -1041,7 +1233,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'sports-leisure-activities'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       }
     ]
   },
@@ -1072,7 +1267,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'technology-daily-life'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'tl-whatsapp-schwatzen',
@@ -1087,7 +1285,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'technology-daily-life'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'tl-internet-surfen',
@@ -1102,7 +1303,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'technology-daily-life'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'tl-emaile-schecken',
@@ -1117,7 +1321,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'technology-daily-life'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'tl-emaile-schreiwen',
@@ -1132,7 +1339,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'technology-daily-life'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'tl-fotoen-deelen',
@@ -1147,7 +1357,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'technology-daily-life'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'tl-videoen-kucken',
@@ -1162,7 +1375,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'technology-daily-life'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'tl-computer-schaffen',
@@ -1177,7 +1393,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'technology-daily-life'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'tl-coursen-huelen',
@@ -1192,7 +1411,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'technology-daily-life'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'tl-videokonferenzen',
@@ -1207,7 +1429,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'technology-daily-life'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'tl-handy-benotzen',
@@ -1222,7 +1447,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'technology-daily-life'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'tl-sms-schreiwen',
@@ -1237,7 +1465,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'technology-daily-life'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'tl-fotoen-maachen',
@@ -1252,7 +1483,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'technology-daily-life'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'tl-telefonieren',
@@ -1267,7 +1501,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'technology-daily-life'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'tl-fitness-goen',
@@ -1282,7 +1519,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'technology-daily-life'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'tl-streaming',
@@ -1297,7 +1537,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'technology-daily-life'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       }
     ]
   },
@@ -1328,7 +1571,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'perfect-tense-patterns'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'pt-sinn-auxiliary',
@@ -1343,7 +1589,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'perfect-tense-patterns'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'pt-regular-participle',
@@ -1358,7 +1607,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'perfect-tense-patterns'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'pt-irregular-participle',
@@ -1373,7 +1625,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'perfect-tense-patterns'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'pt-separable-participle',
@@ -1388,7 +1643,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'perfect-tense-patterns'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'pt-erwachen-example',
@@ -1403,7 +1661,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'perfect-tense-patterns'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'pt-opstoen-example',
@@ -1418,7 +1679,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'perfect-tense-patterns'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'pt-duschen-example',
@@ -1433,7 +1697,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'perfect-tense-patterns'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'pt-kaffi-example',
@@ -1448,7 +1715,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'perfect-tense-patterns'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'pt-fueren-example',
@@ -1463,7 +1733,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'perfect-tense-patterns'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'pt-schaffen-example',
@@ -1478,7 +1751,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'perfect-tense-patterns'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       },
       {
         id: 'pt-usage-completed',
@@ -1493,7 +1769,10 @@ export const mainDagDecks: Deck[] = [
         interval: 0,
         repetition: 0,
         nextReview: new Date(),
-        deck: 'perfect-tense-patterns'
+        reviewCount: 0,
+        successCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       }
     ]
   }
