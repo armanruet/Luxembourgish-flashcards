@@ -18,6 +18,7 @@ import { dailyLifeComprehensiveDecksFixed } from './daily-life-comprehensive';
 import { ausgesinnDecks } from './ausgesinn-vocabulary';
 import { mainDagDecks } from './main-dag-vocabulary';
 import { correctedTransportationDecks } from './transportation-corrected';
+import fraizaitWiederDecks from './fraizeit-wieder-vocabulary';
 
 /**
  * Initial Luxembourgish vocabulary data based on extensive language learning materials
@@ -2099,7 +2100,7 @@ export const lektioun4Decks: Deck[] = [
 ];
 
 // Merge all decks
-export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks, ...allAdvancedVocabularyDecks, ...specializedFirAllDagDecks, ...completeMissingVocabularyDecks, ...shoppingCultureDecks, ...shoppingVerbsDecks, ...shoppingProductsDecks, ...shoppingAssistanceDecks, ...virstellungDecks, ...additionalVirstellungDecks, ...completeModalVerbsDecks, ...dailyLifeComprehensiveDecksFixed, ...ausgesinnDecks, ...mainDagDecks, ...correctedTransportationDecks];
+export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks, ...allAdvancedVocabularyDecks, ...specializedFirAllDagDecks, ...completeMissingVocabularyDecks, ...shoppingCultureDecks, ...shoppingVerbsDecks, ...shoppingProductsDecks, ...shoppingAssistanceDecks, ...virstellungDecks, ...additionalVirstellungDecks, ...completeModalVerbsDecks, ...dailyLifeComprehensiveDecksFixed, ...ausgesinnDecks, ...mainDagDecks, ...correctedTransportationDecks, ...fraizaitWiederDecks];
 
 export const vocabularyCategories = [
   'greetings',
@@ -2138,6 +2139,13 @@ export const vocabularyCategories = [
   'work-professions',
   'transportation',
   'weather',
+  'weather-adjectives',
+  'weather-verbs', 
+  'weather-questions',
+  'weather-temperature',
+  'weather-dependent',
+  'leisure-basic',
+  'leisure-verbs',
   'culture-luxembourg',
   'sproochentest',
   'sproochentest-culture',
