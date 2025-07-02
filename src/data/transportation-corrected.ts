@@ -2,15 +2,15 @@ import { Deck } from '@/types';
 
 /**
  * CORRECTED Transportation & Travel Flashcards
- * Following exact pattern: Front = Word (meaning) [pronunciation], Back = Conjugations + Examples + Cultural Context
- * Fixed all grammatical errors, pronunciation placement, and added authentic examples
- * Based on verified Luxembourgish sources and current Luxembourg transport information
+ * Following EXACT pattern from reference images:
+ * Front: Word (meaning) [pronunciation]
+ * Back: conjugations + Example: sentence (translation)
  */
 
 export const correctedTransportationDeck: Deck = {
   id: 'transportation-travel-corrected',
-  name: 'Transportation & Travel (Corrected)',
-  description: 'Perfect transportation vocabulary following the exact pattern with verified grammar',
+  name: 'Transportation & Travel',
+  description: 'Essential transportation vocabulary with correct flashcard pattern',
   color: '#2563EB',
   icon: '🚌',
   createdAt: new Date(),
@@ -23,11 +23,11 @@ export const correctedTransportationDeck: Deck = {
     {
       id: 'transport-autobus-corrected',
       luxembourgish: 'Autobus (bus) [ow-toh-bus]',
-      english: 'Example: Ech fuere mam Autobus op d\'Schaff. (I go to work by bus.) Cultural context: Since February 29, 2020, all public transport in Luxembourg is completely free, including buses. Luxembourg was the first country in the world to offer free nationwide public transport. Over 250 bus routes operate across the country.',
+      english: 'Example: Ech fuere mam Autobus op d\'Schaff. (I go to work by bus.)',
       pronunciation: '',
       category: 'public-transport',
       difficulty: 'A1',
-      notes: 'Essential vocabulary for Luxembourg\'s revolutionary free public transport system.',
+      notes: 'Essential vocabulary for Luxembourg\'s free public transport system since 2020.',
       tags: ['transport', 'public', 'free', 'city'],
       easeFactor: 2.5,
       interval: 0,
@@ -41,7 +41,7 @@ export const correctedTransportationDeck: Deck = {
     {
       id: 'transport-zuch-corrected',
       luxembourgish: 'Zuch (train) [tsookh]',
-      english: 'Example: Fiers du mam Zuch oder mam Auto op Paräis? (Do you go to Paris by train or by car?) Cultural context: CFL (Chemins de Fer Luxembourgeois) operates Luxembourg\'s railway system. Train travel within Luxembourg is free since 2020. Cross-border TGV to Paris takes only 2 hours.',
+      english: 'Example: De Zuch fiert all Stonn op Paräis. (The train goes to Paris every hour.)',
       pronunciation: '',
       category: 'public-transport',
       difficulty: 'A1',
@@ -59,11 +59,11 @@ export const correctedTransportationDeck: Deck = {
     {
       id: 'transport-gare-corrected',
       luxembourgish: 'Gare (train station) [gahr]',
-      english: 'Example: Kanns du mech den Owend op der Gare ofhuelen? (Can you pick me up at the station this evening?) Cultural context: Gare Centrale in Luxembourg City is the main railway hub with connections to France, Germany, and Belgium. Stations have secure bikebox parking and are integrated with the free bus network.',
+      english: 'Example: Kanns du mech den Owend op der Gare ofhuelen? (Can you pick me up at the station this evening?)',
       pronunciation: '',
       category: 'transport-places',
       difficulty: 'A1',
-      notes: 'French loanword commonly used throughout Luxembourg. Central station is major transport hub.',
+      notes: 'French loanword commonly used throughout Luxembourg.',
       tags: ['transport', 'station', 'travel', 'central'],
       easeFactor: 2.5,
       interval: 0,
@@ -77,11 +77,11 @@ export const correctedTransportationDeck: Deck = {
     {
       id: 'transport-auto-corrected',
       luxembourgish: 'Auto (car) [ow-toh]',
-      english: 'Example: Mäin Auto ass an der Garage. (My car is in the garage.) Cultural context: Luxembourg has the highest car density in the EU (696 per 1,000 people vs. 560 average) due to cross-border commuting. Many residents use cars for international travel while using free public transport locally.',
+      english: 'Example: Mäin Auto ass an der Garage. (My car is in the garage.)',
       pronunciation: '',
       category: 'private-transport',
       difficulty: 'A1',
-      notes: 'Very common due to 48% of workforce being cross-border commuters from neighboring countries.',
+      notes: 'Very common due to 48% of workforce being cross-border commuters.',
       tags: ['transport', 'private', 'car', 'driving'],
       easeFactor: 2.5,
       interval: 0,
@@ -95,11 +95,11 @@ export const correctedTransportationDeck: Deck = {
     {
       id: 'transport-fliger-corrected',
       luxembourgish: 'Fliger (airplane) [flee-ger]',
-      english: 'Example: De Fliger lant um Findel. (The airplane lands at Findel.) Cultural context: Luxembourg Airport (Findel) is an important international hub serving over 140 destinations. A new Schengen-only passenger terminal opened in 2017, enhancing connectivity across Europe.',
+      english: 'Example: De Fliger lant um Findel. (The airplane lands at Findel.)',
       pronunciation: '',
       category: 'air-transport',
       difficulty: 'A1',
-      notes: 'Luxembourg Airport code is LUX. Findel is the common local name for the airport.',
+      notes: 'Luxembourg Airport (Findel) is an important international hub.',
       tags: ['transport', 'airplane', 'airport', 'international'],
       easeFactor: 2.5,
       interval: 0,
@@ -113,11 +113,11 @@ export const correctedTransportationDeck: Deck = {
     {
       id: 'transport-billjee-corrected',
       luxembourgish: 'Billjee (ticket) [beel-yee]',
-      english: 'Example: Ech hunn mäi Billjee vergiess. (I forgot my ticket.) Cultural context: Since February 2020, tickets are only needed for 1st class train travel or cross-border journeys. All public transport within Luxembourg is free. International tickets can be purchased at CFL stations or via mobile apps.',
+      english: 'Example: Ech hunn mäi Billjee vergiess. (I forgot my ticket.)',
       pronunciation: '',
       category: 'transport-payment',
       difficulty: 'A1',
-      notes: 'Authentic Luxembourgish word. More common than the international "Ticket" in daily conversation.',
+      notes: 'Authentic Luxembourgish word, more common than international "Ticket".',
       tags: ['ticket', 'payment', 'travel'],
       easeFactor: 2.5,
       interval: 0,
@@ -131,11 +131,11 @@ export const correctedTransportationDeck: Deck = {
     {
       id: 'transport-fueren-corrected',
       luxembourgish: 'fueren (to drive) [foo-ren]',
-      english: 'Conjugation: ech fueren, du fiers, hien/hatt/si fiert, mir fueren, dir fuert, si fueren. Example: Mir fueren all Weekend mam Auto an d\'Natur. (We drive to nature every weekend.) Cultural context: Common construction "mam + transport + fueren" (with + transport + to drive) is used for all transport methods.',
+      english: 'ech fueren, du fiers, hien/hatt/si fiert, mir fueren, dir fuert, si fueren. Example: Mir fueren all Weekend mam Auto an d\'Natur. (We drive to nature every weekend.)',
       pronunciation: '',
       category: 'transport-verbs',
       difficulty: 'A2',
-      notes: 'Important irregular verb pattern. Used with "mam" + transport means for travel expressions.',
+      notes: 'Important irregular verb pattern. Used with "mam" + transport for travel expressions.',
       tags: ['verbs', 'driving', 'conjugation'],
       easeFactor: 2.5,
       interval: 0,
@@ -149,11 +149,11 @@ export const correctedTransportationDeck: Deck = {
     {
       id: 'transport-goen-corrected',
       luxembourgish: 'goen (to go) [go-en]',
-      english: 'Conjugation: ech ginn, du gees, hien/hatt/si geet, mir ginn, dir giitt, si ginn. Example: Ech ginn zu Fouss an d\'Stad. (I walk to the city.) Cultural context: Essential movement verb with irregular conjugation. Different from "ginn" (to give) - context determines meaning.',
+      english: 'ech ginn, du gees, hien/hatt/si geet, mir ginn, dir giitt, si ginn. Example: Ech ginn zu Fouss an d\'Stad. (I walk to the city.)',
       pronunciation: '',
       category: 'transport-verbs',
       difficulty: 'A1',
-      notes: 'Essential irregular movement verb. Note the different conjugation pattern from regular verbs.',
+      notes: 'Essential irregular movement verb. Different from "ginn" (to give) - context determines meaning.',
       tags: ['verbs', 'movement', 'essential'],
       easeFactor: 2.5,
       interval: 0,
@@ -167,7 +167,7 @@ export const correctedTransportationDeck: Deck = {
     {
       id: 'transport-kommen-corrected',
       luxembourgish: 'kommen (to come) [kom-men]',
-      english: 'Conjugation: ech kommen, du kënns, hien/hatt/si kënnt, mir kommen, dir kommt, si kommen. Example: Wéini kënns du heem? (When are you coming home?) Cultural context: Important irregular verb for movement toward the speaker. Essential for making plans and appointments.',
+      english: 'ech kommen, du kënns, hien/hatt/si kënnt, mir kommen, dir kommt, si kommen. Example: Wéini kënns du heem? (When are you coming home?)',
       pronunciation: '',
       category: 'transport-verbs',
       difficulty: 'A1',
@@ -185,11 +185,11 @@ export const correctedTransportationDeck: Deck = {
     {
       id: 'transport-lënks-corrected',
       luxembourgish: 'lënks (left) [lenks]',
-      english: 'Example: Gitt lënks op der nächster Kräizung. (Turn left at the next intersection.) Cultural context: Essential for navigation in Luxembourg City\'s complex medieval street layout. Used frequently with GPS navigation and the official Mobiliteit.lu travel planning app.',
+      english: 'Example: Gitt lënks op der nächster Kräizung. (Turn left at the next intersection.)',
       pronunciation: '',
       category: 'directions',
       difficulty: 'A1',
-      notes: 'Basic direction word essential for navigation in Luxembourg\'s winding medieval streets.',
+      notes: 'Basic direction word essential for navigation in Luxembourg\'s winding streets.',
       tags: ['directions', 'navigation', 'basic'],
       easeFactor: 2.5,
       interval: 0,
@@ -203,7 +203,7 @@ export const correctedTransportationDeck: Deck = {
     {
       id: 'transport-riets-corrected',
       luxembourgish: 'riets (right) [reets]',
-      english: 'Example: D\'Gare ass riets vun der Bréck. (The station is to the right of the bridge.) Cultural context: Essential direction word used frequently in Luxembourg\'s multilingual environment. GPS systems and public transport announcements commonly use these directional terms.',
+      english: 'Example: D\'Gare ass riets vun der Bréck. (The station is to the right of the bridge.)',
       pronunciation: '',
       category: 'directions',
       difficulty: 'A1',
@@ -221,11 +221,11 @@ export const correctedTransportationDeck: Deck = {
     {
       id: 'transport-riicht-eraus-corrected',
       luxembourgish: 'riicht eraus (straight ahead) [reekht er-ows]',
-      english: 'Example: Gitt riicht eraus bis zur Ëmpel. (Go straight ahead until the traffic light.) Cultural context: Important phrase for navigation in Luxembourg\'s urban areas. Traffic lights (Ëmpel) are key reference points in the compact city centers.',
+      english: 'Example: Gitt riicht eraus bis zur Ëmpel. (Go straight ahead until the traffic light.)',
       pronunciation: '',
       category: 'directions',
       difficulty: 'A2',
-      notes: 'Two-word directional phrase essential for giving and receiving detailed directions.',
+      notes: 'Two-word directional phrase essential for giving and receiving directions.',
       tags: ['directions', 'navigation', 'straight'],
       easeFactor: 2.5,
       interval: 0,
@@ -239,7 +239,7 @@ export const correctedTransportationDeck: Deck = {
     {
       id: 'transport-wou-ass-statioun-corrected',
       luxembourgish: 'Wou ass d\'Statioun? (Where is the station?) [voo as de-sta-tsee-oon]',
-      english: 'Example response: D\'Statioun ass niewent dem Musée. (The station is next to the museum.) Cultural context: Essential question for travelers. Note the contraction "d\'" for "déi". Luxembourg\'s stations are well-integrated with cultural sites and shopping areas.',
+      english: 'Example response: D\'Statioun ass niewent dem Musée. (The station is next to the museum.)',
       pronunciation: '',
       category: 'transport-questions',
       difficulty: 'A2',
@@ -257,7 +257,7 @@ export const correctedTransportationDeck: Deck = {
     {
       id: 'transport-wéini-fiert-corrected',
       luxembourgish: 'Wéini fiert den nächsten Autobus? (When does the next bus leave?) [vay-nee feert den nay-kh-sten ow-toh-bus]',
-      english: 'Example response: Den nächsten Autobus fiert an 5 Minutten. (The next bus leaves in 5 minutes.) Cultural context: Essential timing question for public transport. Real-time schedules available via Mobiliteit.lu app or digital displays at stops.',
+      english: 'Example response: Den nächsten Autobus fiert an 5 Minutten. (The next bus leaves in 5 minutes.)',
       pronunciation: '',
       category: 'transport-timing',
       difficulty: 'B1',
@@ -275,7 +275,7 @@ export const correctedTransportationDeck: Deck = {
     {
       id: 'transport-richtung-corrected',
       luxembourgish: 'Richtung (direction) [rikh-tung]',
-      english: 'Example: An wéi eng Richtung fiert dësen Autobus? (In which direction does this bus go?) Cultural context: Important for understanding transport signs and announcements. Luxembourg\'s multilingual transport system displays information in Luxembourgish, French, and German.',
+      english: 'Example: An wéi eng Richtung fiert dësen Autobus? (In which direction does this bus go?)',
       pronunciation: '',
       category: 'transport-directions',
       difficulty: 'A2',
@@ -293,7 +293,7 @@ export const correctedTransportationDeck: Deck = {
     {
       id: 'transport-parkplatz-corrected',
       luxembourgish: 'Parkplatz (parking space) [park-plats]',
-      english: 'Example: Ech sichen e Parkplatz an der Stad. (I\'m looking for a parking space in the city.) Cultural context: Parking in Luxembourg City can be challenging due to the medieval street layout. Many residents use Park & Ride facilities and free public transport to reach the city center.',
+      english: 'Example: Ech sichen e Parkplatz an der Stad. (I\'m looking for a parking space in the city.)',
       pronunciation: '',
       category: 'transport-parking',
       difficulty: 'A2',
@@ -311,11 +311,11 @@ export const correctedTransportationDeck: Deck = {
     {
       id: 'transport-stopp-corrected',
       luxembourgish: 'Stopp (stop) [shtop]',
-      english: 'Example: Stopp hei, w.e.g.! (Stop here, please!) Cultural context: Universal transport command important for safety in taxis and private vehicles. Public transport stops are well-marked with digital displays showing real-time arrival information.',
+      english: 'Example: Stopp hei, w.e.g.! (Stop here, please!)',
       pronunciation: '',
       category: 'transport-commands',
       difficulty: 'A1',
-      notes: 'Universal command word used in all transport contexts. Essential for safety communication.',
+      notes: 'Universal command word used in all transport contexts. Essential for safety.',
       tags: ['commands', 'safety', 'universal'],
       easeFactor: 2.5,
       interval: 0,
@@ -329,11 +329,11 @@ export const correctedTransportationDeck: Deck = {
     {
       id: 'transport-ech-muss-goen-corrected',
       luxembourgish: 'Ech muss goen (I have to go) [esh mus go-en]',
-      english: 'Conjugation: ech muss, du muss, hien/hatt/si muss, mir mussen, dir musst, si mussen + goen. Example: Ech muss elo goen, well mäin Zuch fiert. (I have to go now because my train is leaving.) Cultural context: Common polite phrase for leaving social situations. Combines modal verb "mussen" with movement verb "goen".',
+      english: 'ech muss, du muss, hien/hatt/si muss, mir mussen, dir musst, si mussen + goen. Example: Ech muss elo goen, well mäin Zuch fiert. (I have to go now because my train is leaving.)',
       pronunciation: '',
       category: 'transport-leaving',
       difficulty: 'A2',
-      notes: 'Essential social phrase combining modal and movement verbs. Shows necessity for departure.',
+      notes: 'Essential social phrase combining modal verb "mussen" with movement verb "goen".',
       tags: ['leaving', 'necessity', 'social'],
       easeFactor: 2.5,
       interval: 0,
