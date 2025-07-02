@@ -381,12 +381,11 @@ export const dailyLifeComprehensiveDecks: Deck[] = [
         updatedAt: new Date(),
       }
     ]
+  }
 ];
 
 // Export daily life decks without transportation (now handled separately)
 export const dailyLifeComprehensiveDecksFixed = dailyLifeComprehensiveDecks;
-    description: 'Essential vocabulary for getting around Luxembourg',
-    color: '#2563EB',
     icon: '🚌',
     createdAt: new Date(),
     updatedAt: new Date(),
