@@ -14,6 +14,7 @@ import shoppingAssistanceDecks from './shopping-assistance-phrases';
 import { virstellungDecks } from './virstellung-vocabulary';
 import { additionalVirstellungDecks } from './additional-virstellung-vocabulary';
 import { completeModalVerbsDecks } from './complete-modal-verbs';
+import { dailyLifeComprehensiveDecks } from './daily-life-comprehensive';
 
 /**
  * Initial Luxembourgish vocabulary data based on extensive language learning materials
@@ -90,7 +91,7 @@ export const initialDecks: Deck[] = [
       },
       {
         id: '1-wou-kommen-dir-hier',
-        luxembourgish: 'Wou kommen Dir hier?',
+        luxembourgish: 'Wou kommt Dir hier?',
         english: 'Where do you come from?',
         pronunciation: 'voh KOM-men deer heer',
         category: 'questions',
@@ -2095,7 +2096,7 @@ export const lektioun4Decks: Deck[] = [
 ];
 
 // Merge all decks
-export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks, ...allAdvancedVocabularyDecks, ...specializedFirAllDagDecks, ...completeMissingVocabularyDecks, ...shoppingCultureDecks, ...shoppingVerbsDecks, ...shoppingProductsDecks, ...shoppingAssistanceDecks, ...virstellungDecks, ...additionalVirstellungDecks, ...completeModalVerbsDecks];
+export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks, ...allAdvancedVocabularyDecks, ...specializedFirAllDagDecks, ...completeMissingVocabularyDecks, ...shoppingCultureDecks, ...shoppingVerbsDecks, ...shoppingProductsDecks, ...shoppingAssistanceDecks, ...virstellungDecks, ...additionalVirstellungDecks, ...completeModalVerbsDecks, ...dailyLifeComprehensiveDecks];
 
 export const vocabularyCategories = [
   'greetings',
@@ -2248,7 +2249,38 @@ export const vocabularyCategories = [
   'preferences',
   'comparisons',
   'negation',
-  'modal-verbs'
+  'modal-verbs',
+  // Daily life comprehensive categories
+  'food-dining',
+  'food-items',
+  'beverages',
+  'meal-times',
+  'dining-places',
+  'dining-payment',
+  'restaurant-service',
+  'food-opinions',
+  'physical-needs',
+  'public-transport',
+  'transport-places',
+  'private-transport',
+  'air-transport',
+  'transport-questions',
+  'transport-timing',
+  'transport-payment',
+  'transport-directions',
+  'transport-parking',
+  'transport-verbs',
+  'directions',
+  'transport-commands',
+  'transport-leaving',
+  'time-questions',
+  'time-present',
+  'time-future',
+  'time-past',
+  'time-of-day',
+  'days-of-week',
+  'time-periods',
+  'time-units'
 ];
 
 export const difficultyLevels = ['A1', 'A2', 'B1', 'B2'] as const;
