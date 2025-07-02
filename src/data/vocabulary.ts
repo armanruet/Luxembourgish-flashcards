@@ -14,7 +14,7 @@ import shoppingAssistanceDecks from './shopping-assistance-phrases';
 import { virstellungDecks } from './virstellung-vocabulary';
 import { additionalVirstellungDecks } from './additional-virstellung-vocabulary';
 import { completeModalVerbsDecks } from './complete-modal-verbs';
-import { dailyLifeComprehensiveDecks } from './daily-life-comprehensive';
+import { dailyLifeComprehensiveDecksFixed } from './daily-life-comprehensive';
 import { ausgesinnDecks } from './ausgesinn-vocabulary';
 import { mainDagDecks } from './main-dag-vocabulary';
 
@@ -2098,7 +2098,7 @@ export const lektioun4Decks: Deck[] = [
 ];
 
 // Merge all decks
-export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks, ...allAdvancedVocabularyDecks, ...specializedFirAllDagDecks, ...completeMissingVocabularyDecks, ...shoppingCultureDecks, ...shoppingVerbsDecks, ...shoppingProductsDecks, ...shoppingAssistanceDecks, ...virstellungDecks, ...additionalVirstellungDecks, ...completeModalVerbsDecks, ...dailyLifeComprehensiveDecks, ...ausgesinnDecks, ...mainDagDecks];
+export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks, ...allAdvancedVocabularyDecks, ...specializedFirAllDagDecks, ...completeMissingVocabularyDecks, ...shoppingCultureDecks, ...shoppingVerbsDecks, ...shoppingProductsDecks, ...shoppingAssistanceDecks, ...virstellungDecks, ...additionalVirstellungDecks, ...completeModalVerbsDecks, ...dailyLifeComprehensiveDecksFixed, ...ausgesinnDecks, ...mainDagDecks];
 
 export const vocabularyCategories = [
   'greetings',

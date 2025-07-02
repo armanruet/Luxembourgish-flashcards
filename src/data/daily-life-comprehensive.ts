@@ -1,4 +1,5 @@
 import { Deck } from '@/types';
+import { correctedTransportationDeck } from './transportation-corrected';
 
 /**
  * Comprehensive daily life vocabulary flashcards
@@ -1025,3 +1026,6 @@ export const dailyLifeComprehensiveDecks: Deck[] = [
     ]
   }
 ];
+
+// Export corrected daily life decks with fixed transportation
+export const dailyLifeComprehensiveDecksFixed = dailyLifeComprehensiveDecks.filter(deck => deck.id !== 'transportation-travel').concat([correctedTransportationDeck]);
