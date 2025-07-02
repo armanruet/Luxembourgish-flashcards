@@ -15,6 +15,7 @@ import { virstellungDecks } from './virstellung-vocabulary';
 import { additionalVirstellungDecks } from './additional-virstellung-vocabulary';
 import { completeModalVerbsDecks } from './complete-modal-verbs';
 import { dailyLifeComprehensiveDecks } from './daily-life-comprehensive';
+import { ausgesinnDecks } from './ausgesinn-vocabulary';
 
 /**
  * Initial Luxembourgish vocabulary data based on extensive language learning materials
@@ -2096,7 +2097,7 @@ export const lektioun4Decks: Deck[] = [
 ];
 
 // Merge all decks
-export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks, ...allAdvancedVocabularyDecks, ...specializedFirAllDagDecks, ...completeMissingVocabularyDecks, ...shoppingCultureDecks, ...shoppingVerbsDecks, ...shoppingProductsDecks, ...shoppingAssistanceDecks, ...virstellungDecks, ...additionalVirstellungDecks, ...completeModalVerbsDecks, ...dailyLifeComprehensiveDecks];
+export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks, ...allAdvancedVocabularyDecks, ...specializedFirAllDagDecks, ...completeMissingVocabularyDecks, ...shoppingCultureDecks, ...shoppingVerbsDecks, ...shoppingProductsDecks, ...shoppingAssistanceDecks, ...virstellungDecks, ...additionalVirstellungDecks, ...completeModalVerbsDecks, ...dailyLifeComprehensiveDecks, ...ausgesinnDecks];
 
 export const vocabularyCategories = [
   'greetings',
@@ -2280,7 +2281,14 @@ export const vocabularyCategories = [
   'time-of-day',
   'days-of-week',
   'time-periods',
-  'time-units'
+  'time-units',
+  // Appearance and body-related categories from D'Ausgesinn document
+  'body-parts',
+  'appearance-adjectives',
+  'facial-features',
+  'grammar-rules',
+  'grammar-examples',
+  'luxembourg-culture'
 ];
 
 export const difficultyLevels = ['A1', 'A2', 'B1', 'B2'] as const;
