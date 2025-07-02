@@ -16,6 +16,7 @@ import { additionalVirstellungDecks } from './additional-virstellung-vocabulary'
 import { completeModalVerbsDecks } from './complete-modal-verbs';
 import { dailyLifeComprehensiveDecks } from './daily-life-comprehensive';
 import { ausgesinnDecks } from './ausgesinn-vocabulary';
+import { mainDagDecks } from './main-dag-vocabulary';
 
 /**
  * Initial Luxembourgish vocabulary data based on extensive language learning materials
@@ -2097,7 +2098,7 @@ export const lektioun4Decks: Deck[] = [
 ];
 
 // Merge all decks
-export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks, ...allAdvancedVocabularyDecks, ...specializedFirAllDagDecks, ...completeMissingVocabularyDecks, ...shoppingCultureDecks, ...shoppingVerbsDecks, ...shoppingProductsDecks, ...shoppingAssistanceDecks, ...virstellungDecks, ...additionalVirstellungDecks, ...completeModalVerbsDecks, ...dailyLifeComprehensiveDecks, ...ausgesinnDecks];
+export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks, ...allAdvancedVocabularyDecks, ...specializedFirAllDagDecks, ...completeMissingVocabularyDecks, ...shoppingCultureDecks, ...shoppingVerbsDecks, ...shoppingProductsDecks, ...shoppingAssistanceDecks, ...virstellungDecks, ...additionalVirstellungDecks, ...completeModalVerbsDecks, ...dailyLifeComprehensiveDecks, ...ausgesinnDecks, ...mainDagDecks];
 
 export const vocabularyCategories = [
   'greetings',
@@ -2291,7 +2292,40 @@ export const vocabularyCategories = [
   'luxembourg-culture',
   'colors',
   'professions',
-  'descriptive-adjectives'
+  'descriptive-adjectives',
+  // Mäin Dag (My Day) categories from main-dag-vocabulary
+  'time-periods',
+  'sequencing',
+  'frequency',
+  'approximation',
+  'time-range',
+  'household-tasks',
+  'meal-preparation',
+  'organization',
+  'administration',
+  'childcare',
+  'team-sports',
+  'individual-sports',
+  'fitness-activities',
+  'wellness-activities',
+  'home-leisure',
+  'intellectual-leisure',
+  'digital-leisure',
+  'social-activities',
+  'going-out',
+  'digital-entertainment',
+  'digital-communication',
+  'digital-activity',
+  'social-media',
+  'digital-work',
+  'digital-education',
+  'mobile-technology',
+  'communication',
+  'modern-lifestyle',
+  'auxiliary-verbs',
+  'participle-formation',
+  'perfect-examples',
+  'grammar-usage'
 ];
 
 export const difficultyLevels = ['A1', 'A2', 'B1', 'B2'] as const;
