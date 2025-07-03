@@ -2118,6 +2118,7 @@ export const vocabularyCategories = [
   'useful-expressions',
   'auxiliary-verbs',
   'modal-verbs',
+  'essential-verbs',
   'modal-verbs-complete',
   'modal-verbs-grammar',
   'modal-verbs-examples',
