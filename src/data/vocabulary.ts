@@ -19,6 +19,7 @@ import { ausgesinnDecks } from './ausgesinn-vocabulary';
 import { mainDagDecks } from './main-dag-vocabulary';
 import { correctedTransportationDecks } from './transportation-corrected';
 import fraizaitWiederDecks from './fraizeit-wieder-vocabulary';
+import shoppingTopic15Decks from './shopping-topic15-vocabulary';
 
 /**
  * Initial Luxembourgish vocabulary data based on extensive language learning materials
@@ -2100,7 +2101,7 @@ export const lektioun4Decks: Deck[] = [
 ];
 
 // Merge all decks
-export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks, ...allAdvancedVocabularyDecks, ...specializedFirAllDagDecks, ...completeMissingVocabularyDecks, ...shoppingCultureDecks, ...shoppingVerbsDecks, ...shoppingProductsDecks, ...shoppingAssistanceDecks, ...virstellungDecks, ...additionalVirstellungDecks, ...completeModalVerbsDecks, ...dailyLifeComprehensiveDecksFixed, ...ausgesinnDecks, ...mainDagDecks, ...correctedTransportationDecks, ...fraizaitWiederDecks];
+export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks, ...allAdvancedVocabularyDecks, ...specializedFirAllDagDecks, ...completeMissingVocabularyDecks, ...shoppingCultureDecks, ...shoppingVerbsDecks, ...shoppingProductsDecks, ...shoppingAssistanceDecks, ...shoppingTopic15Decks, ...virstellungDecks, ...additionalVirstellungDecks, ...completeModalVerbsDecks, ...dailyLifeComprehensiveDecksFixed, ...ausgesinnDecks, ...mainDagDecks, ...correctedTransportationDecks, ...fraizaitWiederDecks];
 
 export const vocabularyCategories = [
   'greetings',
@@ -2164,6 +2165,53 @@ export const vocabularyCategories = [
   'shopping-service',
   'shopping-payment',
   'shopping-negotiation',
+  // Shopping Topic 15 categories
+  'frequency',
+  'time',
+  'shopping-planning',
+  'food-types',
+  'money',
+  'shopping-equipment',
+  'benefits',
+  'payment',
+  'questions',
+  'shopping-actions',
+  'home-actions',
+  'languages',
+  'gift-shopping',
+  'locations',
+  'shopping-malls',
+  'sales',
+  'online-shopping',
+  'pickup-service',
+  'adjectives',
+  'preferences',
+  'holidays',
+  'toys',
+  'sweets',
+  'money-gifts',
+  'vouchers',
+  'wishes',
+  'family-description',
+  'emotions',
+  'size-descriptions',
+  'quantity',
+  'quality-descriptions',
+  'shopping-style',
+  'time-expressions',
+  'stress-free',
+  'selection',
+  'positive',
+  'choice',
+  'autonomy',
+  'relaxed',
+  'calm',
+  'peaceful',
+  'variety',
+  'convenience',
+  'practical',
+  'comparison',
+  // End Shopping Topic 15 categories
   'shops',
   'quantities',
   'modal-verbs-negation',
