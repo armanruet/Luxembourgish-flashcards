@@ -20,6 +20,7 @@ import { mainDagDecks } from './main-dag-vocabulary';
 import { correctedTransportationDecks } from './transportation-corrected';
 import fraizaitWiederDecks from './fraizeit-wieder-vocabulary';
 import shoppingTopic15Decks from './shopping-topic15-vocabulary';
+import { fraizaitDecks } from './fraizait-vocabulary';
 
 /**
  * Initial Luxembourgish vocabulary data based on extensive language learning materials
@@ -2101,7 +2102,7 @@ export const lektioun4Decks: Deck[] = [
 ];
 
 // Merge all decks
-export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks, ...allAdvancedVocabularyDecks, ...specializedFirAllDagDecks, ...completeMissingVocabularyDecks, ...shoppingCultureDecks, ...shoppingVerbsDecks, ...shoppingProductsDecks, ...shoppingAssistanceDecks, ...shoppingTopic15Decks, ...virstellungDecks, ...additionalVirstellungDecks, ...completeModalVerbsDecks, ...dailyLifeComprehensiveDecksFixed, ...ausgesinnDecks, ...mainDagDecks, ...correctedTransportationDecks, ...fraizaitWiederDecks];
+export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks, ...allAdvancedVocabularyDecks, ...specializedFirAllDagDecks, ...completeMissingVocabularyDecks, ...shoppingCultureDecks, ...shoppingVerbsDecks, ...shoppingProductsDecks, ...shoppingAssistanceDecks, ...shoppingTopic15Decks, ...virstellungDecks, ...additionalVirstellungDecks, ...completeModalVerbsDecks, ...dailyLifeComprehensiveDecksFixed, ...ausgesinnDecks, ...mainDagDecks, ...correctedTransportationDecks, ...fraizaitWiederDecks, ...fraizaitDecks];
 
 export const vocabularyCategories = [
   'greetings',
@@ -2383,7 +2384,13 @@ export const vocabularyCategories = [
   'auxiliary-verbs',
   'participle-formation',
   'perfect-examples',
-  'grammar-usage'
+  'grammar-usage',
+  // Fraizait (Leisure Time) categories
+  'leisure-activities',
+  'preferences',
+  'sports',
+  'culture',
+  'negation'
 ];
 
 export const difficultyLevels = ['A1', 'A2', 'B1', 'B2'] as const;
