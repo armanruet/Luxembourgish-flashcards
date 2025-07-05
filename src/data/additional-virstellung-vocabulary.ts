@@ -1182,6 +1182,8 @@ export const additionalVirstellungDecks: Deck[] = [
         luxembourgish: 'Ech léieren Lëtzebuergesch.',
         english: 'I am learning Luxembourgish.',
         pronunciation: '[ekh lay-ren lets-e-boorg-esh]',
+        category: 'personal-info',
+        difficulty: 'A1',
         notes: 'Ech léieren Lëtzebuergesch am Moment. (I am currently learning Luxembourgish.)',
         tags: ['introductions', 'languages', 'learning'],
         easeFactor: 2.5,
