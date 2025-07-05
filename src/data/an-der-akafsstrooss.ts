@@ -524,7 +524,7 @@ export const anDerAkafsstroossDecks: Deck[] = [
         pronunciation: '[be-stel-en]',
         category: 'restaurant',
         difficulty: 'A2',
-        notes: 'Verb - Wat hätt Dir gär? (What would you like?) Response: Ech hätt gär... (I would like...)',
+        notes: 'Verb - Example: Ech bestellen eng Pizza. (I order a pizza.)',
         tags: ['restaurant', 'ordering', 'dining'],
         easeFactor: 2.5,
         interval: 0,
