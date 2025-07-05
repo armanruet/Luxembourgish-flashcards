@@ -21,6 +21,7 @@ import { correctedTransportationDecks } from './transportation-corrected';
 import fraizaitWiederDecks from './fraizeit-wieder-vocabulary';
 import shoppingTopic15Decks from './shopping-topic15-vocabulary';
 import { fraizaitDecks } from './fraizait-vocabulary';
+import { anDerAkafsstroossDecks } from './an-der-akafsstrooss';
 
 /**
  * Initial Luxembourgish vocabulary data based on extensive language learning materials
@@ -2102,7 +2103,7 @@ export const lektioun4Decks: Deck[] = [
 ];
 
 // Merge all decks
-export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks, ...allAdvancedVocabularyDecks, ...specializedFirAllDagDecks, ...completeMissingVocabularyDecks, ...shoppingCultureDecks, ...shoppingVerbsDecks, ...shoppingProductsDecks, ...shoppingAssistanceDecks, ...shoppingTopic15Decks, ...virstellungDecks, ...additionalVirstellungDecks, ...completeModalVerbsDecks, ...dailyLifeComprehensiveDecksFixed, ...ausgesinnDecks, ...mainDagDecks, ...correctedTransportationDecks, ...fraizaitWiederDecks, ...fraizaitDecks];
+export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks, ...allAdvancedVocabularyDecks, ...specializedFirAllDagDecks, ...completeMissingVocabularyDecks, ...shoppingCultureDecks, ...shoppingVerbsDecks, ...shoppingProductsDecks, ...shoppingAssistanceDecks, ...shoppingTopic15Decks, ...virstellungDecks, ...additionalVirstellungDecks, ...completeModalVerbsDecks, ...dailyLifeComprehensiveDecksFixed, ...ausgesinnDecks, ...mainDagDecks, ...correctedTransportationDecks, ...fraizaitWiederDecks, ...fraizaitDecks, ...anDerAkafsstroossDecks];
 
 export const vocabularyCategories = [
   'greetings',
@@ -2390,7 +2391,25 @@ export const vocabularyCategories = [
   'preferences',
   'sports',
   'culture',
-  'negation'
+  'negation',
+  // An der Akafsstrooss categories
+  'shopping-street',
+  'shop-types',
+  'shopping-actions',
+  'shopping-phrases',
+  'directions',
+  'transportation',
+  'transportation-questions',
+  'restaurant',
+  'business-hours',
+  'polite-phrases',
+  'helpful-responses',
+  'city-conversation',
+  'shopping-purposes',
+  'appointments',
+  'shopping-style',
+  'social-expressions',
+  'social-activities'
 ];
 
 export const difficultyLevels = ['A1', 'A2', 'B1', 'B2'] as const;
