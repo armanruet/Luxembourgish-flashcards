@@ -208,7 +208,7 @@ export const initialDecks: Deck[] = [
         pronunciation: 'hun',
         category: 'auxiliary-verbs',
         difficulty: 'A1',
-        notes: 'ech hat, du has, hien/si/et hat, mir haten, dir hat, si haten - Past tense example: Du has vill Zäit. (You had much time)',
+        notes: 'ech hat, du has, hien/si/et hat, mir haten, dir hat, si haten - Past tense. Example: Du has vill Zäit. (You had much time)',
         tags: ['auxiliary', 'irregular', 'past'],
         easeFactor: 2.5,
         interval: 0,

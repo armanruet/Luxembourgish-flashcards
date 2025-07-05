@@ -21,7 +21,7 @@ export const firAllDagAdditionalDecks: Deck[] = [
     cards: [
       {
         id: 'kommen-conjugation',
-        luxembourgish: 'kommen (to come)',
+        luxembourgish: 'kommen',
         english: 'ech kommen, du kënns, hien/si/hatt kënnt, mir kommen, dir kommt, si kommen',
         pronunciation: 'KOM-en',
         category: 'irregular-verbs',
@@ -39,7 +39,7 @@ export const firAllDagAdditionalDecks: Deck[] = [
       },
       {
         id: 'fueren-conjugation',
-        luxembourgish: 'fueren (to drive/travel)',
+        luxembourgish: 'fueren',
         english: 'ech fueren, du fiers, hien/si/hatt fiert, mir fueren, dir fuert, si fueren',
         pronunciation: 'FU-er-en',
         category: 'irregular-verbs',
@@ -162,12 +162,12 @@ export const firAllDagAdditionalDecks: Deck[] = [
       },
       {
         id: 'zu-living',
-        luxembourgish: 'zu + city name (living)',
-        english: 'in + city (residence)',
+        luxembourgish: 'zu + city name',
+        english: 'in + city',
         pronunciation: 'tsu',
         category: 'prepositions',
         difficulty: 'A1',
-        notes: 'Where you live: Ech wunnen zu Diddeleng. Different from origin.',
+        notes: 'Used for where you live. Example: Ech wunnen zu Diddeleng. (I live in Dudelange) - Different from origin.',
         tags: ['residence', 'living', 'cities'],
         easeFactor: 2.5,
         interval: 0,

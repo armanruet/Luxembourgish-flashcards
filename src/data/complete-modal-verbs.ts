@@ -21,8 +21,8 @@ export const completeModalVerbsDecks: Deck[] = [
     cards: [
       {
         id: 'cmv-koennen-complete',
-        luxembourgish: 'kënnen (can/to be able to)',
-        english: 'can, to be able to (ability/possibility)',
+        luxembourgish: 'kënnen',
+        english: 'can, to be able to',
         pronunciation: 'ken-nen',
         category: 'modal-verbs-complete',
         difficulty: 'A1',
@@ -39,8 +39,8 @@ export const completeModalVerbsDecks: Deck[] = [
       },
       {
         id: 'cmv-mussen-complete',
-        luxembourgish: 'mussen (must/to have to)',
-        english: 'must, to have to (necessity/obligation)',
+        luxembourgish: 'mussen',
+        english: 'must, to have to',
         pronunciation: 'mus-sen',
         category: 'modal-verbs-complete',
         difficulty: 'A1',
@@ -57,8 +57,8 @@ export const completeModalVerbsDecks: Deck[] = [
       },
       {
         id: 'cmv-sollen-complete',
-        luxembourgish: 'sollen (should/ought to)',
-        english: 'should, ought to (advice/expectation)',
+        luxembourgish: 'sollen',
+        english: 'should, ought to',
         pronunciation: 'sol-len',
         category: 'modal-verbs-complete',
         difficulty: 'A1',
@@ -75,8 +75,8 @@ export const completeModalVerbsDecks: Deck[] = [
       },
       {
         id: 'cmv-daerfen-complete',
-        luxembourgish: 'däerfen (may/to be allowed)',
-        english: 'may, to be allowed (permission)',
+        luxembourgish: 'däerfen',
+        english: 'may, to be allowed',
         pronunciation: 'day-er-fen',
         category: 'modal-verbs-complete',
         difficulty: 'A1',
@@ -93,8 +93,8 @@ export const completeModalVerbsDecks: Deck[] = [
       },
       {
         id: 'cmv-wellen-complete',
-        luxembourgish: 'wëllen (want/to want to)',
-        english: 'want, to want to (desire/intention)',
+        luxembourgish: 'wëllen',
+        english: 'want, to want to',
         pronunciation: 'wel-len',
         category: 'modal-verbs-complete',
         difficulty: 'A1',
@@ -111,8 +111,8 @@ export const completeModalVerbsDecks: Deck[] = [
       },
       {
         id: 'cmv-waerten-complete',
-        luxembourgish: 'wäerten (will/to be going to)',
-        english: 'will, to be going to (future intention/probability)',
+        luxembourgish: 'wäerten',
+        english: 'will, to be going to',
         pronunciation: 'vay-er-ten',
         category: 'modal-verbs-complete',
         difficulty: 'A2',
@@ -345,7 +345,7 @@ export const completeModalVerbsDecks: Deck[] = [
       },
       {
         id: 'cmv-sentence-structure',
-        luxembourgish: 'Subject + Modal Verb + (Other Elements) + Infinitive',
+        luxembourgish: 'Subject + Modal Verb + Other Elements + Infinitive',
         english: 'Modal verb sentence structure pattern',
         pronunciation: 'sen-tence struc-ture',
         category: 'modal-verbs-grammar',
