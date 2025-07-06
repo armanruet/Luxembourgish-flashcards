@@ -26,6 +26,7 @@ import { sproochentestTopicsDecks } from './sproochentest-topics';
 import { wunnertQuartierDecks } from './wunnert-quartier-vocabulary';
 import { sozialKontakterDecks } from './sozial-kontakter-vocabulary';
 import { kreativiteetHobbyenDecks } from './kreativiteet-hobbyen-vocabulary';
+import sportDecks from './sport-vocabulary';
 
 /**
  * Initial Luxembourgish vocabulary data based on extensive language learning materials
@@ -2107,7 +2108,7 @@ export const lektioun4Decks: Deck[] = [
 ];
 
 // Merge all decks
-export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks, ...allAdvancedVocabularyDecks, ...specializedFirAllDagDecks, ...completeMissingVocabularyDecks, ...shoppingCultureDecks, ...shoppingVerbsDecks, ...shoppingProductsDecks, ...shoppingAssistanceDecks, ...shoppingTopic15Decks, ...virstellungDecks, ...additionalVirstellungDecks, ...completeModalVerbsDecks, ...dailyLifeComprehensiveDecksFixed, ...ausgesinnDecks, ...mainDagDecks, ...correctedTransportationDecks, ...fraizaitWiederDecks, ...fraizaitDecks, ...anDerAkafsstroossDecks, ...sproochentestTopicsDecks, ...wunnertQuartierDecks, ...sozialKontakterDecks, ...kreativiteetHobbyenDecks];
+export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks, ...allAdvancedVocabularyDecks, ...specializedFirAllDagDecks, ...completeMissingVocabularyDecks, ...shoppingCultureDecks, ...shoppingVerbsDecks, ...shoppingProductsDecks, ...shoppingAssistanceDecks, ...shoppingTopic15Decks, ...virstellungDecks, ...additionalVirstellungDecks, ...completeModalVerbsDecks, ...dailyLifeComprehensiveDecksFixed, ...ausgesinnDecks, ...mainDagDecks, ...correctedTransportationDecks, ...fraizaitWiederDecks, ...fraizaitDecks, ...anDerAkafsstroossDecks, ...sproochentestTopicsDecks, ...wunnertQuartierDecks, ...sozialKontakterDecks, ...kreativiteetHobbyenDecks, ...sportDecks];
 
 export const vocabularyCategories = [
   'greetings',
@@ -2469,7 +2470,15 @@ export const vocabularyCategories = [
   'literature',
   'creative-spaces',
   'creative-process',
-  'abilities'
+  'abilities',
+  // Sport categories
+  'sport-basic',
+  'sport-types',
+  'sport-activities',
+  'sport-places',
+  'sport-equipment',
+  'sport-frequency',
+  'sport-phrases'
 ];
 
 export const difficultyLevels = ['A1', 'A2', 'B1', 'B2'] as const;
