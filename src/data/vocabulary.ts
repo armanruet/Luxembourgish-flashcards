@@ -26,6 +26,7 @@ import { sproochentestTopicsDecks } from './sproochentest-topics';
 import { wunnertQuartierDecks } from './wunnert-quartier-vocabulary';
 import { sozialKontakterDecks } from './sozial-kontakter-vocabulary';
 import { kreativiteetHobbyenDecks } from './kreativiteet-hobbyen-vocabulary';
+import { liesenDecks } from './liesen-vocabulary';
 import sportDecks from './sport-vocabulary';
 import sproochentestTopic09Decks from './sproochentest-topic09-vocabulary';
 
@@ -2109,7 +2110,7 @@ export const lektioun4Decks: Deck[] = [
 ];
 
 // Merge all decks
-export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks, ...allAdvancedVocabularyDecks, ...specializedFirAllDagDecks, ...completeMissingVocabularyDecks, ...shoppingCultureDecks, ...shoppingVerbsDecks, ...shoppingProductsDecks, ...shoppingAssistanceDecks, ...shoppingTopic15Decks, ...virstellungDecks, ...additionalVirstellungDecks, ...completeModalVerbsDecks, ...dailyLifeComprehensiveDecksFixed, ...ausgesinnDecks, ...mainDagDecks, ...correctedTransportationDecks, ...fraizaitWiederDecks, ...fraizaitDecks, ...anDerAkafsstroossDecks, ...sproochentestTopicsDecks, ...wunnertQuartierDecks, ...sozialKontakterDecks, ...kreativiteetHobbyenDecks, ...sportDecks, ...sproochentestTopic09Decks];
+export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks, ...allAdvancedVocabularyDecks, ...specializedFirAllDagDecks, ...completeMissingVocabularyDecks, ...shoppingCultureDecks, ...shoppingVerbsDecks, ...shoppingProductsDecks, ...shoppingAssistanceDecks, ...shoppingTopic15Decks, ...virstellungDecks, ...additionalVirstellungDecks, ...completeModalVerbsDecks, ...dailyLifeComprehensiveDecksFixed, ...ausgesinnDecks, ...mainDagDecks, ...correctedTransportationDecks, ...fraizaitWiederDecks, ...fraizaitDecks, ...anDerAkafsstroossDecks, ...sproochentestTopicsDecks, ...wunnertQuartierDecks, ...sozialKontakterDecks, ...kreativiteetHobbyenDecks, ...liesenDecks, ...sportDecks, ...sproochentestTopic09Decks];
 
 export const vocabularyCategories = [
   'greetings',
@@ -2481,7 +2482,15 @@ export const vocabularyCategories = [
   'sport-places',
   'sport-equipment',
   'sport-frequency',
-  'sport-phrases'
+  'sport-phrases',
+  // Reading categories
+  'reading-basic',
+  'reading-types',
+  'reading-digital',
+  'reading-places',
+  'reading-activities',
+  'reading-preferences',
+  'reading-time'
 ];
 
 export const difficultyLevels = ['A1', 'A2', 'B1', 'B2'] as const;
