@@ -2160,10 +2160,8 @@ export const vocabularyCategories = [
   'sproochentest',
   'sproochentest-culture',
   'countries-languages',
-  // Sproochentest Topic 09 - Languages
-  'languages-basic',
-  'learning-expressions',
-  'grammar-patterns',
+  // Sproochentest Topic 09 - Languages (unified deck)
+  'sproochentest-topic09',
   'prepositions',
   'adjectives',
   'reflexive-verbs',

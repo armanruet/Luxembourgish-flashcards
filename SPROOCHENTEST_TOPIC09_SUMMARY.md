@@ -1,12 +1,20 @@
-# Sproochentest Topic 09 - Sproochen (Languages) Flashcards
+# Sproochentest Topic 09 - Sproochen (Languages) Flashcards - MERGED DECK
+
+> **Update:** Originally created as 4 separate decks, now merged into single unified deck for streamlined learning experience.
 
 ## Overview
-Created comprehensive flashcard collection for Luxembourgish Sproochentest Topic 09 based on authentic sproochentest materials about languages and language learning. This is essential content for Luxembourg citizenship language test preparation.
+Created comprehensive unified flashcard deck for Luxembourgish Sproochentest Topic 09 based on authentic sproochentest materials about languages and language learning. This is essential content for Luxembourg citizenship language test preparation.
 
-## New Flashcard Decks Created
+## Single Unified Deck Created
 
-### 1. Languages - Basic Vocabulary (15 cards)
-**Deck ID:** `sproochentest-languages-basics`
+### Sproochentest Topic 09 - Languages & Learning (55 cards)
+**Deck ID:** `sproochentest-topic09-complete`
+**Category:** `sproochentest-topic09`
+**Focus:** Complete vocabulary, expressions, and grammar for sproochentest language discussions
+
+**Content Sections (merged into single deck):**
+
+#### Section 1: Languages - Basic Vocabulary (15 cards)
 **Focus:** Essential vocabulary for talking about languages
 **Key Cards:**
 - d'Sprooch (the language) 
@@ -25,8 +33,7 @@ Created comprehensive flashcard collection for Luxembourgish Sproochentest Topic
 - de Sproochentest (the language test)
 - fléissend (fluently)
 
-### 2. Countries & Languages (12 cards)
-**Deck ID:** `sproochentest-countries-languages`
+#### Section 2: Countries & Languages (12 cards)
 **Focus:** Countries, nationalities, and languages for sproochentest discussions
 **Key Cards:**
 - Lëtzebuerg (Luxembourg)
@@ -42,8 +49,7 @@ Created comprehensive flashcard collection for Luxembourgish Sproochentest Topic
 - d'Integratioun (the integration)
 - d'Gemeinschaft (the community)
 
-### 3. Language Learning Expressions (18 cards)
-**Deck ID:** `sproochentest-learning-expressions`
+#### Section 3: Language Learning Expressions (18 cards)
 **Focus:** Common phrases and expressions for discussing language learning
 **Essential Sproochentest Questions:**
 - "Wat motivéiert Iech fir Lëtzebuergesch ze léieren?" (What motivates you to learn Luxembourgish?)
@@ -59,8 +65,7 @@ Created comprehensive flashcard collection for Luxembourgish Sproochentest Topic
 - "Mäin Ziel ass et, de Sproochentest ze bestoen" (My goal is to pass the language test)
 - "Zu Lëtzebuerg ass et normal multilingue ze sinn" (In Luxembourg it is normal to be multilingual)
 
-### 4. Language Grammar Patterns (10 cards)
-**Deck ID:** `sproochentest-grammar-patterns`
+#### Section 4: Language Grammar Patterns (10 cards)
 **Focus:** Essential grammar patterns for discussing languages and learning
 **Key Patterns:**
 - "ech kommen aus + Land" (I come from + country)
@@ -91,18 +96,16 @@ Created comprehensive flashcard collection for Luxembourgish Sproochentest Topic
 ### File Structure
 - **Primary File:** `sproochentest-topic09-vocabulary.ts`
 - **Integration:** Added to main `vocabulary.ts` imports and allDecks array
-- **Categories:** Added 3 new categories to vocabularyCategories array
+- **Categories:** Added 1 unified category `sproochentest-topic09` to vocabularyCategories array
 
 ### Flashcard Format
 Each flashcard follows the established structure:
 - **Front:** Main word + (English meaning) + [pronunciation]
 - **Back:** Conjugations/forms + Example with English translation
-- **Metadata:** Difficulty (A2), category, tags, spaced repetition data
+- **Metadata:** Difficulty (A2), category: `sproochentest-topic09`, tags, spaced repetition data
 
-### New Categories Added
-1. `languages-basic` - Core language vocabulary
-2. `learning-expressions` - Common phrases for language discussions  
-3. `grammar-patterns` - Essential grammar for language topics
+### Unified Category
+- `sproochentest-topic09` - Complete language vocabulary, expressions, and grammar patterns
 
 ## Usage for Sproochentest Preparation
 
@@ -121,10 +124,10 @@ Each flashcard follows the established structure:
 - **Topic Discussion:** Languages, integration, cultural appreciation
 - **Grammar Accuracy:** Proper verb conjugations and sentence patterns
 
-## Total Cards Added: 55
-- Languages - Basic Vocabulary: 15 cards
-- Countries & Languages: 12 cards  
-- Language Learning Expressions: 18 cards
-- Language Grammar Patterns: 10 cards
+## Total Cards in Unified Deck: 55
+- Section 1: Languages - Basic Vocabulary: 15 cards
+- Section 2: Countries & Languages: 12 cards  
+- Section 3: Language Learning Expressions: 18 cards
+- Section 4: Language Grammar Patterns: 10 cards
 
-All flashcards are ready for immediate use in sproochentest preparation with authentic vocabulary, proper pronunciation guides, and cultural context essential for Luxembourg citizenship language test success.
+All flashcards merged into single unified deck for streamlined learning, with authentic vocabulary, proper pronunciation guides, and cultural context essential for Luxembourg citizenship language test success.
