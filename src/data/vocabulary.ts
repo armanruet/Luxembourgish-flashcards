@@ -22,6 +22,10 @@ import fraizaitWiederDecks from './fraizeit-wieder-vocabulary';
 import shoppingTopic15Decks from './shopping-topic15-vocabulary';
 import { fraizaitDecks } from './fraizait-vocabulary';
 import { anDerAkafsstroossDecks } from './an-der-akafsstrooss';
+import { sproochentestTopicsDecks } from './sproochentest-topics';
+import { wunnertQuartierDecks } from './wunnert-quartier-vocabulary';
+import { sozialKontakterDecks } from './sozial-kontakter-vocabulary';
+import { kreativiteetHobbyenDecks } from './kreativiteet-hobbyen-vocabulary';
 
 /**
  * Initial Luxembourgish vocabulary data based on extensive language learning materials
@@ -2103,7 +2107,7 @@ export const lektioun4Decks: Deck[] = [
 ];
 
 // Merge all decks
-export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks, ...allAdvancedVocabularyDecks, ...specializedFirAllDagDecks, ...completeMissingVocabularyDecks, ...shoppingCultureDecks, ...shoppingVerbsDecks, ...shoppingProductsDecks, ...shoppingAssistanceDecks, ...shoppingTopic15Decks, ...virstellungDecks, ...additionalVirstellungDecks, ...completeModalVerbsDecks, ...dailyLifeComprehensiveDecksFixed, ...ausgesinnDecks, ...mainDagDecks, ...correctedTransportationDecks, ...fraizaitWiederDecks, ...fraizaitDecks, ...anDerAkafsstroossDecks];
+export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks, ...allAdvancedVocabularyDecks, ...specializedFirAllDagDecks, ...completeMissingVocabularyDecks, ...shoppingCultureDecks, ...shoppingVerbsDecks, ...shoppingProductsDecks, ...shoppingAssistanceDecks, ...shoppingTopic15Decks, ...virstellungDecks, ...additionalVirstellungDecks, ...completeModalVerbsDecks, ...dailyLifeComprehensiveDecksFixed, ...ausgesinnDecks, ...mainDagDecks, ...correctedTransportationDecks, ...fraizaitWiederDecks, ...fraizaitDecks, ...anDerAkafsstroossDecks, ...sproochentestTopicsDecks, ...wunnertQuartierDecks, ...sozialKontakterDecks, ...kreativiteetHobbyenDecks];
 
 export const vocabularyCategories = [
   'greetings',
@@ -2409,7 +2413,63 @@ export const vocabularyCategories = [
   'appointments',
   'shopping-style',
   'social-expressions',
-  'social-activities'
+  'social-activities',
+  // Sproochentest Topics categories
+  'music-basic',
+  'music-activities', 
+  'instruments',
+  'music-genres',
+  'music-venues',
+  'music-emotions',
+  'music-media',
+  'music-education',
+  'music-types',
+  'music-preferences',
+  'travel-basic',
+  'travel-verbs',
+  'travel-destinations',
+  'transportation-luxembourg',
+  'travel-planning',
+  'travel-equipment',
+  'travel-culture',
+  'travel-benefits',
+  'travel-conditions',
+  'travel-preferences',
+  'homeland-basic',
+  'cities',
+  'people',
+  'culture',
+  'climate',
+  'description',
+  'numbers',
+  // Wunnert & Quartier categories
+  'housing-basic',
+  'housing-people',
+  'housing-types',
+  'housing-rooms',
+  'housing-features',
+  'shops-services',
+  'public-spaces',
+  // Sozial Kontakter categories
+  'relationships',
+  'social-actions',
+  'social-events',
+  'cultural-events',
+  'food-culture',
+  'cultural-places',
+  'organizations',
+  'society',
+  'personality',
+  // Kreativitéit & Hobbyen categories
+  'creative-basic',
+  'art-activities',
+  'art-materials',
+  'music-instruments',
+  'art-products',
+  'literature',
+  'creative-spaces',
+  'creative-process',
+  'abilities'
 ];
 
 export const difficultyLevels = ['A1', 'A2', 'B1', 'B2'] as const;
