@@ -18,6 +18,7 @@ import { dailyLifeComprehensiveDecksFixed } from './daily-life-comprehensive';
 import { ausgesinnDecks } from './ausgesinn-vocabulary';
 import { mainDagDecks } from './main-dag-vocabulary';
 import { correctedTransportationDecks } from './transportation-corrected';
+import { transportmettelenComprehensiveDecks } from './transportmettelen-comprehensive';
 import fraizaitWiederDecks from './fraizeit-wieder-vocabulary';
 import shoppingTopic15Decks from './shopping-topic15-vocabulary';
 import { fraizaitDecks } from './fraizait-vocabulary';
@@ -2110,7 +2111,7 @@ export const lektioun4Decks: Deck[] = [
 ];
 
 // Merge all decks
-export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks, ...allAdvancedVocabularyDecks, ...specializedFirAllDagDecks, ...completeMissingVocabularyDecks, ...shoppingCultureDecks, ...shoppingVerbsDecks, ...shoppingProductsDecks, ...shoppingAssistanceDecks, ...shoppingTopic15Decks, ...virstellungDecks, ...additionalVirstellungDecks, ...completeModalVerbsDecks, ...dailyLifeComprehensiveDecksFixed, ...ausgesinnDecks, ...mainDagDecks, ...correctedTransportationDecks, ...fraizaitWiederDecks, ...fraizaitDecks, ...anDerAkafsstroossDecks, ...sproochentestTopicsDecks, ...wunnertQuartierDecks, ...sozialKontakterDecks, ...kreativiteetHobbyenDecks, ...liesenDecks, ...sportDecks, ...sproochentestTopic09Decks];
+export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks, ...allAdvancedVocabularyDecks, ...specializedFirAllDagDecks, ...completeMissingVocabularyDecks, ...shoppingCultureDecks, ...shoppingVerbsDecks, ...shoppingProductsDecks, ...shoppingAssistanceDecks, ...shoppingTopic15Decks, ...virstellungDecks, ...additionalVirstellungDecks, ...completeModalVerbsDecks, ...dailyLifeComprehensiveDecksFixed, ...ausgesinnDecks, ...mainDagDecks, ...correctedTransportationDecks, ...transportmettelenComprehensiveDecks, ...fraizaitWiederDecks, ...fraizaitDecks, ...anDerAkafsstroossDecks, ...sproochentestTopicsDecks, ...wunnertQuartierDecks, ...sozialKontakterDecks, ...kreativiteetHobbyenDecks, ...liesenDecks, ...sportDecks, ...sproochentestTopic09Decks];
 
 export const vocabularyCategories = [
   'greetings',
@@ -2490,7 +2491,63 @@ export const vocabularyCategories = [
   'reading-places',
   'reading-activities',
   'reading-preferences',
-  'reading-time'
+  'reading-time',
+  // Comprehensive Transportation categories
+  'public-transport',
+  'active-transport', 
+  'rail-transport',
+  'bike-sharing',
+  'air-transport',
+  'transport-policy',
+  'transport-infrastructure',
+  'transport-verbs',
+  'time-frequency',
+  'time-periods',
+  'transport-schedule',
+  'transport-destinations',
+  'transport-lines',
+  'transport-challenges',
+  'private-transport',
+  'environmental-impact',
+  'transport-questions',
+  'work-commute',
+  'transport-ownership',
+  'vacation-travel',
+  'tram-system',
+  'parking-facilities',
+  'parking-costs',
+  'travel-time',
+  'cycling-infrastructure',
+  'city-characteristics',
+  'connectivity',
+  'daily-activities',
+  'transport-reasons',
+  'transport-options',
+  'frequency-expressions',
+  'trend-expressions',
+  'transport-choices',
+  'positive-expressions',
+  'mobility-benefits',
+  'environmental-verbs',
+  'walking-preferences',
+  'parking-locations',
+  'airport-access',
+  'cycling-habits',
+  'train-quality',
+  'traffic-situations',
+  'transport-costs',
+  'taxi-experience',
+  'fuel-stations',
+  'environmental-opinion',
+  'travel-planning',
+  'transport-problems',
+  'weather-transport',
+  'advice-newcomers',
+  'positive-adjectives',
+  'transport-qualities',
+  'weather-protection',
+  'emphasis-expressions',
+  'digital-actions'
 ];
 
 export const difficultyLevels = ['A1', 'A2', 'B1', 'B2'] as const;
