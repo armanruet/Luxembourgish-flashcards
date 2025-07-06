@@ -4,8 +4,8 @@ import { Deck } from '@/types';
  * COMPREHENSIVE Transportation & Travel Flashcards - Transportmëttelen
  * Based on "Sproochentest - Topic 11 Transportmëttelen" curriculum document
  * Following EXACT pattern from reference images:
- * Front: Word (meaning) [pronunciation]
- * Back: conjugations + Example: sentence (translation)
+ * Front: luxembourgish="Word (meaning)", english="[pronunciation]"
+ * Back: notes="conjugations/info + Example: sentence (translation)"
  * 
  * MERGED DECK: All transportation vocabulary, infrastructure, and scenarios in one collection
  */
@@ -171,11 +171,11 @@ export const transportmettelenComprehensiveDeck: Deck = {
     {
       id: 'transport-huelen-comprehensive',
       luxembourgish: 'huelen (to take)',
-      english: 'ech huelen, du hools, hien/hatt/si huelt, mir huelen, dir huelt, si huelen',
-      pronunciation: '[hoo-eh-len]',
+      english: '[hoo-eh-len]',
+      pronunciation: '',
       category: 'transport-verbs',
       difficulty: 'A1',
-      notes: 'Example: Ech huelen de Bus all Moien. (I take the bus every morning.) - Essential verb for transport expressions',
+      notes: 'ech huelen, du hools, hien/hatt/si huelt, mir huelen, dir huelt, si huelen. Example: Ech huelen de Bus all Moien. (I take the bus every morning.) - Essential verb for transport expressions',
       tags: ['verbs', 'transport', 'taking', 'essential'],
       easeFactor: 2.5,
       interval: 0,
@@ -189,11 +189,11 @@ export const transportmettelenComprehensiveDeck: Deck = {
     {
       id: 'transport-waarden-comprehensive',
       luxembourgish: 'waarden (to wait)',
-      english: 'ech waarden, du waards, hien/hatt/si waart, mir waarden, dir waart, si waarden',
-      pronunciation: '[vahr-den]',
+      english: '[vahr-den]',
+      pronunciation: '',
       category: 'transport-verbs',
       difficulty: 'A1',
-      notes: 'Example: Ech waarden op de Bus um Arrêt. (I wait for the bus at the stop.) - Common activity at transport stops',
+      notes: 'ech waarden, du waards, hien/hatt/si waart, mir waarden, dir waart, si waarden. Example: Ech waarden op de Bus um Arrêt. (I wait for the bus at the stop.) - Common activity at transport stops',
       tags: ['verbs', 'waiting', 'patience', 'schedule'],
       easeFactor: 2.5,
       interval: 0,
@@ -207,11 +207,11 @@ export const transportmettelenComprehensiveDeck: Deck = {
     {
       id: 'transport-parken-comprehensive',
       luxembourgish: 'parken (to park)',
-      english: 'ech parken, du parks, hien/hatt/si parkt, mir parken, dir parkt, si parken',
-      pronunciation: '[par-ken]',
+      english: '[par-ken]',
+      pronunciation: '',
       category: 'transport-verbs',
       difficulty: 'A1',
-      notes: 'Example: Ech parken mäin Auto um Parking. (I park my car in the parking lot.) - Important for car users in Luxembourg',
+      notes: 'ech parken, du parks, hien/hatt/si parkt, mir parken, dir parkt, si parken. Example: Ech parken mäin Auto um Parking. (I park my car in the parking lot.) - Important for car users in Luxembourg',
       tags: ['verbs', 'parking', 'cars', 'urban'],
       easeFactor: 2.5,
       interval: 0,

@@ -1,28 +1,30 @@
 # COMPREHENSIVE TRANSPORTMËTTELEN FLASHCARDS SUMMARY
 
 ## Overview
-Created comprehensive transportation flashcards based on the "Sproochentest - Topic 11 Transportmëttelen" curriculum document. Added 80 new flashcards in 3 thematic decks to complement the existing 18 transportation flashcards.
+Created comprehensive transportation flashcards based on the "Sproochentest - Topic 11 Transportmëttelen" curriculum document. Added 80 new flashcards merged into **1 comprehensive deck** to complement the existing 18 transportation flashcards.
 
 ## Files Created/Modified
 
 ### New File: `transportmettelen-comprehensive.ts`
 - **Location**: `/Users/arman/Desktop/Flashcard/src/data/transportmettelen-comprehensive.ts`
-- **Total Lines**: 1,146 lines
-- **Total Flashcards**: 80 cards across 3 decks
+- **Total Lines**: 457 lines (optimized merged structure)
+- **Total Flashcards**: 80 cards in 1 unified deck
 
 ### Modified File: `vocabulary.ts`
 - Added import for `transportmettelenComprehensiveDecks`
-- Integrated new decks into `allDecks` export
+- Integrated new deck into `allDecks` export
 - Added 52 new vocabulary categories for comprehensive transport coverage
 
 ## Deck Structure
 
-### 1. Transportmëttelen - Comprehensive (45 cards)
+### 🚊 **Transportmëttelen - Complete Collection (80 cards)**
 **ID**: `transportmettelen-comprehensive`
 **Color**: Green (#22C55E)
 **Icon**: 🚊
 
-**Key Content Areas**:
+**Organized in 3 Thematic Sections**:
+
+#### **Section 1: Comprehensive Transportation Vocabulary (45 cards)**
 - **Luxembourg-specific vocabulary**: CFL, Vel'OH!, Findel Fluchhafen, gratis ëffentlech Transport
 - **Transportation modes**: Bus, Tram, Vëlo, Auto, Zuch, Fliger, Taxi
 - **Essential verbs with full conjugations**: huelen, waarden, parken, fueren
@@ -30,12 +32,7 @@ Created comprehensive transportation flashcards based on the "Sproochentest - To
 - **Key locations**: Cloche d'Or, Kiem, Buslinn 16
 - **Policy vocabulary**: Free public transport since February 29, 2020
 
-### 2. Luxembourg Transport Infrastructure (15 cards)
-**ID**: `luxembourg-transport-infrastructure`
-**Color**: Amber (#F59E0B)
-**Icon**: 🏢
-
-**Key Content Areas**:
+#### **Section 2: Luxembourg Transport Infrastructure (15 cards)**
 - **Infrastructure vocabulary**: Garage, Vëlosweer, Parkplatz
 - **Cost information**: 2 Euro d'Stonn parking costs
 - **Connectivity terms**: gutt verbonn, relativ kleng
@@ -43,12 +40,7 @@ Created comprehensive transportation flashcards based on the "Sproochentest - To
 - **Trend expressions**: ëmmer mei, manner de Auto
 - **Environmental vocabulary**: ënnerstëtzt d'Ëmwelt
 
-### 3. Transport Questions & Scenarios (20 cards)
-**ID**: `transport-questions-scenarios`
-**Color**: Purple (#8B5CF6)
-**Icon**: ❓
-
-**Key Content Areas**:
+#### **Section 3: Transport Questions & Scenarios (20 cards)**
 - **Sproochentest questions**: Wat fir Transportmëttele benotzt Dir?
 - **Real-world scenarios**: Parking, weather conditions, travel planning
 - **Opinion expressions**: Environmental awareness, transport preferences
@@ -123,7 +115,7 @@ All flashcards follow the exact pattern from reference images:
 - **Original Transport Cards**: 18
 - **New Comprehensive Cards**: 80
 - **Total Transport Coverage**: 98 flashcards
-- **Total Decks**: 4 (1 existing + 3 new)
+- **Total Decks**: 2 (1 existing + 1 comprehensive merged deck)
 - **Difficulty Levels**: A1, A2, B1, B2
 - **Categories**: 52+ transport-related categories
 
