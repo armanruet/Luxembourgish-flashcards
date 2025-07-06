@@ -6,21 +6,24 @@ import { Deck } from '@/types';
  * Following EXACT pattern from reference images:
  * Front: Word (meaning) [pronunciation]
  * Back: conjugations + Example: sentence (translation)
+ * 
+ * MERGED DECK: All transportation vocabulary, infrastructure, and scenarios in one collection
  */
 
 export const transportmettelenComprehensiveDeck: Deck = {
   id: 'transportmettelen-comprehensive',
-  name: 'Transportmëttelen - Comprehensive',
-  description: 'Complete transportation vocabulary based on Luxembourg curriculum',
+  name: 'Transportmëttelen - Complete Collection',
+  description: 'Complete transportation vocabulary, infrastructure, and scenarios for Luxembourg',
   color: '#22C55E',
   icon: '🚊',
   createdAt: new Date(),
   updatedAt: new Date(),
-  totalCards: 45,
-  newCards: 45,
+  totalCards: 80,
+  newCards: 80,
   reviewCards: 0,
   learnedCards: 0,
   cards: [
+    // === COMPREHENSIVE TRANSPORTATION VOCABULARY (45 cards) ===
     {
       id: 'transport-bus-comprehensive',
       luxembourgish: 'Bus (bus)',
@@ -470,24 +473,9 @@ export const transportmettelenComprehensiveDeck: Deck = {
       successCount: 0,
       createdAt: new Date(),
       updatedAt: new Date()
-    }
-  ]
-};
+    },
 
-// Luxembourg-specific Transport Infrastructure Deck
-export const luxembourgInfrastructureDeck: Deck = {
-  id: 'luxembourg-transport-infrastructure',
-  name: 'Luxembourg Transport Infrastructure', 
-  description: 'Places, stations, and transport infrastructure specific to Luxembourg',
-  color: '#F59E0B',
-  icon: '🏢',
-  createdAt: new Date(),
-  updatedAt: new Date(),
-  totalCards: 15,
-  newCards: 15,
-  reviewCards: 0,
-  learnedCards: 0,
-  cards: [
+    // === LUXEMBOURG TRANSPORT INFRASTRUCTURE (15 cards) ===
     {
       id: 'infrastructure-garage-comprehensive',
       luxembourgish: 'Garage (garage)',
@@ -757,24 +745,9 @@ export const luxembourgInfrastructureDeck: Deck = {
       successCount: 0,
       createdAt: new Date(),
       updatedAt: new Date()
-    }
-  ]
-};
+    },
 
-// Transport Questions and Scenarios Deck
-export const transportQuestionsScenariosDeck: Deck = {
-  id: 'transport-questions-scenarios',
-  name: 'Transport Questions & Scenarios',
-  description: 'Common transport questions and real-world scenarios for sproochentest',
-  color: '#8B5CF6',
-  icon: '❓',
-  createdAt: new Date(),
-  updatedAt: new Date(),
-  totalCards: 20,
-  newCards: 20,
-  reviewCards: 0,
-  learnedCards: 0,
-  cards: [
+    // === TRANSPORT QUESTIONS & SCENARIOS (20 cards) ===
     {
       id: 'scenarios-gitt-gaer-fouss-comprehensive',
       luxembourgish: 'Gitt Dir gär zu Fouss? (Do you like to walk?)',
@@ -1138,8 +1111,4 @@ export const transportQuestionsScenariosDeck: Deck = {
   ]
 };
 
-export const transportmettelenComprehensiveDecks = [
-  transportmettelenComprehensiveDeck,
-  luxembourgInfrastructureDeck,
-  transportQuestionsScenariosDeck
-];
+export const transportmettelenComprehensiveDecks = [transportmettelenComprehensiveDeck];
