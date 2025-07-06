@@ -526,7 +526,7 @@ export const wunnertQuartierDecks: Deck[] = [
       },
       {
         id: 'wunnert-quartier-29',
-        luxembourgish: 'd\'Atmosph&auml;r',
+        luxembourgish: 'd\'Atmosphär',
         english: 'the atmosphere',
         pronunciation: 'at-mohs-fehr',
         category: 'descriptions',
@@ -563,3 +563,4 @@ export const wunnertQuartierDecks: Deck[] = [
     ],
   },
 ];
+
