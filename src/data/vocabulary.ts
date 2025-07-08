@@ -11,8 +11,7 @@ import shoppingCultureDecks from './shopping-culture-vocabulary';
 import shoppingVerbsDecks from './shopping-verbs-grammar';
 import shoppingProductsDecks from './shopping-products-categories';
 import shoppingAssistanceDecks from './shopping-assistance-phrases';
-import { virstellungDecks } from './virstellung-vocabulary';
-import { additionalVirstellungDecks } from './additional-virstellung-vocabulary';
+import { virstellungCombinedDeck } from './virstellung-combined';
 import { completeModalVerbsDecks } from './complete-modal-verbs';
 import { dailyLifeComprehensiveDecksFixed } from './daily-life-comprehensive';
 import { ausgesinnDecks } from './ausgesinn-vocabulary';
@@ -37,112 +36,6 @@ import sproochentestTopic09Decks from './sproochentest-topic09-vocabulary';
  */
 
 export const initialDecks: Deck[] = [
-  {
-    id: 'lektioun-1-basics',
-    name: 'Lektioun 1 - Greetings & Introductions',
-    description: 'Essential greetings, introductions, and basic vocabulary',
-    color: '#00A1DE',
-    icon: '👋',
-    createdAt: new Date(),
-    updatedAt: new Date(),
-    totalCards: 5,
-    newCards: 5,
-    reviewCards: 0,
-    learnedCards: 0,
-    cards: [
-      {
-        id: '1-moien',
-        luxembourgish: 'Moien',
-        english: 'Hello/Good morning',
-        pronunciation: 'moy-en',
-        category: 'greetings',
-        difficulty: 'A1',
-        notes: 'Universal greeting in Luxembourg, used throughout the day - Example: Moien, wéi geet et? (Hello, how are you?)',
-        tags: ['greetings', 'formal', 'informal'],
-        easeFactor: 2.5,
-        interval: 0,
-        repetition: 0,
-        nextReview: new Date(),
-        reviewCount: 0,
-        successCount: 0,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        id: '1-ech-sinn',
-        luxembourgish: 'Ech sinn...',
-        english: 'I am...',
-        pronunciation: 'ekh zin',
-        category: 'introductions',
-        difficulty: 'A1',
-        notes: 'Basic form for introducing yourself - Example: Ech sinn de Marc (I am Marc)',
-        tags: ['introductions', 'verbs', 'essential'],
-        easeFactor: 2.5,
-        interval: 0,
-        repetition: 0,
-        nextReview: new Date(),
-        reviewCount: 0,
-        successCount: 0,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        id: '1-wéi-heescht-dir',
-        luxembourgish: 'Wéi heescht Dir?',
-        english: 'What is your name?',
-        pronunciation: 'vay haysh-t deer',
-        category: 'questions',
-        difficulty: 'A1',
-        notes: 'Formal way to ask someone\'s name using "Dir" (formal address) - Response: Ech heeschen... (My name is...)',
-        tags: ['questions', 'formal', 'names'],
-        easeFactor: 2.5,
-        interval: 0,
-        repetition: 0,
-        nextReview: new Date(),
-        reviewCount: 0,
-        successCount: 0,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        id: '1-wou-kommen-dir-hier',
-        luxembourgish: 'Wou kommt Dir hier?',
-        english: 'Where do you come from?',
-        pronunciation: 'voh kom-men deer heer',
-        category: 'questions',
-        difficulty: 'A1',
-        notes: 'Essential question for meeting new people in multicultural Luxembourg - Response: Ech kommen aus... (I come from...)',
-        tags: ['questions', 'countries', 'origins'],
-        easeFactor: 2.5,
-        interval: 0,
-        repetition: 0,
-        nextReview: new Date(),
-        reviewCount: 0,
-        successCount: 0,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        id: '1-ech-kommen-aus',
-        luxembourgish: 'Ech kommen aus...',
-        english: 'I come from...',
-        pronunciation: 'ekh kom-men ows',
-        category: 'introductions',
-        difficulty: 'A1',
-        notes: 'Use "aus" with countries and regions - Example: Ech kommen aus Bangladesh (I come from Bangladesh)',
-        tags: ['introductions', 'countries', 'prepositions'],
-        easeFactor: 2.5,
-        interval: 0,
-        repetition: 0,
-        nextReview: new Date(),
-        reviewCount: 0,
-        successCount: 0,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      }
-    ]
-  },
-
 {
   id: 'common-verbs-complete',
   name: 'Commonly Used Luxembourgish Verbs',
@@ -14422,7 +14315,7 @@ export const lektioun4Decks: Deck[] = [
 ];
 
 // Merge all decks
-export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks, ...allAdvancedVocabularyDecks, ...specializedFirAllDagDecks, ...completeMissingVocabularyDecks, ...shoppingCultureDecks, ...shoppingVerbsDecks, ...shoppingProductsDecks, ...shoppingAssistanceDecks, ...shoppingTopic15Decks, ...virstellungDecks, ...additionalVirstellungDecks, ...completeModalVerbsDecks, ...dailyLifeComprehensiveDecksFixed, ...ausgesinnDecks, ...mainDagDecks, ...correctedTransportationDecks, ...transportmettelenComprehensiveDecks, ...fraizaitWiederDecks, ...fraizaitDecks, ...anDerAkafsstroossDecks, ...sproochentestTopicsDecks, ...wunnertQuartierDecks, ...sozialKontakterDecks, ...kreativiteetHobbyenDecks, ...liesenDecks, ...sportDecks, ...sproochentestTopic09Decks];
+export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks, ...allAdvancedVocabularyDecks, ...specializedFirAllDagDecks, ...completeMissingVocabularyDecks, ...shoppingCultureDecks, ...shoppingVerbsDecks, ...shoppingProductsDecks, ...shoppingAssistanceDecks, ...shoppingTopic15Decks, ...virstellungCombinedDeck, ...completeModalVerbsDecks, ...dailyLifeComprehensiveDecksFixed, ...ausgesinnDecks, ...mainDagDecks, ...correctedTransportationDecks, ...transportmettelenComprehensiveDecks, ...fraizaitWiederDecks, ...fraizaitDecks, ...anDerAkafsstroossDecks, ...sproochentestTopicsDecks, ...wunnertQuartierDecks, ...sozialKontakterDecks, ...kreativiteetHobbyenDecks, ...liesenDecks, ...sportDecks, ...sproochentestTopic09Decks];
 
 export const vocabularyCategories = [
   'greetings',
