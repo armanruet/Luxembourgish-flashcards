@@ -1163,5 +1163,5 @@ export const ausgesinnDecks: Deck[] = [
     reviewCards: 0,
     learnedCards: 0,
     cards: allAusgesinnCards,
-  },
+  }
 ];
