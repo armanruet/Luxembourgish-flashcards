@@ -18,7 +18,7 @@ import { ausgesinnDecks } from './ausgesinn-vocabulary';
 import { mainDagDecks } from './main-dag-vocabulary';
 import { correctedTransportationDecks } from './transportation-corrected';
 import { transportmettelenComprehensiveDecks } from './transportmettelen-comprehensive';
-import fraizaitWiederDecks from './fraizeit-wieder-vocabulary';
+import weatherComprehensiveDecks from './weather-comprehensive';
 import shoppingTopic15Decks from './shopping-topic15-vocabulary';
 import { fraizaitDecks } from './fraizait-vocabulary';
 import { anDerAkafsstroossDecks } from './an-der-akafsstrooss';
@@ -14315,7 +14315,7 @@ export const lektioun4Decks: Deck[] = [
 ];
 
 // Merge all decks
-export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks, ...allAdvancedVocabularyDecks, ...specializedFirAllDagDecks, ...completeMissingVocabularyDecks, ...shoppingCultureDecks, ...shoppingVerbsDecks, ...shoppingProductsDecks, ...shoppingAssistanceDecks, ...shoppingTopic15Decks, ...virstellungCombinedDeck, ...completeModalVerbsDecks, ...dailyLifeComprehensiveDecksFixed, ...ausgesinnDecks, ...mainDagDecks, ...correctedTransportationDecks, ...transportmettelenComprehensiveDecks, ...fraizaitWiederDecks, ...fraizaitDecks, ...anDerAkafsstroossDecks, ...sproochentestTopicsDecks, ...wunnertQuartierDecks, ...sozialKontakterDecks, ...kreativiteetHobbyenDecks, ...liesenDecks, ...sportDecks, ...sproochentestTopic09Decks];
+export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks, ...allAdvancedVocabularyDecks, ...specializedFirAllDagDecks, ...completeMissingVocabularyDecks, ...shoppingCultureDecks, ...shoppingVerbsDecks, ...shoppingProductsDecks, ...shoppingAssistanceDecks, ...shoppingTopic15Decks, ...virstellungCombinedDeck, ...completeModalVerbsDecks, ...dailyLifeComprehensiveDecksFixed, ...ausgesinnDecks, ...mainDagDecks, ...correctedTransportationDecks, ...transportmettelenComprehensiveDecks, ...weatherComprehensiveDecks, ...fraizaitDecks, ...anDerAkafsstroossDecks, ...sproochentestTopicsDecks, ...wunnertQuartierDecks, ...sozialKontakterDecks, ...kreativiteetHobbyenDecks, ...liesenDecks, ...sportDecks, ...sproochentestTopic09Decks];
 
 export const vocabularyCategories = [
   'greetings',
