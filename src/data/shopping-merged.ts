@@ -1,4 +1,4 @@
-import { Deck } from '@/types';
+import { Deck, Flashcard } from '@/types';
 
 /**
  * Shopping flashcards - MERGED DECK
@@ -15,7 +15,7 @@ import { Deck } from '@/types';
  */
 
 // Collect all cards from the individual shopping decks
-const allShoppingCards = [
+const allShoppingCards: Flashcard[] = [
   // === LUXEMBOURG SUPERMARKET CHAINS CARDS ===
   {
     id: 'cactus-mamer',

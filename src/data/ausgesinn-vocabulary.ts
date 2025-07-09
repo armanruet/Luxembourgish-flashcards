@@ -1,4 +1,4 @@
-import { Deck } from '@/types';
+import { Deck, Flashcard } from '@/types';
 
 /**
  * D'Ausgesinn (Appearance) flashcards - MERGED DECK
@@ -14,7 +14,7 @@ import { Deck } from '@/types';
  */
 
 // Collect all cards from the individual decks
-const allAusgesinnCards = [
+const allAusgesinnCards: Flashcard[] = [
   // === DE MËNSCHLECHE KIERPER CARDS ===
   {
     id: 'ak-gesiicht',
