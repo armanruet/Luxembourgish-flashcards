@@ -7,10 +7,7 @@ import { firAllDagFinalDecks } from './fir-all-dag-final';
 import { allAdvancedVocabularyDecks } from './advanced-vocabulary-master';
 import specializedFirAllDagDecks from './fir-all-dag-specialized';
 import completeMissingVocabularyDecks from './complete-missing-vocabulary';
-import shoppingCultureDecks from './shopping-culture-vocabulary';
-import shoppingVerbsDecks from './shopping-verbs-grammar';
-import shoppingProductsDecks from './shopping-products-categories';
-import shoppingAssistanceDecks from './shopping-assistance-phrases';
+import { shoppingDecks } from './shopping-merged';
 import { virstellungCombinedDeck } from './virstellung-combined';
 import { completeModalVerbsDecks } from './complete-modal-verbs';
 import { dailyLifeComprehensiveDecksFixed } from './daily-life-comprehensive';
@@ -19,7 +16,6 @@ import { mainDagDecks } from './main-dag-vocabulary';
 import { correctedTransportationDecks } from './transportation-corrected';
 import { transportmettelenComprehensiveDecks } from './transportmettelen-comprehensive';
 import weatherComprehensiveDecks from './weather-comprehensive';
-import shoppingTopic15Decks from './shopping-topic15-vocabulary';
 import { fraizaitDecks } from './fraizait-vocabulary';
 import { anDerAkafsstroossDecks } from './an-der-akafsstrooss';
 import { sproochentestTopicsDecks } from './sproochentest-topics';
@@ -14315,7 +14311,7 @@ export const lektioun4Decks: Deck[] = [
 ];
 
 // Merge all decks
-export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks, ...allAdvancedVocabularyDecks, ...specializedFirAllDagDecks, ...completeMissingVocabularyDecks, ...shoppingCultureDecks, ...shoppingVerbsDecks, ...shoppingProductsDecks, ...shoppingAssistanceDecks, ...shoppingTopic15Decks, ...virstellungCombinedDeck, ...completeModalVerbsDecks, ...dailyLifeComprehensiveDecksFixed, ...ausgesinnDecks, ...mainDagDecks, ...correctedTransportationDecks, ...transportmettelenComprehensiveDecks, ...weatherComprehensiveDecks, ...fraizaitDecks, ...anDerAkafsstroossDecks, ...sproochentestTopicsDecks, ...wunnertQuartierDecks, ...sozialKontakterDecks, ...kreativiteetHobbyenDecks, ...liesenDecks, ...sportDecks, ...sproochentestTopic09Decks];
+export const allDecks = [...initialDecks, ...lektioun4Decks, ...additionalLektioun4Decks, ...firAllDagDecks, ...firAllDagAdditionalDecks, ...firAllDagAdvancedDecks, ...firAllDagFinalDecks, ...allAdvancedVocabularyDecks, ...specializedFirAllDagDecks, ...completeMissingVocabularyDecks, ...shoppingDecks, ...virstellungCombinedDeck, ...completeModalVerbsDecks, ...dailyLifeComprehensiveDecksFixed, ...ausgesinnDecks, ...mainDagDecks, ...correctedTransportationDecks, ...transportmettelenComprehensiveDecks, ...weatherComprehensiveDecks, ...fraizaitDecks, ...anDerAkafsstroossDecks, ...sproochentestTopicsDecks, ...wunnertQuartierDecks, ...sozialKontakterDecks, ...kreativiteetHobbyenDecks, ...liesenDecks, ...sportDecks, ...sproochentestTopic09Decks];
 
 export const vocabularyCategories = [
   'greetings',

@@ -1695,7 +1695,7 @@ const allShoppingCards: Flashcard[] = [
 export const shoppingDecks: Deck[] = [
   {
     id: 'shopping-complete',
-    name: 'Shopping',
+    name: 'Akafen/Kafen',
     description: 'Complete shopping vocabulary - merged deck covering supermarket chains, shopping expressions, routines, verbs, food products, children\'s toys, assistance phrases, and payment expressions',
     color: '#10B981', // Green color to represent shopping/money
     icon: '🛒', // Shopping cart icon
