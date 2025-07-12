@@ -124,3 +124,152 @@ export interface ExportData {
   exportDate: Date;
   version: string;
 }
+
+// ===== NEW SUBSCRIPTION TYPES =====
+
+export type SubscriptionTier = 'free' | 'premium';
+
+export type SubscriptionStatus = 
+  | 'active'
+  | 'trialing' 
+  | 'past_due'
+  | 'canceled'
+  | 'unpaid'
+  | 'incomplete'
+  | 'incomplete_expired';
+
+export interface SubscriptionLimits {
+  maxDecks: number;
+  maxCardsPerDeck: number;
+  hasOfflineMode: boolean;
+  hasAdvancedAnalytics: boolean;
+  hasCustomDecks: boolean;
+  hasDataExport: boolean;
+  hasAIFeatures: boolean;
+  hasPrioritySupport: boolean;
+  hasAdvancedStatistics: boolean;
+}
+
+export interface UserSubscription {
+  status: SubscriptionStatus;
+  tier: SubscriptionTier;
+  stripeCustomerId?: string;
+  stripeSubscriptionId?: string;
+  currentPeriodStart?: Date;
+  currentPeriodEnd?: Date;
+  cancelAtPeriodEnd?: boolean;
+  trialEnd?: Date;
+  limits: SubscriptionLimits;
+}
+
+export interface EnhancedUserProfile {
+  uid: string;
+  email: string;
+  displayName: string;
+  createdAt: Date;
+  lastLoginAt: Date;
+  preferences: {
+    theme: 'light' | 'dark' | 'system';
+    language: 'en' | 'lb';
+    dailyGoal: number;
+  };
+  subscription: UserSubscription;
+}
+
+export interface StripePrice {
+  id: string;
+  nickname: string;
+  unit_amount: number;
+  currency: string;
+  recurring: {
+    interval: 'month' | 'year';
+    interval_count: number;
+  };
+}
+
+export interface SubscriptionPlan {
+  tier: SubscriptionTier;
+  name: string;
+  description: string;
+  monthlyPriceId: string;
+  yearlyPriceId: string;
+  features: string[];
+  limits: SubscriptionLimits;
+  popular?: boolean;
+}
+
+// Subscription plan configurations
+export const SUBSCRIPTION_PLANS: Record<SubscriptionTier, SubscriptionPlan> = {
+  free: {
+    tier: 'free',
+    name: 'Free',
+    description: 'Perfect for getting started',
+    monthlyPriceId: '',
+    yearlyPriceId: '',
+    features: [
+      '3 flashcard decks',
+      'Basic progress tracking',
+      'Standard study modes',
+      'Community support'
+    ],
+    limits: {
+      maxDecks: 3,
+      maxCardsPerDeck: 100,
+      hasOfflineMode: false,
+      hasAdvancedAnalytics: false,
+      hasCustomDecks: false,
+      hasDataExport: false,
+      hasAIFeatures: false,
+      hasPrioritySupport: false,
+      hasAdvancedStatistics: false,
+    }
+  },
+  premium: {
+    tier: 'premium',
+    name: 'Premium',
+    description: 'Unlock your full learning potential',
+    monthlyPriceId: 'price_premium_monthly', // Replace with actual Stripe price IDs
+    yearlyPriceId: 'price_premium_yearly',
+    features: [
+      'Unlimited flashcard decks',
+      'Advanced progress analytics',
+      'Offline mode',
+      'Custom deck creation',
+      'Data export (CSV, JSON)',
+      'AI-powered learning insights',
+      'Priority support',
+      'Advanced statistics'
+    ],
+    limits: {
+      maxDecks: -1, // Unlimited
+      maxCardsPerDeck: -1,
+      hasOfflineMode: true,
+      hasAdvancedAnalytics: true,
+      hasCustomDecks: true,
+      hasDataExport: true,
+      hasAIFeatures: true,
+      hasPrioritySupport: true,
+      hasAdvancedStatistics: true,
+    },
+    popular: true
+  }
+};
+
+export const getSubscriptionLimits = (tier: SubscriptionTier): SubscriptionLimits => {
+  return SUBSCRIPTION_PLANS[tier].limits;
+};
+
+export const canAccessFeature = (
+  userSubscription: UserSubscription, 
+  feature: keyof SubscriptionLimits
+): boolean => {
+  return userSubscription.limits[feature] as boolean;
+};
+
+export const canCreateDeck = (
+  userSubscription: UserSubscription, 
+  currentDeckCount: number
+): boolean => {
+  const limit = userSubscription.limits.maxDecks;
+  return limit === -1 || currentDeckCount < limit;
+};

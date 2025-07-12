@@ -15,6 +15,7 @@
     "deploy-quick": "npm run build-only && gh-pages -d dist"
   },
   "dependencies": {
+    "@stripe/stripe-js": "^7.4.0",
     "date-fns": "^2.30.0",
     "firebase": "^11.10.0",
     "framer-motion": "^10.16.5",

@@ -5,6 +5,7 @@ import { Toaster } from 'react-hot-toast';
 
 // Context imports
 import { AuthProvider, useAuth } from '@/contexts/AuthContext';
+import { SubscriptionProvider } from '@/contexts/SubscriptionContext';
 
 // Store imports
 import { useDeckStore } from '@/store/deckStore';
@@ -20,6 +21,9 @@ import Settings from '@/components/Settings';
 import { VersionChecker } from '@/components/VersionChecker';
 import { AuthForm } from '@/components/Auth/AuthForm';
 import { ProtectedRoute } from '@/components/Auth/ProtectedRoute';
+import { PricingPage } from '@/components/Subscription/PricingPage';
+import { SubscriptionSuccess } from '@/components/Subscription/SubscriptionSuccess';
+import { SubscriptionCancelled } from '@/components/Subscription/SubscriptionCancelled';
 
 // Data import
 import { allDecks } from '@/data/vocabulary';
@@ -90,6 +94,21 @@ function AppContent() {
               <Settings />
             </ProtectedRoute>
           } />
+          <Route path="/pricing" element={
+            <ProtectedRoute>
+              <PricingPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/subscription/success" element={
+            <ProtectedRoute>
+              <SubscriptionSuccess />
+            </ProtectedRoute>
+          } />
+          <Route path="/subscription/cancelled" element={
+            <ProtectedRoute>
+              <SubscriptionCancelled />
+            </ProtectedRoute>
+          } />
           <Route path="/auth" element={<AuthForm />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
@@ -122,17 +141,19 @@ function AppContent() {
 function App() {
   return (
     <AuthProvider>
-      <AppContent />
-      <Toaster 
-        position="top-right"
-        toastOptions={{
-          duration: 4000,
-          style: {
-            background: '#363636',
-            color: '#fff',
-          },
-        }}
-      />
+      <SubscriptionProvider>
+        <AppContent />
+        <Toaster 
+          position="top-right"
+          toastOptions={{
+            duration: 4000,
+            style: {
+              background: '#363636',
+              color: '#fff',
+            },
+          }}
+        />
+      </SubscriptionProvider>
     </AuthProvider>
   );
 }
