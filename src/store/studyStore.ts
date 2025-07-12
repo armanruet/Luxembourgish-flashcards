@@ -1,12 +1,16 @@
 import { create } from 'zustand';
 import { StudySession, StudyMode, Flashcard, ResponseQuality, StudyResult, UserProgress } from '@/types';
 import { calculateSM2 } from '@/utils/spacedRepetition';
-import { saveUserProgress, loadUserProgress, saveStudyDate } from '@/utils/storage';
+import { 
+  saveUserProgressToFirebase, 
+  loadUserProgressFromFirebase
+} from '@/services/firestoreService';
 
 interface StudyStore {
   currentSession: StudySession | null;
   userProgress: UserProgress;
   isStudying: boolean;
+  currentUserId: string | null;
   
   // Session actions
   startStudySession: (cards: Flashcard[], mode: StudyMode) => void;
@@ -16,7 +20,8 @@ interface StudyStore {
   answerCard: (quality: ResponseQuality) => void;
   
   // Progress actions
-  loadUserProgress: () => void;
+  setUserId: (userId: string | null) => void;
+  loadUserProgress: (userId?: string) => Promise<void>;
   updateProgress: (updates: Partial<UserProgress>) => void;
   
   // Utilities
@@ -29,19 +34,31 @@ interface StudyStore {
   };
 }
 
+const defaultProgress: UserProgress = {
+  totalStudyTime: 0,
+  cardsStudied: 0,
+  currentStreak: 0,
+  longestStreak: 0,
+  accuracy: 0,
+  weeklyGoal: 100,
+  weeklyProgress: 0,
+  categoryProgress: {},
+};
+
 export const useStudyStore = create<StudyStore>((set, get) => ({
   currentSession: null,
-  userProgress: {
-    totalStudyTime: 0,
-    cardsStudied: 0,
-    currentStreak: 0,
-    longestStreak: 0,
-    accuracy: 0,
-    weeklyGoal: 100,
-    weeklyProgress: 0,
-    categoryProgress: {},
-  },
+  userProgress: defaultProgress,
   isStudying: false,
+  currentUserId: null,
+  
+  setUserId: (userId) => {
+    set({ currentUserId: userId });
+    if (userId) {
+      get().loadUserProgress(userId);
+    } else {
+      set({ userProgress: defaultProgress });
+    }
+  },
   
   startStudySession: (cards, mode) => {
     const session: StudySession = {
@@ -59,10 +76,10 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
     });
   },
   
-  endStudySession: () => {
-    const { currentSession, userProgress } = get();
+  endStudySession: async () => {
+    const { currentSession, userProgress, currentUserId } = get();
     
-    if (currentSession) {
+    if (currentSession && currentUserId) {
       const endTime = new Date();
       const sessionTime = endTime.getTime() - currentSession.startTime.getTime();
       const sessionMinutes = Math.round(sessionTime / 60000);
@@ -93,11 +110,15 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
         isStudying: false 
       });
       
-      saveUserProgress(updatedProgress);
-      saveStudyDate(endTime);
+      // Save to Firebase
+      try {
+        await saveUserProgressToFirebase(currentUserId, updatedProgress);
+      } catch (error) {
+        console.error('Error saving progress to Firebase:', error);
+      }
     }
   },
-  
+
   nextCard: () => {
     const { currentSession } = get();
     if (currentSession && currentSession.currentCardIndex < currentSession.cards.length - 1) {
@@ -168,16 +189,35 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
       get().nextCard();
     }, 500);
   },
-  
-  loadUserProgress: () => {
-    const progress = loadUserProgress();
-    set({ userProgress: progress });
+
+  loadUserProgress: async (userId?: string) => {
+    const targetUserId = userId || get().currentUserId;
+    if (!targetUserId) {
+      set({ userProgress: defaultProgress });
+      return;
+    }
+    
+    try {
+      const progress = await loadUserProgressFromFirebase(targetUserId);
+      set({ userProgress: progress || defaultProgress });
+    } catch (error) {
+      console.error('Error loading user progress:', error);
+      set({ userProgress: defaultProgress });
+    }
   },
   
-  updateProgress: (updates) => {
+  updateProgress: async (updates) => {
+    const { currentUserId } = get();
     const updatedProgress = { ...get().userProgress, ...updates };
     set({ userProgress: updatedProgress });
-    saveUserProgress(updatedProgress);
+    
+    if (currentUserId) {
+      try {
+        await saveUserProgressToFirebase(currentUserId, updatedProgress);
+      } catch (error) {
+        console.error('Error updating progress in Firebase:', error);
+      }
+    }
   },
   
   getCurrentCard: () => {

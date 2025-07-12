@@ -1,0 +1,148 @@
+import { 
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  User,
+  GoogleAuthProvider,
+  signInWithPopup,
+  sendPasswordResetEmail,
+  updateProfile
+} from 'firebase/auth';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
+import { auth, db } from '@/config/firebase';
+
+export interface UserProfile {
+  uid: string;
+  email: string;
+  displayName: string;
+  createdAt: Date;
+  lastLoginAt: Date;
+  preferences: {
+    theme: 'light' | 'dark' | 'system';
+    language: 'en' | 'lb';
+    dailyGoal: number;
+  };
+}
+
+// Create user profile in Firestore
+export const createUserProfile = async (user: User, additionalData: Partial<UserProfile> = {}) => {
+  if (!user) return;
+  
+  const userRef = doc(db, 'users', user.uid);
+  const userSnapshot = await getDoc(userRef);
+  
+  if (!userSnapshot.exists()) {
+    const { email, displayName, uid } = user;
+    const createdAt = new Date();
+    
+    const userProfile: UserProfile = {
+      uid,
+      email: email || '',
+      displayName: displayName || '',
+      createdAt,
+      lastLoginAt: createdAt,
+      preferences: {
+        theme: 'light',
+        language: 'en',
+        dailyGoal: 20
+      },
+      ...additionalData
+    };
+    
+    try {
+      await setDoc(userRef, userProfile);
+    } catch (error) {
+      console.error('Error creating user profile:', error);
+      throw error;
+    }
+  }
+  
+  return userRef;
+};
+
+// Register with email and password
+export const registerWithEmail = async (email: string, password: string, displayName: string) => {
+  try {
+    const { user } = await createUserWithEmailAndPassword(auth, email, password);
+    
+    // Update the user's display name
+    await updateProfile(user, { displayName });
+    
+    // Create user profile in Firestore
+    await createUserProfile(user, { displayName });
+    
+    return user;
+  } catch (error) {
+    console.error('Error registering user:', error);
+    throw error;
+  }
+};
+
+// Sign in with email and password
+export const signInWithEmail = async (email: string, password: string) => {
+  try {
+    const { user } = await signInWithEmailAndPassword(auth, email, password);
+    
+    // Update last login time
+    const userRef = doc(db, 'users', user.uid);
+    await setDoc(userRef, { lastLoginAt: new Date() }, { merge: true });
+    
+    return user;
+  } catch (error) {
+    console.error('Error signing in:', error);
+    throw error;
+  }
+};
+
+// Sign in with Google
+export const signInWithGoogle = async () => {
+  try {
+    const provider = new GoogleAuthProvider();
+    const { user } = await signInWithPopup(auth, provider);
+    
+    // Create or update user profile
+    await createUserProfile(user);
+    
+    return user;
+  } catch (error) {
+    console.error('Error signing in with Google:', error);
+    throw error;
+  }
+};
+
+// Sign out
+export const signOutUser = async () => {
+  try {
+    await signOut(auth);
+  } catch (error) {
+    console.error('Error signing out:', error);
+    throw error;
+  }
+};
+
+// Reset password
+export const resetPassword = async (email: string) => {
+  try {
+    await sendPasswordResetEmail(auth, email);
+  } catch (error) {
+    console.error('Error sending password reset email:', error);
+    throw error;
+  }
+};
+
+// Get user profile
+export const getUserProfile = async (uid: string): Promise<UserProfile | null> => {
+  try {
+    const userRef = doc(db, 'users', uid);
+    const userSnapshot = await getDoc(userRef);
+    
+    if (userSnapshot.exists()) {
+      return userSnapshot.data() as UserProfile;
+    }
+    
+    return null;
+  } catch (error) {
+    console.error('Error getting user profile:', error);
+    throw error;
+  }
+};

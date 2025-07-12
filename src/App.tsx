@@ -1,12 +1,16 @@
 import { useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { Toaster } from 'react-hot-toast';
+
+// Context imports
+import { AuthProvider, useAuth } from '@/contexts/AuthContext';
 
 // Store imports
 import { useDeckStore } from '@/store/deckStore';
 import { useStudyStore } from '@/store/studyStore';
 
-// Component imports (will be created)
+// Component imports
 import Navigation from '@/components/Navigation';
 import Dashboard from '@/components/Dashboard';
 import DeckList from '@/components/DeckList';
@@ -14,27 +18,41 @@ import StudySession from '@/components/StudySession';
 import Statistics from '@/components/Statistics';
 import Settings from '@/components/Settings';
 import { VersionChecker } from '@/components/VersionChecker';
+import { AuthForm } from '@/components/Auth/AuthForm';
+import { ProtectedRoute } from '@/components/Auth/ProtectedRoute';
 
 // Data import
 import { allDecks } from '@/data/vocabulary';
 
-function App() {
-  const { loadDecks, addDeck } = useDeckStore();
-  const { loadUserProgress } = useStudyStore();
+function AppContent() {
+  const { currentUser } = useAuth();
+  const { setUserId, addDeck, decks } = useDeckStore();
+  const { setUserId: setStudyUserId } = useStudyStore();
 
   useEffect(() => {
-    // Load existing data from localStorage
-    loadDecks();
-    loadUserProgress();
-
-    // Initialize with sample data if no decks exist
-    const storedDecks = localStorage.getItem('luxembourgish-flashcards-decks');
-    if (!storedDecks || JSON.parse(storedDecks).length === 0) {
-      allDecks.forEach(deck => {
-        addDeck(deck);
-      });
+    if (currentUser) {
+      // Set user ID in stores
+      setUserId(currentUser.uid);
+      setStudyUserId(currentUser.uid);
+      
+      // Initialize with sample data if no decks exist for new users
+      setTimeout(async () => {
+        if (decks.length === 0) {
+          for (const deck of allDecks) {
+            await addDeck(deck);
+          }
+        }
+      }, 1000); // Give time for Firebase to load
+    } else {
+      // Clear user data when logged out
+      setUserId(null);
+      setStudyUserId(null);
     }
-  }, [loadDecks, loadUserProgress, addDeck]);
+  }, [currentUser, setUserId, setStudyUserId, addDeck, decks.length]);
+
+  if (!currentUser) {
+    return <AuthForm />;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-base-100 via-base-200 to-base-300">
@@ -47,11 +65,32 @@ function App() {
         transition={{ duration: 0.5 }}
       >
         <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/decks" element={<DeckList />} />
-          <Route path="/study/:deckId?" element={<StudySession />} />
-          <Route path="/statistics" element={<Statistics />} />
-          <Route path="/settings" element={<Settings />} />
+          <Route path="/" element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          } />
+          <Route path="/decks" element={
+            <ProtectedRoute>
+              <DeckList />
+            </ProtectedRoute>
+          } />
+          <Route path="/study/:deckId?" element={
+            <ProtectedRoute>
+              <StudySession />
+            </ProtectedRoute>
+          } />
+          <Route path="/statistics" element={
+            <ProtectedRoute>
+              <Statistics />
+            </ProtectedRoute>
+          } />
+          <Route path="/settings" element={
+            <ProtectedRoute>
+              <Settings />
+            </ProtectedRoute>
+          } />
+          <Route path="/auth" element={<AuthForm />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </motion.main>
@@ -67,7 +106,7 @@ function App() {
             <div className="flex items-center space-x-4">
               <span>Learn Lëtzebuergesch with spaced repetition</span>
               <span className="px-2 py-1 bg-primary text-white text-xs rounded-full">
-                v1.0.0
+                v2.0.0 - With User Accounts
               </span>
             </div>
           </div>
@@ -77,6 +116,24 @@ function App() {
       {/* Version checker for cache debugging */}
       <VersionChecker />
     </div>
+  );
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+      <Toaster 
+        position="top-right"
+        toastOptions={{
+          duration: 4000,
+          style: {
+            background: '#363636',
+            color: '#fff',
+          },
+        }}
+      />
+    </AuthProvider>
   );
 }
 

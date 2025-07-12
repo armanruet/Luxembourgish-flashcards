@@ -1,22 +1,27 @@
 import { create } from 'zustand';
 import { Deck, Flashcard } from '@/types';
-import { saveDecks, loadDecks } from '@/utils/storage';
+import { 
+  saveUserDecksToFirebase, 
+  loadUserDecksFromFirebase
+} from '@/services/firestoreService';
 
 interface DeckStore {
   decks: Deck[];
   currentDeck: Deck | null;
+  currentUserId: string | null;
   
   // Actions
-  loadDecks: () => void;
-  addDeck: (deck: Omit<Deck, 'id' | 'createdAt' | 'updatedAt'>) => void;
-  updateDeck: (id: string, updates: Partial<Deck>) => void;
-  deleteDeck: (id: string) => void;
+  setUserId: (userId: string | null) => void;
+  loadDecks: (userId?: string) => Promise<void>;
+  addDeck: (deck: Omit<Deck, 'id' | 'createdAt' | 'updatedAt'>) => Promise<void>;
+  updateDeck: (id: string, updates: Partial<Deck>) => Promise<void>;
+  deleteDeck: (id: string) => Promise<void>;
   setCurrentDeck: (deck: Deck | null) => void;
   
   // Card actions
-  addCardToDeck: (deckId: string, card: Omit<Flashcard, 'id' | 'createdAt' | 'updatedAt'>) => void;
-  updateCard: (deckId: string, cardId: string, updates: Partial<Flashcard>) => void;
-  deleteCard: (deckId: string, cardId: string) => void;
+  addCardToDeck: (deckId: string, card: Omit<Flashcard, 'id' | 'createdAt' | 'updatedAt'>) => Promise<void>;
+  updateCard: (deckId: string, cardId: string, updates: Partial<Flashcard>) => Promise<void>;
+  deleteCard: (deckId: string, cardId: string) => Promise<void>;
   
   // Utilities
   getDeckById: (id: string) => Deck | undefined;
@@ -27,13 +32,37 @@ interface DeckStore {
 export const useDeckStore = create<DeckStore>((set, get) => ({
   decks: [],
   currentDeck: null,
+  currentUserId: null,
   
-  loadDecks: () => {
-    const decks = loadDecks();
-    set({ decks });
+  setUserId: (userId) => {
+    set({ currentUserId: userId });
+    if (userId) {
+      get().loadDecks(userId);
+    } else {
+      set({ decks: [], currentDeck: null });
+    }
   },
   
-  addDeck: (deckData) => {
+  loadDecks: async (userId?: string) => {
+    const targetUserId = userId || get().currentUserId;
+    if (!targetUserId) {
+      set({ decks: [] });
+      return;
+    }
+    
+    try {
+      const decks = await loadUserDecksFromFirebase(targetUserId);
+      set({ decks });
+    } catch (error) {
+      console.error('Error loading decks:', error);
+      set({ decks: [] });
+    }
+  },
+
+  addDeck: async (deckData) => {
+    const { currentUserId } = get();
+    if (!currentUserId) return;
+    
     const newDeck: Deck = {
       ...deckData,
       id: crypto.randomUUID(),
@@ -47,34 +76,71 @@ export const useDeckStore = create<DeckStore>((set, get) => ({
     
     const updatedDecks = [...get().decks, newDeck];
     set({ decks: updatedDecks });
-    saveDecks(updatedDecks);
+    
+    try {
+      await saveUserDecksToFirebase(currentUserId, updatedDecks);
+    } catch (error) {
+      console.error('Error saving deck to Firebase:', error);
+      // Revert on error
+      set({ decks: get().decks.filter(deck => deck.id !== newDeck.id) });
+    }
   },
   
-  updateDeck: (id, updates) => {
-    const updatedDecks = get().decks.map(deck =>
+  updateDeck: async (id, updates) => {
+    const { currentUserId } = get();
+    if (!currentUserId) return;
+    
+    const originalDecks = get().decks;
+    const updatedDecks = originalDecks.map(deck =>
       deck.id === id
         ? { ...deck, ...updates, updatedAt: new Date() }
         : deck
     );
     
     set({ decks: updatedDecks });
-    saveDecks(updatedDecks);
+    
+    try {
+      await saveUserDecksToFirebase(currentUserId, updatedDecks);
+    } catch (error) {
+      console.error('Error updating deck in Firebase:', error);
+      // Revert on error
+      set({ decks: originalDecks });
+    }
   },
   
-  deleteDeck: (id) => {
-    const updatedDecks = get().decks.filter(deck => deck.id !== id);
+  deleteDeck: async (id) => {
+    const { currentUserId } = get();
+    if (!currentUserId) return;
+    
+    const originalDecks = get().decks;
+    const originalCurrentDeck = get().currentDeck;
+    
+    const updatedDecks = originalDecks.filter(deck => deck.id !== id);
     set({ 
       decks: updatedDecks,
-      currentDeck: get().currentDeck?.id === id ? null : get().currentDeck
+      currentDeck: originalCurrentDeck?.id === id ? null : originalCurrentDeck
     });
-    saveDecks(updatedDecks);
+    
+    try {
+      await saveUserDecksToFirebase(currentUserId, updatedDecks);
+    } catch (error) {
+      console.error('Error deleting deck from Firebase:', error);
+      // Revert on error
+      set({ 
+        decks: originalDecks,
+        currentDeck: originalCurrentDeck
+      });
+    }
   },
-  
+
   setCurrentDeck: (deck) => {
     set({ currentDeck: deck });
   },
   
-  addCardToDeck: (deckId, cardData) => {
+  addCardToDeck: async (deckId, cardData) => {
+    const { currentUserId } = get();
+    if (!currentUserId) return;
+    
     const newCard: Flashcard = {
       ...cardData,
       id: crypto.randomUUID(),
@@ -88,7 +154,8 @@ export const useDeckStore = create<DeckStore>((set, get) => ({
       updatedAt: new Date(),
     };
     
-    const updatedDecks = get().decks.map(deck =>
+    const originalDecks = get().decks;
+    const updatedDecks = originalDecks.map(deck =>
       deck.id === deckId
         ? {
             ...deck,
@@ -101,11 +168,22 @@ export const useDeckStore = create<DeckStore>((set, get) => ({
     );
     
     set({ decks: updatedDecks });
-    saveDecks(updatedDecks);
+    
+    try {
+      await saveUserDecksToFirebase(currentUserId, updatedDecks);
+    } catch (error) {
+      console.error('Error adding card to Firebase:', error);
+      // Revert on error
+      set({ decks: originalDecks });
+    }
   },
   
-  updateCard: (deckId, cardId, updates) => {
-    const updatedDecks = get().decks.map(deck =>
+  updateCard: async (deckId, cardId, updates) => {
+    const { currentUserId } = get();
+    if (!currentUserId) return;
+    
+    const originalDecks = get().decks;
+    const updatedDecks = originalDecks.map(deck =>
       deck.id === deckId
         ? {
             ...deck,
@@ -120,11 +198,22 @@ export const useDeckStore = create<DeckStore>((set, get) => ({
     );
     
     set({ decks: updatedDecks });
-    saveDecks(updatedDecks);
+    
+    try {
+      await saveUserDecksToFirebase(currentUserId, updatedDecks);
+    } catch (error) {
+      console.error('Error updating card in Firebase:', error);
+      // Revert on error
+      set({ decks: originalDecks });
+    }
   },
-  
-  deleteCard: (deckId, cardId) => {
-    const updatedDecks = get().decks.map(deck =>
+
+  deleteCard: async (deckId, cardId) => {
+    const { currentUserId } = get();
+    if (!currentUserId) return;
+    
+    const originalDecks = get().decks;
+    const updatedDecks = originalDecks.map(deck =>
       deck.id === deckId
         ? {
             ...deck,
@@ -136,7 +225,14 @@ export const useDeckStore = create<DeckStore>((set, get) => ({
     );
     
     set({ decks: updatedDecks });
-    saveDecks(updatedDecks);
+    
+    try {
+      await saveUserDecksToFirebase(currentUserId, updatedDecks);
+    } catch (error) {
+      console.error('Error deleting card from Firebase:', error);
+      // Revert on error
+      set({ decks: originalDecks });
+    }
   },
   
   getDeckById: (id) => {

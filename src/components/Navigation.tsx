@@ -9,12 +9,19 @@ import {
   Settings,
   Flag,
   Menu,
-  X
+  X,
+  User,
+  LogOut,
+  ChevronDown
 } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import toast from 'react-hot-toast';
 
 const Navigation: React.FC = () => {
   const location = useLocation();
+  const { currentUser, userProfile, signOut } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isProfileDropdownOpen, setIsProfileDropdownOpen] = useState(false);
 
   const navItems = [
     { path: '/', icon: Home, label: 'Dashboard' },
@@ -35,10 +42,32 @@ const Navigation: React.FC = () => {
     setIsMobileMenuOpen(false);
   };
 
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      toast.success('Signed out successfully');
+    } catch (error) {
+      toast.error('Error signing out');
+    }
+  };
+
   // Close mobile menu when location changes
   useEffect(() => {
     setIsMobileMenuOpen(false);
+    setIsProfileDropdownOpen(false);
   }, [location.pathname]);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = () => {
+      setIsProfileDropdownOpen(false);
+    };
+    
+    if (isProfileDropdownOpen) {
+      document.addEventListener('click', handleClickOutside);
+      return () => document.removeEventListener('click', handleClickOutside);
+    }
+  }, [isProfileDropdownOpen]);
 
   return (
     <nav className="bg-white shadow-lg border-b border-gray-200 sticky top-0 z-50">
@@ -73,7 +102,7 @@ const Navigation: React.FC = () => {
                   to={item.path}
                   className={`
                     flex items-center space-x-2 px-3 py-2 rounded-lg
-                    text-sm font-medium transition-all duration-200
+                    text-sm font-medium transition-all duration-200 relative
                     ${active 
                       ? 'text-primary bg-blue-50 border border-blue-200' 
                       : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
@@ -91,10 +120,71 @@ const Navigation: React.FC = () => {
                 </Link>
               );
             })}
+            
+            {/* User Profile Dropdown */}
+            {currentUser && (
+              <div className="relative">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsProfileDropdownOpen(!isProfileDropdownOpen);
+                  }}
+                  className="flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-50 transition-colors"
+                >
+                  <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
+                    {userProfile?.displayName?.charAt(0)?.toUpperCase() || currentUser.email?.charAt(0)?.toUpperCase()}
+                  </div>
+                  <span className="hidden lg:block">
+                    {userProfile?.displayName || currentUser.email?.split('@')[0]}
+                  </span>
+                  <ChevronDown className="h-4 w-4" />
+                </button>
+
+                <AnimatePresence>
+                  {isProfileDropdownOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg py-1"
+                    >
+                      <div className="px-4 py-2 border-b border-gray-100">
+                        <p className="text-sm font-medium text-gray-900">
+                          {userProfile?.displayName || 'User'}
+                        </p>
+                        <p className="text-xs text-gray-500">{currentUser.email}</p>
+                      </div>
+                      
+                      <Link
+                        to="/settings"
+                        onClick={() => setIsProfileDropdownOpen(false)}
+                        className="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                      >
+                        <User className="h-4 w-4" />
+                        <span>Profile Settings</span>
+                      </Link>
+                      
+                      <button
+                        onClick={handleSignOut}
+                        className="flex items-center space-x-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 w-full text-left"
+                      >
+                        <LogOut className="h-4 w-4" />
+                        <span>Sign Out</span>
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            )}
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden">
+          <div className="md:hidden flex items-center space-x-2">
+            {currentUser && (
+              <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-medium">
+                {userProfile?.displayName?.charAt(0)?.toUpperCase() || currentUser.email?.charAt(0)?.toUpperCase()}
+              </div>
+            )}
             <button 
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="text-gray-600 hover:text-gray-900 p-2 transition-colors"
@@ -143,6 +233,28 @@ const Navigation: React.FC = () => {
                     </Link>
                   );
                 })}
+                
+                {/* Mobile User Profile */}
+                {currentUser && (
+                  <>
+                    <div className="border-t border-gray-200 mt-2 pt-2">
+                      <div className="px-3 py-2">
+                        <p className="text-sm font-medium text-gray-900">
+                          {userProfile?.displayName || 'User'}
+                        </p>
+                        <p className="text-xs text-gray-500">{currentUser.email}</p>
+                      </div>
+                      
+                      <button
+                        onClick={handleSignOut}
+                        className="flex items-center space-x-3 px-3 py-2 rounded-lg text-base font-medium text-red-600 hover:bg-red-50 w-full text-left"
+                      >
+                        <LogOut className="h-5 w-5" />
+                        <span>Sign Out</span>
+                      </button>
+                    </div>
+                  </>
+                )}
               </div>
             </motion.div>
           )}

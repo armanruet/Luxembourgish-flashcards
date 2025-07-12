@@ -15,16 +15,17 @@
     "deploy-quick": "npm run build-only && gh-pages -d dist"
   },
   "dependencies": {
+    "date-fns": "^2.30.0",
+    "firebase": "^11.10.0",
+    "framer-motion": "^10.16.5",
+    "lucide-react": "^0.294.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.20.1",
-    "zustand": "^4.4.7",
-    "framer-motion": "^10.16.5",
     "react-hook-form": "^7.48.2",
-    "date-fns": "^2.30.0",
     "react-hot-toast": "^2.4.1",
-    "lucide-react": "^0.294.0",
-    "recharts": "^2.8.0"
+    "react-router-dom": "^6.20.1",
+    "recharts": "^2.8.0",
+    "zustand": "^4.4.7"
   },
   "devDependencies": {
     "@types/react": "^18.2.37",
