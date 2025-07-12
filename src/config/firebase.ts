@@ -1,3 +1,9 @@
+// Temporary debug - add this to see what environment variables are being loaded
+console.log('🔍 Environment Variables Check:');
+console.log('API Key:', import.meta.env.VITE_FIREBASE_API_KEY ? 'SET' : 'MISSING');
+console.log('Auth Domain:', import.meta.env.VITE_FIREBASE_AUTH_DOMAIN ? 'SET' : 'MISSING');
+console.log('Project ID:', import.meta.env.VITE_FIREBASE_PROJECT_ID ? 'SET' : 'MISSING');
+
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
@@ -11,6 +17,8 @@ const firebaseConfig = {
   messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
   appId: import.meta.env.VITE_FIREBASE_APP_ID
 };
+
+console.log('🔥 Firebase Config:', firebaseConfig);
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
