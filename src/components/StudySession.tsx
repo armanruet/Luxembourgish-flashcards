@@ -19,6 +19,8 @@ import { useStudyStore } from '@/store/studyStore';
 import { ResponseQuality, StudyMode } from '@/types';
 import { getCardsForReview, getNewCards } from '@/utils/spacedRepetition';
 import Flashcard from './Flashcard';
+import LiveStatsOverlay from './LiveStatsOverlay';
+import AchievementCelebration from './AchievementCelebration';
 
 const StudySession: React.FC = () => {
   const { deckId } = useParams<{ deckId: string }>();
@@ -37,6 +39,9 @@ const StudySession: React.FC = () => {
 
   const [isFlipped, setIsFlipped] = useState(false);
   const [showModeSelection, setShowModeSelection] = useState(true);
+  const [showLiveStats, setShowLiveStats] = useState(true);
+  const [currentAchievement, setCurrentAchievement] = useState<any>(null);
+  const [previousStats, setPreviousStats] = useState({ accuracy: 0, correct: 0, total: 0 });
 
   const currentDeck = deckId ? getDeckById(deckId) : null;
   const currentCard = getCurrentCard();
@@ -72,12 +77,59 @@ const StudySession: React.FC = () => {
           e.preventDefault();
           if (isFlipped) handleAnswer('easy');
           break;
+        case 'KeyH':
+          e.preventDefault();
+          setShowLiveStats(!showLiveStats);
+          break;
       }
     };
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [isStudying, isFlipped]);
+  }, [isStudying, isFlipped, showLiveStats]);
+
+  // Achievement detection
+  useEffect(() => {
+    const currentStats = getSessionStats();
+    
+    // Perfect streak achievement
+    if (currentStats.total >= 5 && currentStats.accuracy === 100 && previousStats.accuracy < 100) {
+      setCurrentAchievement({
+        id: 'perfect_streak',
+        title: 'Perfect Streak!',
+        description: `Amazing! You got ${currentStats.total} cards perfect in a row!`,
+        icon: 'star',
+        color: 'bg-gradient-to-r from-yellow-400 to-orange-500',
+        value: currentStats.total
+      });
+    }
+    
+    // High accuracy achievement
+    if (currentStats.total >= 10 && currentStats.accuracy >= 90 && previousStats.accuracy < 90) {
+      setCurrentAchievement({
+        id: 'high_accuracy',
+        title: 'Accuracy Master!',
+        description: `Incredible ${Math.round(currentStats.accuracy)}% accuracy!`,
+        icon: 'target',
+        color: 'bg-gradient-to-r from-green-400 to-blue-500',
+        value: Math.round(currentStats.accuracy)
+      });
+    }
+    
+    // Speed achievement
+    if (currentStats.total >= 20 && currentStats.timeSpent <= 10) {
+      setCurrentAchievement({
+        id: 'speed_demon',
+        title: 'Speed Demon!',
+        description: `Lightning fast! ${currentStats.total} cards in ${currentStats.timeSpent} minutes!`,
+        icon: 'zap',
+        color: 'bg-gradient-to-r from-purple-400 to-pink-500',
+        value: currentStats.total
+      });
+    }
+    
+    setPreviousStats(currentStats);
+  }, [stats]);
 
   const startStudy = (mode: StudyMode) => {
     let cardsToStudy = [];
@@ -135,20 +187,36 @@ const StudySession: React.FC = () => {
     answerCard(quality);
     setIsFlipped(false);
 
-    // Show feedback toast
+    // Enhanced feedback messages with animations
     const messages = {
-      again: '❌ Keep practicing!',
-      hard: '😓 Getting there...',
-      good: '✅ Well done!',
-      easy: '🎉 Perfect!'
+      again: { text: '❌ Keep practicing!', color: 'bg-red-500' },
+      hard: { text: '😓 Getting there...', color: 'bg-orange-500' },
+      good: { text: '✅ Well done!', color: 'bg-green-500' },
+      easy: { text: '🎉 Perfect!', color: 'bg-blue-500' }
     };
-    toast.success(messages[quality]);
+    
+    const message = messages[quality];
+    toast.success(message.text, {
+      duration: 1500,
+      style: {
+        background: message.color,
+        color: 'white',
+        fontWeight: 'bold'
+      }
+    });
 
     // Check if session is complete
     if (currentSession && currentSession.currentCardIndex >= currentSession.cards.length - 1) {
       setTimeout(() => {
         endStudySession();
-        toast.success('Study session completed! 🎉');
+        toast.success('Study session completed! 🎉', {
+          duration: 3000,
+          style: {
+            background: 'linear-gradient(45deg, #10b981, #3b82f6)',
+            color: 'white',
+            fontWeight: 'bold'
+          }
+        });
         navigate('/');
       }, 1500);
     }
@@ -296,6 +364,18 @@ const StudySession: React.FC = () => {
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-8">
+      {/* Live Statistics Overlay */}
+      <LiveStatsOverlay 
+        isVisible={showLiveStats && isStudying}
+        position="top-right"
+      />
+      
+      {/* Achievement Celebration */}
+      <AchievementCelebration
+        achievement={currentAchievement}
+        onComplete={() => setCurrentAchievement(null)}
+      />
+
       {/* Session Header */}
       <motion.div
         className="flex items-center justify-between mb-8"
@@ -321,33 +401,82 @@ const StudySession: React.FC = () => {
 
         <div className="flex items-center space-x-6 text-sm text-gray-600">
           <div className="text-center">
-            <div className="text-lg font-bold text-green-600">{stats.correct}</div>
+            <motion.div 
+              className="text-lg font-bold text-green-600"
+              key={stats.correct}
+              animate={{ scale: [1, 1.2, 1] }}
+              transition={{ duration: 0.3 }}
+            >
+              {stats.correct}
+            </motion.div>
             <div>Correct</div>
           </div>
           <div className="text-center">
-            <div className="text-lg font-bold text-gray-900">{stats.total}</div>
+            <motion.div 
+              className="text-lg font-bold text-gray-900"
+              key={stats.total}
+              animate={{ scale: [1, 1.1, 1] }}
+              transition={{ duration: 0.3 }}
+            >
+              {stats.total}
+            </motion.div>
             <div>Total</div>
           </div>
           <div className="text-center">
-            <div className="text-lg font-bold text-blue-600">{Math.round(stats.accuracy)}%</div>
+            <motion.div 
+              className={`text-lg font-bold transition-colors duration-300 ${
+                stats.accuracy >= 80 ? 'text-green-600' :
+                stats.accuracy >= 60 ? 'text-yellow-600' : 'text-red-600'
+              }`}
+              key={Math.round(stats.accuracy)}
+              animate={{ 
+                scale: [1, 1.2, 1],
+                color: stats.accuracy >= 80 ? '#059669' : 
+                       stats.accuracy >= 60 ? '#d97706' : '#dc2626'
+              }}
+              transition={{ duration: 0.3 }}
+            >
+              {Math.round(stats.accuracy)}%
+            </motion.div>
             <div>Accuracy</div>
           </div>
+          <button
+            onClick={() => setShowLiveStats(!showLiveStats)}
+            className="text-xs bg-gray-100 hover:bg-gray-200 px-2 py-1 rounded transition-colors"
+            title="Toggle live stats (H)"
+          >
+            {showLiveStats ? 'Hide Stats' : 'Show Stats'}
+          </button>
         </div>
       </motion.div>
 
-      {/* Progress Bar */}
+      {/* Enhanced Progress Bar */}
       <motion.div
-        className="w-full bg-gray-200 rounded-full h-2 mb-8"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.2 }}
+        className="w-full bg-gray-200 rounded-full h-3 mb-8 overflow-hidden"
+        initial={{ opacity: 0, scaleX: 0 }}
+        animate={{ opacity: 1, scaleX: 1 }}
+        transition={{ delay: 0.2, duration: 0.5 }}
       >
         <motion.div
-          className="bg-primary h-2 rounded-full transition-all duration-300"
+          className="bg-gradient-to-r from-blue-500 to-indigo-600 h-3 rounded-full relative overflow-hidden"
           style={{
             width: `${((currentSession?.currentCardIndex! + 1) / currentSession?.cards.length!) * 100}%`
           }}
-        />
+          transition={{ duration: 0.5, ease: "easeInOut" }}
+        >
+          {/* Animated shine effect */}
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-r from-transparent via-white via-transparent to-transparent opacity-30"
+            animate={{
+              x: ['-100%', '100%']
+            }}
+            transition={{
+              duration: 2,
+              repeat: Infinity,
+              ease: "easeInOut"
+            }}
+          />
+        </motion.div>
       </motion.div>
 
       {/* Flashcard */}
@@ -398,21 +527,31 @@ const StudySession: React.FC = () => {
         )}
       </AnimatePresence>
 
-      {/* Keyboard Shortcuts */}
+      {/* Enhanced Keyboard Shortcuts */}
       <motion.div
-        className="mt-8 text-center text-sm text-gray-500"
+        className="mt-8 text-center text-sm text-gray-500 space-y-2"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
       >
-        <p>💡 Use <kbd className="px-2 py-1 bg-gray-100 rounded">Space</kbd> to flip cards</p>
+        <p className="flex items-center justify-center space-x-4">
+          <span>💡 Use <kbd className="px-2 py-1 bg-gray-100 rounded font-mono">Space</kbd> to flip cards</span>
+          <span>•</span>
+          <span><kbd className="px-2 py-1 bg-gray-100 rounded font-mono">H</kbd> to toggle stats</span>
+        </p>
         {isFlipped && (
-          <p className="mt-1">
-            Rate difficulty: <kbd className="px-1 bg-gray-100 rounded">1</kbd> Again, 
-            <kbd className="px-1 bg-gray-100 rounded ml-1">2</kbd> Hard,
-            <kbd className="px-1 bg-gray-100 rounded ml-1">3</kbd> Good,
-            <kbd className="px-1 bg-gray-100 rounded ml-1">4</kbd> Easy
-          </p>
+          <motion.p 
+            className="mt-1"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            Rate difficulty: 
+            <kbd className="px-1 bg-red-100 text-red-700 rounded ml-1 font-mono">1</kbd> Again, 
+            <kbd className="px-1 bg-orange-100 text-orange-700 rounded ml-1 font-mono">2</kbd> Hard,
+            <kbd className="px-1 bg-green-100 text-green-700 rounded ml-1 font-mono">3</kbd> Good,
+            <kbd className="px-1 bg-blue-100 text-blue-700 rounded ml-1 font-mono">4</kbd> Easy
+          </motion.p>
         )}
       </motion.div>
     </div>

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { 
@@ -34,11 +34,39 @@ import {
   calculateUserRating, 
   generateStudyGoals
 } from '@/utils/userStats';
+import AnimatedCounter from './AnimatedCounter';
+import ProgressRing from './ProgressRing';
 
 const Statistics: React.FC = () => {
   const { getAllCards, decks } = useDeckStore();
   const { userProgress } = useStudyStore();
   const { userProfile, currentUser } = useAuth();
+  const [previousProgress, setPreviousProgress] = useState(userProgress);
+  const [celebrateStats, setCelebrateStats] = useState({
+    streak: false,
+    accuracy: false,
+    cards: false,
+    time: false
+  });
+
+  // Detect improvements and trigger celebrations
+  useEffect(() => {
+    const celebrations = {
+      streak: userProgress.currentStreak > previousProgress.currentStreak,
+      accuracy: userProgress.accuracy > previousProgress.accuracy + 5,
+      cards: userProgress.cardsStudied > previousProgress.cardsStudied + 10,
+      time: userProgress.totalStudyTime > previousProgress.totalStudyTime + 60
+    };
+    
+    setCelebrateStats(celebrations);
+    
+    // Reset celebrations after animation
+    setTimeout(() => {
+      setCelebrateStats({ streak: false, accuracy: false, cards: false, time: false });
+    }, 2000);
+    
+    setPreviousProgress(userProgress);
+  }, [userProgress.currentStreak, userProgress.accuracy, userProgress.cardsStudied, userProgress.totalStudyTime]);
 
   // Get real user data with enhanced fallbacks
   getAllCards(); // Keep for potential future use
@@ -153,7 +181,9 @@ const Statistics: React.FC = () => {
       unit: 'days',
       icon: Flame,
       color: 'from-orange-500 to-red-500',
-      trend: '+2'
+      trend: '+2',
+      colorThresholds: { good: 7, warning: 3, danger: 0 },
+      celebration: celebrateStats.streak
     },
     {
       label: 'Accuracy Rate',
@@ -161,7 +191,9 @@ const Statistics: React.FC = () => {
       unit: '%',
       icon: Target,
       color: 'from-green-500 to-emerald-500',
-      trend: '+5%'
+      trend: '+5%',
+      colorThresholds: { good: 80, warning: 60, danger: 40 },
+      celebration: celebrateStats.accuracy
     },
     {
       label: 'Cards Mastered',
@@ -169,7 +201,9 @@ const Statistics: React.FC = () => {
       unit: '',
       icon: BookOpen,
       color: 'from-blue-500 to-indigo-500',
-      trend: '+12'
+      trend: '+12',
+      colorThresholds: { good: 100, warning: 50, danger: 0 },
+      celebration: celebrateStats.cards
     },
     {
       label: 'Total Time',
@@ -177,7 +211,9 @@ const Statistics: React.FC = () => {
       unit: 'hrs',
       icon: Clock,
       color: 'from-purple-500 to-pink-500',
-      trend: '+3h'
+      trend: '+3h',
+      colorThresholds: { good: 10, warning: 5, danger: 0 },
+      celebration: celebrateStats.time
     }
   ];
 
@@ -230,23 +266,70 @@ const Statistics: React.FC = () => {
           {quickStats.map((stat, index) => (
             <motion.div
               key={stat.label}
-              className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+              className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 relative overflow-hidden"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
+              whileHover={{ y: -5 }}
             >
               <div className="flex items-center justify-between mb-3">
-                <div className={`w-12 h-12 bg-gradient-to-br ${stat.color} rounded-xl flex items-center justify-center`}>
+                <motion.div 
+                  className={`w-12 h-12 bg-gradient-to-br ${stat.color} rounded-xl flex items-center justify-center`}
+                  animate={stat.celebration ? { scale: [1, 1.2, 1], rotate: [0, 10, -10, 0] } : {}}
+                  transition={{ duration: 0.5 }}
+                >
                   <stat.icon className="h-6 w-6 text-white" />
-                </div>
-                <span className="text-sm font-medium text-green-600">{stat.trend}</span>
+                </motion.div>
+                <motion.span 
+                  className="text-sm font-medium text-green-600"
+                  animate={stat.celebration ? { scale: [1, 1.1, 1] } : {}}
+                >
+                  {stat.trend}
+                </motion.span>
               </div>
               <div className="space-y-1">
-                <div className="text-2xl font-bold text-gray-900">
-                  {stat.value}<span className="text-lg text-gray-500">{stat.unit}</span>
+                <div className="text-2xl font-bold text-gray-900 flex items-baseline">
+                  <AnimatedCounter
+                    value={stat.value}
+                    suffix={stat.unit}
+                    colorThresholds={stat.colorThresholds}
+                    celebration={stat.celebration}
+                    className="text-2xl font-bold"
+                  />
                 </div>
                 <div className="text-sm text-gray-600">{stat.label}</div>
               </div>
+              
+              {/* Celebration sparkles */}
+              {stat.celebration && (
+                <motion.div
+                  className="absolute inset-0 pointer-events-none"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                >
+                  {[...Array(5)].map((_, i) => (
+                    <motion.div
+                      key={i}
+                      className="absolute w-1 h-1 bg-yellow-400 rounded-full"
+                      style={{
+                        top: `${20 + Math.random() * 60}%`,
+                        left: `${20 + Math.random() * 60}%`
+                      }}
+                      animate={{
+                        scale: [0, 1, 0],
+                        opacity: [0, 1, 0],
+                        y: [0, -20, -40]
+                      }}
+                      transition={{
+                        duration: 1,
+                        delay: i * 0.1,
+                        ease: "easeOut"
+                      }}
+                    />
+                  ))}
+                </motion.div>
+              )}
             </motion.div>
           ))}
         </motion.div>
@@ -327,41 +410,52 @@ const Statistics: React.FC = () => {
             </div>
             
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {/* Enhanced Level Progress Chart */}
+              {/* Enhanced Level Progress with ProgressRing */}
               <div className="text-center">
-                <div className="relative inline-flex items-center justify-center w-64 h-64 mb-6">
-                  <ResponsiveContainer width={250} height={250}>
-                    <RadialBarChart cx="50%" cy="50%" innerRadius="60%" outerRadius="90%" data={levelProgressData}>
-                      <RadialBar
-                        dataKey="value"
-                        cornerRadius={10}
-                        fill="url(#colorGradient)"
+                <div className="relative inline-flex items-center justify-center mb-6">
+                  <ProgressRing
+                    progress={levelData.progress}
+                    size={250}
+                    strokeWidth={12}
+                    color="#3b82f6"
+                    backgroundColor="#e5e7eb"
+                    animated={true}
+                    pulseOnChange={celebrateStats.cards}
+                    showPercentage={false}
+                  >
+                    <div className="text-center">
+                      <div className="text-sm text-gray-600 mb-1">CURRENT LEVEL</div>
+                      <motion.div 
+                        className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent"
+                        animate={celebrateStats.cards ? { scale: [1, 1.1, 1] } : {}}
+                      >
+                        {levelData.level}
+                      </motion.div>
+                      <AnimatedCounter
+                        value={levelData.progress}
+                        suffix="%"
+                        className="text-lg font-semibold text-gray-700"
+                        celebration={celebrateStats.cards}
                       />
-                      <defs>
-                        <linearGradient id="colorGradient" x1="0" y1="0" x2="1" y2="1">
-                          <stop offset="0%" stopColor="#3b82f6" />
-                          <stop offset="100%" stopColor="#8b5cf6" />
-                        </linearGradient>
-                      </defs>
-                    </RadialBarChart>
-                  </ResponsiveContainer>
-                  
-                  <div className="absolute inset-0 flex flex-col items-center justify-center">
-                    <div className="text-sm text-gray-600 mb-1">CURRENT LEVEL</div>
-                    <div className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                      {levelData.level}
                     </div>
-                    <div className="text-lg font-semibold text-gray-700">{levelData.progress}%</div>
-                  </div>
+                  </ProgressRing>
                 </div>
                 
                 <div className="grid grid-cols-4 gap-2">
                   {['A1', 'A2', 'B1', 'B2'].map((level) => (
-                    <div key={level} className={`p-2 rounded-lg text-center ${
-                      levelData.level === level ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-500'
-                    }`}>
+                    <motion.div 
+                      key={level} 
+                      className={`p-2 rounded-lg text-center transition-all duration-300 ${
+                        levelData.level === level ? 'bg-blue-100 text-blue-700 shadow-md' : 'bg-gray-100 text-gray-500'
+                      }`}
+                      whileHover={{ scale: 1.05 }}
+                      animate={levelData.level === level && celebrateStats.cards ? { 
+                        scale: [1, 1.1, 1],
+                        backgroundColor: ['#dbeafe', '#3b82f6', '#dbeafe']
+                      } : {}}
+                    >
                       <div className="text-sm font-semibold">{level}</div>
-                    </div>
+                    </motion.div>
                   ))}
                 </div>
               </div>
@@ -430,29 +524,85 @@ const Statistics: React.FC = () => {
               <BookOpen className="h-6 w-6 text-indigo-600" />
             </div>
             
-            <div className="space-y-6">
+            <div className="grid grid-cols-1 gap-6">
               {categoryProgress.map((category, index) => (
                 <motion.div 
                   key={category.name}
-                  className={`${category.color.light} rounded-2xl p-4`}
+                  className={`${category.color.light} rounded-2xl p-6 hover:shadow-lg transition-all duration-300`}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.5 + index * 0.1 }}
+                  whileHover={{ scale: 1.02, y: -2 }}
                 >
-                  <div className="flex justify-between items-center mb-3">
-                    <h4 className={`font-semibold ${category.color.text}`}>{category.name}</h4>
-                    <span className="text-sm text-gray-600">{category.mastered}/{category.total}</span>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center space-x-3">
+                      <ProgressRing
+                        progress={category.progress}
+                        size={60}
+                        strokeWidth={6}
+                        color={category.color.bg.includes('blue') ? '#3b82f6' :
+                               category.color.bg.includes('purple') ? '#8b5cf6' :
+                               category.color.bg.includes('green') ? '#10b981' :
+                               category.color.bg.includes('orange') ? '#f59e0b' : '#ec4899'}
+                        backgroundColor="#e5e7eb"
+                        showPercentage={false}
+                        animated={true}
+                      >
+                        <div className="text-center">
+                          <div className={`text-xs font-bold ${category.color.text}`}>
+                            {Math.round(category.progress)}%
+                          </div>
+                        </div>
+                      </ProgressRing>
+                      <div>
+                        <h4 className={`font-semibold ${category.color.text} text-lg`}>
+                          {category.name}
+                        </h4>
+                        <div className="flex items-center space-x-2 text-sm text-gray-600">
+                          <span>{category.mastered} mastered</span>
+                          <span>•</span>
+                          <span>{category.total} total</span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <motion.div 
+                      className={`px-3 py-1 rounded-full text-xs font-semibold ${
+                        category.progress >= 80 ? 'bg-green-100 text-green-700' :
+                        category.progress >= 50 ? 'bg-yellow-100 text-yellow-700' :
+                        'bg-red-100 text-red-700'
+                      }`}
+                      animate={category.progress >= 80 ? { scale: [1, 1.1, 1] } : {}}
+                      transition={{ duration: 2, repeat: Infinity }}
+                    >
+                      {category.progress >= 80 ? '🎉 Mastered!' :
+                       category.progress >= 50 ? '📚 Learning' : '🚀 Starting'}
+                    </motion.div>
                   </div>
                   
+                  {/* Enhanced progress bar */}
                   <div className="relative">
-                    <div className="w-full bg-white rounded-full h-3 shadow-inner">
-                      <div 
-                        className={`h-3 rounded-full bg-gradient-to-r ${category.color.bg} transition-all duration-1000 shadow-sm`}
-                        style={{ width: `${category.progress}%` }}
-                      />
-                    </div>
-                    <div className={`absolute right-0 top-4 text-sm font-medium ${category.color.text}`}>
-                      {Math.round(category.progress)}%
+                    <div className="w-full bg-white bg-opacity-50 rounded-full h-2 shadow-inner overflow-hidden">
+                      <motion.div 
+                        className={`h-2 rounded-full bg-gradient-to-r ${category.color.bg} shadow-sm relative overflow-hidden`}
+                        initial={{ width: 0 }}
+                        animate={{ width: `${category.progress}%` }}
+                        transition={{ duration: 1.5, delay: 0.8 + index * 0.2, ease: "easeOut" }}
+                      >
+                        {/* Animated shine effect */}
+                        <motion.div
+                          className="absolute inset-0 bg-gradient-to-r from-transparent via-white via-transparent to-transparent opacity-40"
+                          animate={{
+                            x: ['-100%', '100%']
+                          }}
+                          transition={{
+                            duration: 2,
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                            repeatDelay: 3
+                          }}
+                        />
+                      </motion.div>
                     </div>
                   </div>
                 </motion.div>

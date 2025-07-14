@@ -6,11 +6,29 @@ import {
   loadUserProgressFromFirebase
 } from '@/services/firestoreService';
 
+// Real-time update events
+type StudyEvent = 'card_answered' | 'streak_updated' | 'accuracy_changed' | 'time_updated' | 'achievement_unlocked';
+
+interface StudyEventData {
+  type: StudyEvent;
+  data: any;
+}
+
 interface StudyStore {
   currentSession: StudySession | null;
   userProgress: UserProgress;
   isStudying: boolean;
   currentUserId: string | null;
+  sessionStartTime: Date | null;
+  realTimeStats: {
+    sessionAccuracy: number;
+    sessionCorrect: number;
+    sessionTotal: number;
+    sessionTime: number;
+  };
+  
+  // Event system for real-time updates
+  eventListeners: ((event: StudyEventData) => void)[];
   
   // Session actions
   startStudySession: (cards: Flashcard[], mode: StudyMode) => void;
@@ -18,6 +36,11 @@ interface StudyStore {
   nextCard: () => void;
   previousCard: () => void;
   answerCard: (quality: ResponseQuality) => void;
+  
+  // Real-time tracking
+  updateSessionStats: () => void;
+  emitEvent: (event: StudyEventData) => void;
+  addEventListener: (listener: (event: StudyEventData) => void) => () => void;
   
   // Progress actions
   setUserId: (userId: string | null) => void;
@@ -74,6 +97,33 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
   userProgress: defaultProgress,
   isStudying: false,
   currentUserId: null,
+  sessionStartTime: null,
+  realTimeStats: {
+    sessionAccuracy: 0,
+    sessionCorrect: 0,
+    sessionTotal: 0,
+    sessionTime: 0
+  },
+  eventListeners: [],
+  
+  // Event system
+  emitEvent: (event) => {
+    const { eventListeners } = get();
+    eventListeners.forEach(listener => listener(event));
+  },
+  
+  addEventListener: (listener) => {
+    set(state => ({
+      eventListeners: [...state.eventListeners, listener]
+    }));
+    
+    // Return unsubscribe function
+    return () => {
+      set(state => ({
+        eventListeners: state.eventListeners.filter(l => l !== listener)
+      }));
+    };
+  },
   
   setUserId: (userId) => {
     set({ currentUserId: userId });
@@ -96,7 +146,20 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
     
     set({ 
       currentSession: session,
-      isStudying: true 
+      isStudying: true,
+      sessionStartTime: new Date(),
+      realTimeStats: {
+        sessionAccuracy: 0,
+        sessionCorrect: 0,
+        sessionTotal: 0,
+        sessionTime: 0
+      }
+    });
+    
+    // Emit session start event
+    get().emitEvent({
+      type: 'time_updated',
+      data: { sessionTime: 0 }
     });
   },
   
@@ -168,7 +231,7 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
   },
   
   answerCard: (quality) => {
-    const { currentSession } = get();
+    const { currentSession, userProgress } = get();
     if (!currentSession) return;
     
     const currentCard = currentSession.cards[currentSession.currentCardIndex];
@@ -206,12 +269,87 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
       results: [...currentSession.results, result],
     };
     
-    set({ currentSession: updatedSession });
+    // Calculate real-time stats
+    const newResults = [...currentSession.results, result];
+    const sessionCorrect = newResults.filter(r => r.response === 'good' || r.response === 'easy').length;
+    const sessionTotal = newResults.length;
+    const sessionAccuracy = sessionTotal > 0 ? (sessionCorrect / sessionTotal) * 100 : 0;
+    
+    // Update real-time stats
+    const realTimeStats = {
+      sessionAccuracy,
+      sessionCorrect,
+      sessionTotal,
+      sessionTime: Math.round((new Date().getTime() - currentSession.startTime.getTime()) / 60000)
+    };
+    
+    set({ 
+      currentSession: updatedSession,
+      realTimeStats
+    });
+    
+    // Emit events for real-time updates
+    get().emitEvent({
+      type: 'card_answered',
+      data: { quality, accuracy: sessionAccuracy, correct: sessionCorrect, total: sessionTotal }
+    });
+    
+    get().emitEvent({
+      type: 'accuracy_changed',
+      data: { accuracy: sessionAccuracy, trend: sessionAccuracy > 80 ? 'excellent' : sessionAccuracy > 60 ? 'good' : 'needs_improvement' }
+    });
+    
+    // Check for achievements
+    if (sessionAccuracy === 100 && sessionTotal >= 5) {
+      get().emitEvent({
+        type: 'achievement_unlocked',
+        data: { 
+          achievement: 'perfect_streak',
+          title: 'Perfect Streak!',
+          description: `${sessionTotal} cards answered perfectly!`
+        }
+      });
+    }
+    
+    // Update user progress immediately for real-time dashboard updates
+    const updatedProgress = {
+      ...userProgress,
+      cardsStudied: userProgress.cardsStudied + 1,
+      accuracy: userProgress.cardsStudied === 0 ? sessionAccuracy :
+        ((userProgress.accuracy * userProgress.cardsStudied) + (quality === 'good' || quality === 'easy' ? 100 : 0)) / (userProgress.cardsStudied + 1)
+    };
+    
+    set({ userProgress: updatedProgress });
     
     // Auto-advance to next card
     setTimeout(() => {
       get().nextCard();
     }, 500);
+  },
+
+  updateSessionStats: () => {
+    const { currentSession, sessionStartTime } = get();
+    if (!currentSession || !sessionStartTime) return;
+    
+    const sessionTime = Math.round((new Date().getTime() - sessionStartTime.getTime()) / 60000);
+    const correct = currentSession.results.filter(r => r.response === 'good' || r.response === 'easy').length;
+    const total = currentSession.results.length;
+    const accuracy = total > 0 ? (correct / total) * 100 : 0;
+    
+    set({
+      realTimeStats: {
+        sessionAccuracy: accuracy,
+        sessionCorrect: correct,
+        sessionTotal: total,
+        sessionTime
+      }
+    });
+    
+    // Emit time update event
+    get().emitEvent({
+      type: 'time_updated',
+      data: { sessionTime }
+    });
   },
 
   loadUserProgress: async (userId?: string) => {
@@ -252,22 +390,17 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
   },
   
   getSessionStats: () => {
-    const { currentSession } = get();
+    const { currentSession, realTimeStats } = get();
     if (!currentSession) {
       return { correct: 0, total: 0, accuracy: 0, timeSpent: 0 };
     }
     
-    const correct = currentSession.results.filter(
-      result => result.response === 'good' || result.response === 'easy'
-    ).length;
-    
-    const total = currentSession.results.length;
-    const accuracy = total > 0 ? (correct / total) * 100 : 0;
-    
-    const timeSpent = Math.round(
-      (new Date().getTime() - currentSession.startTime.getTime()) / 60000
-    );
-    
-    return { correct, total, accuracy, timeSpent };
+    // Use real-time stats for immediate updates
+    return {
+      correct: realTimeStats.sessionCorrect,
+      total: realTimeStats.sessionTotal,
+      accuracy: realTimeStats.sessionAccuracy,
+      timeSpent: realTimeStats.sessionTime
+    };
   },
 }));
