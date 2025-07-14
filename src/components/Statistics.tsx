@@ -513,64 +513,34 @@ const Statistics: React.FC = () => {
               <BookOpen className="h-6 w-6 text-indigo-600" />
             </div>
             
-            <div className="grid grid-cols-1 gap-6">
+            <div className="space-y-4">
               {categoryProgress.map((category, index) => (
                 <motion.div 
                   key={category.name}
-                  className={`${category.color.light} rounded-2xl p-6 hover:shadow-lg transition-all duration-300`}
+                  className={`${category.color.light} rounded-xl p-4 hover:shadow-lg transition-all duration-300`}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.5 + index * 0.1 }}
                   whileHover={{ scale: 1.02, y: -2 }}
                 >
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center space-x-3">
-                      <ProgressRing
-                        progress={category.progress}
-                        size={60}
-                        strokeWidth={6}
-                        color={category.color.bg.includes('blue') ? '#3b82f6' :
-                               category.color.bg.includes('purple') ? '#8b5cf6' :
-                               category.color.bg.includes('green') ? '#10b981' :
-                               category.color.bg.includes('orange') ? '#f59e0b' : '#ec4899'}
-                        backgroundColor="#e5e7eb"
-                        showPercentage={false}
-                        animated={true}
-                      >
-                        <div className="text-center">
-                          <div className={`text-xs font-bold ${category.color.text}`}>
-                            {Math.round(category.progress)}%
-                          </div>
-                        </div>
-                      </ProgressRing>
-                      <div>
-                        <h4 className={`font-semibold ${category.color.text} text-lg`}>
-                          {category.name}
-                        </h4>
-                        <div className="flex items-center space-x-2 text-sm text-gray-600">
-                          <span>{category.mastered} mastered</span>
-                          <span>•</span>
-                          <span>{category.total} total</span>
-                        </div>
+                  <div className="flex items-center justify-between">
+                    <div className="flex-1">
+                      <h4 className={`font-semibold ${category.color.text} text-base mb-1`}>
+                        {category.name}
+                      </h4>
+                    </div>
+                    <div className="flex flex-col items-end space-y-1">
+                      <div className="text-sm font-medium text-gray-700">
+                        {category.mastered}/{category.total}
+                      </div>
+                      <div className={`text-sm font-bold ${category.color.text}`}>
+                        {Math.round(category.progress)}%
                       </div>
                     </div>
-                    
-                    <motion.div 
-                      className={`px-3 py-1 rounded-full text-xs font-semibold ${
-                        category.progress >= 80 ? 'bg-green-100 text-green-700' :
-                        category.progress >= 50 ? 'bg-yellow-100 text-yellow-700' :
-                        'bg-red-100 text-red-700'
-                      }`}
-                      animate={category.progress >= 80 ? { scale: [1, 1.1, 1] } : {}}
-                      transition={{ duration: 2, repeat: Infinity }}
-                    >
-                      {category.progress >= 80 ? '🎉 Mastered!' :
-                       category.progress >= 50 ? '📚 Learning' : '🚀 Starting'}
-                    </motion.div>
                   </div>
                   
-                  {/* Enhanced progress bar */}
-                  <div className="relative">
+                  {/* Progress bar */}
+                  <div className="mt-3">
                     <div className="w-full bg-white bg-opacity-50 rounded-full h-2 shadow-inner overflow-hidden">
                       <motion.div 
                         className={`h-2 rounded-full bg-gradient-to-r ${category.color.bg} shadow-sm relative overflow-hidden`}
