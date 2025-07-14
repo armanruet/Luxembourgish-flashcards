@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { useDeckStore } from '@/store/deckStore';
 import { useStudyStore } from '@/store/studyStore';
 import LiveStatsOverlay from './LiveStatsOverlay';
 import AchievementCelebration from './AchievementCelebration';
@@ -18,7 +17,7 @@ import {
 } from 'lucide-react';
 
 const DashboardDemo: React.FC = () => {
-  const { userProgress, addEventListener, isStudying, getSessionStats } = useStudyStore();
+  const { userProgress, addEventListener, isStudying } = useStudyStore();
   const [demoMode, setDemoMode] = useState(false);
   const [demoProgress, setDemoProgress] = useState({
     streak: 3,
@@ -27,7 +26,6 @@ const DashboardDemo: React.FC = () => {
     time: 120
   });
   const [currentAchievement, setCurrentAchievement] = useState<any>(null);
-  const [showCelebration, setShowCelebration] = useState(false);
 
   // Listen for real-time study events
   useEffect(() => {
@@ -97,7 +95,6 @@ const DashboardDemo: React.FC = () => {
   };
 
   const triggerCelebration = () => {
-    setShowCelebration(true);
     setCurrentAchievement({
       id: 'manual_achievement',
       title: 'Animation Test!',
@@ -245,7 +242,6 @@ const DashboardDemo: React.FC = () => {
                   colorThresholds={stat.colorThresholds}
                   celebration={demoMode}
                   className="text-3xl font-bold"
-                  duration={1.2}
                 />
               </div>
               <div className="text-sm text-gray-600">{stat.label}</div>

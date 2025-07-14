@@ -5,8 +5,6 @@ import {
   Flame, 
   Clock, 
   TrendingUp, 
-  Award,
-  Zap,
   Star
 } from 'lucide-react';
 import { useStudyStore } from '@/store/studyStore';

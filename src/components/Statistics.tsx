@@ -21,9 +21,7 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
-  RadialBarChart,
-  RadialBar
+  Tooltip
 } from 'recharts';
 
 import { useDeckStore } from '@/store/deckStore';
@@ -214,15 +212,6 @@ const Statistics: React.FC = () => {
       trend: '+3h',
       colorThresholds: { good: 10, warning: 5, danger: 0 },
       celebration: celebrateStats.time
-    }
-  ];
-
-  // Level progress for radial chart
-  const levelProgressData = [
-    {
-      name: 'Current Level',
-      value: levelData.progress,
-      fill: '#3b82f6'
     }
   ];
 

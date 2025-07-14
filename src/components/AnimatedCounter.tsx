@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { motion, useSpring, useTransform } from 'framer-motion';
+import { motion, useSpring } from 'framer-motion';
 
 interface AnimatedCounterProps {
   value: number;
-  duration?: number;
   className?: string;
   suffix?: string;
   prefix?: string;
-  decimals?: number;
   colorThresholds?: {
     good: number;
     warning: number;
@@ -18,11 +16,9 @@ interface AnimatedCounterProps {
 
 const AnimatedCounter: React.FC<AnimatedCounterProps> = ({
   value,
-  duration = 0.8,
   className = '',
   suffix = '',
   prefix = '',
-  decimals = 0,
   colorThresholds,
   celebration = false
 }) => {
@@ -34,11 +30,6 @@ const AnimatedCounter: React.FC<AnimatedCounterProps> = ({
     damping: 15,
     mass: 1
   });
-  
-  // Transform the spring value to rounded number
-  const rounded = useTransform(spring, latest => 
-    parseFloat(latest.toFixed(decimals))
-  );
   
   useEffect(() => {
     setDisplayValue(value);
