@@ -74,6 +74,30 @@ export function loadUserProgress(): UserProgress {
     weeklyGoal: 100,
     weeklyProgress: 0,
     categoryProgress: {},
+    
+    // Enhanced statistics for dashboard
+    currentLevel: 'A1',
+    levelProgress: 0,
+    userRating: 1.0,
+    totalSessions: 0,
+    averageSessionTime: 0,
+    
+    // Goal tracking
+    currentGoal: {
+      id: 'daily_practice',
+      title: 'Daily Practice',
+      description: 'Study 20 cards per day',
+      type: 'cards_per_day',
+      target: 20,
+      current: 0,
+      isActive: true
+    },
+    goalProgress: 0,
+    
+    // Achievement tracking
+    achievements: [],
+    lastAchievement: undefined,
+    nextMilestone: undefined,
   };
   
   const progress = loadFromStorage(STORAGE_KEYS.PROGRESS, defaultProgress);
@@ -103,6 +127,12 @@ export function loadAppSettings(): AppSettings {
     easyBonus: 1.3,
     intervalModifier: 1.0,
     maximumInterval: 36500, // 100 years in days
+    
+    // Quiz settings
+    quizSize: 10,
+    quizTimeLimit: 300, // 5 minutes in seconds
+    showQuizAnswers: true,
+    allowQuizRetake: true
   };
   
   return loadFromStorage(STORAGE_KEYS.SETTINGS, defaultSettings);

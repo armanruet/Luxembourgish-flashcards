@@ -16,6 +16,7 @@ import Navigation from '@/components/Navigation';
 import Dashboard from '@/components/Dashboard';
 import DeckList from '@/components/DeckList';
 import StudySession from '@/components/StudySession';
+import QuizSession from '@/components/QuizSession';
 import Statistics from '@/components/Statistics';
 import Settings from '@/components/Settings';
 import { VersionChecker } from '@/components/VersionChecker';
@@ -82,6 +83,11 @@ function AppContent() {
           <Route path="/study/:deckId?" element={
             <ProtectedRoute>
               <StudySession />
+            </ProtectedRoute>
+          } />
+          <Route path="/quiz/:deckId?" element={
+            <ProtectedRoute>
+              <QuizSession />
             </ProtectedRoute>
           } />
           <Route path="/statistics" element={

@@ -15,6 +15,7 @@ export interface UserProfile {
   uid: string;
   email: string;
   displayName: string;
+  photoURL?: string; // Google profile photo
   createdAt: Date;
   lastLoginAt: Date;
   preferences: {
@@ -22,6 +23,10 @@ export interface UserProfile {
     language: 'en' | 'lb';
     dailyGoal: number;
   };
+  // Additional profile data
+  firstName?: string;
+  lastName?: string;
+  provider: 'google' | 'email';
 }
 
 // Create user profile in Firestore
@@ -32,13 +37,22 @@ export const createUserProfile = async (user: User, additionalData: Partial<User
   const userSnapshot = await getDoc(userRef);
   
   if (!userSnapshot.exists()) {
-    const { email, displayName, uid } = user;
+    const { email, displayName, uid, photoURL } = user;
     const createdAt = new Date();
+    
+    // Extract first and last name from displayName
+    const nameParts = (displayName || '').split(' ');
+    const firstName = nameParts[0] || '';
+    const lastName = nameParts.slice(1).join(' ') || '';
     
     const userProfile: UserProfile = {
       uid,
       email: email || '',
       displayName: displayName || '',
+      photoURL: photoURL || undefined,
+      firstName,
+      lastName,
+      provider: photoURL ? 'google' : 'email', // Assume Google if photoURL exists
       createdAt,
       lastLoginAt: createdAt,
       preferences: {
@@ -54,6 +68,31 @@ export const createUserProfile = async (user: User, additionalData: Partial<User
     } catch (error) {
       console.error('Error creating user profile:', error);
       throw error;
+    }
+  } else {
+    // Update last login and profile photo if it changed
+    const existingData = userSnapshot.data() as UserProfile;
+    const updates: Partial<UserProfile> = {
+      lastLoginAt: new Date()
+    };
+    
+    // Update photo if it changed (useful for Google account updates)
+    if (user.photoURL && user.photoURL !== existingData.photoURL) {
+      updates.photoURL = user.photoURL;
+    }
+    
+    // Update display name if it changed
+    if (user.displayName && user.displayName !== existingData.displayName) {
+      updates.displayName = user.displayName;
+      const nameParts = user.displayName.split(' ');
+      updates.firstName = nameParts[0] || '';
+      updates.lastName = nameParts.slice(1).join(' ') || '';
+    }
+    
+    if (Object.keys(updates).length > 1) { // More than just lastLoginAt
+      await setDoc(userRef, updates, { merge: true });
+    } else {
+      await setDoc(userRef, { lastLoginAt: new Date() }, { merge: true });
     }
   }
   

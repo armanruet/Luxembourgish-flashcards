@@ -8,7 +8,9 @@ import {
   CheckCircle,
   XCircle,
   AlertCircle,
-  Zap
+  Zap,
+  Brain,
+  Target
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -174,7 +176,7 @@ const StudySession: React.FC = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
             {[
               {
                 mode: 'review' as StudyMode,
@@ -199,13 +201,40 @@ const StudySession: React.FC = () => {
                 icon: Play,
                 color: 'bg-purple-600 hover:bg-purple-700',
                 count: (currentDeck?.cards || getAllCards()).length
+              },
+              {
+                mode: 'quiz-mixed' as StudyMode,
+                title: 'Mixed Quiz',
+                description: 'Test your knowledge with varied questions',
+                icon: Brain,
+                color: 'bg-orange-600 hover:bg-orange-700',
+                count: Math.min(10, (currentDeck?.cards || getAllCards()).length),
+                isQuiz: true
+              },
+              {
+                mode: 'quiz-multiple-choice' as StudyMode,
+                title: 'Multiple Choice',
+                description: 'Choose the correct answer from options',
+                icon: Target,
+                color: 'bg-indigo-600 hover:bg-indigo-700',
+                count: Math.min(10, (currentDeck?.cards || getAllCards()).length),
+                isQuiz: true
               }
             ].map((option) => {
               const Icon = option.icon;
+              const handleClick = () => {
+                if (option.isQuiz) {
+                  // Navigate to quiz instead of starting study session
+                  navigate(`/quiz/${deckId || ''}`);
+                } else {
+                  startStudy(option.mode);
+                }
+              };
+              
               return (
                 <motion.button
                   key={option.mode}
-                  onClick={() => startStudy(option.mode)}
+                  onClick={handleClick}
                   className={`p-6 rounded-xl text-white text-left transition-all duration-200 ${option.color} ${
                     option.count === 0 ? 'opacity-50 cursor-not-allowed' : 'shadow-lg hover:shadow-xl'
                   }`}

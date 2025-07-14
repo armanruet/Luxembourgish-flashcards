@@ -43,6 +43,30 @@ const defaultProgress: UserProgress = {
   weeklyGoal: 100,
   weeklyProgress: 0,
   categoryProgress: {},
+  
+  // Enhanced statistics for dashboard
+  currentLevel: 'A1',
+  levelProgress: 0,
+  userRating: 1.0,
+  totalSessions: 0,
+  averageSessionTime: 0,
+  
+  // Goal tracking
+  currentGoal: {
+    id: 'daily_practice',
+    title: 'Daily Practice',
+    description: 'Study 20 cards per day',
+    type: 'cards_per_day',
+    target: 20,
+    current: 0,
+    isActive: true
+  },
+  goalProgress: 0,
+  
+  // Achievement tracking
+  achievements: [],
+  lastAchievement: undefined,
+  nextMilestone: undefined,
 };
 
 export const useStudyStore = create<StudyStore>((set, get) => ({

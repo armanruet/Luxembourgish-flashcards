@@ -47,7 +47,11 @@ export type StudyMode =
   | 'new'        // New cards only
   | 'all'        // All cards
   | 'mistakes'   // Previously failed cards
-  | 'category';  // Specific category
+  | 'category'   // Specific category
+  | 'quiz-multiple-choice'  // Quiz with multiple choice questions
+  | 'quiz-fill-blank'       // Quiz with fill-in-the-blank questions
+  | 'quiz-matching'         // Quiz with matching exercises
+  | 'quiz-mixed';           // Quiz with mixed question types
 
 export type ResponseQuality = 
   | 'again'      // 0 - Wrong/forgot
@@ -90,6 +94,82 @@ export interface UserProgress {
     total: number;
     accuracy: number;
   }>;
+  
+  // Enhanced statistics for dashboard
+  currentLevel: LanguageLevel;
+  levelProgress: number; // Percentage progress toward next level
+  userRating: number; // Overall rating out of 5
+  totalSessions: number;
+  averageSessionTime: number;
+  
+  // Goal tracking
+  currentGoal: StudyGoal;
+  goalProgress: number;
+  
+  // Achievement tracking
+  achievements: Achievement[];
+  lastAchievement?: Achievement;
+  nextMilestone?: Milestone;
+}
+
+// Language learning levels
+export type LanguageLevel = 'A1' | 'A2' | 'B1' | 'B2' | 'C1' | 'C2';
+
+// Goal system
+export interface StudyGoal {
+  id: string;
+  title: string;
+  description: string;
+  type: 'cards_per_day' | 'study_time' | 'accuracy' | 'streak' | 'level_completion';
+  target: number;
+  current: number;
+  deadline?: Date;
+  isActive: boolean;
+}
+
+// Achievement system
+export interface Achievement {
+  id: string;
+  title: string;
+  description: string;
+  icon: string; // Icon name from lucide-react
+  category: 'streak' | 'accuracy' | 'volume' | 'speed' | 'consistency';
+  unlockedAt: Date;
+  points: number;
+}
+
+// Milestone system
+export interface Milestone {
+  id: string;
+  title: string;
+  description: string;
+  requiredValue: number;
+  currentValue: number;
+  type: 'streak' | 'cards' | 'time' | 'accuracy' | 'level';
+  icon: string;
+  reward?: string;
+}
+
+// Daily activity tracking
+export interface DailyActivity {
+  date: string; // YYYY-MM-DD format
+  studyTime: number; // minutes
+  cardsStudied: number;
+  sessionsCompleted: number;
+  quizzesTaken: number;
+  averageAccuracy: number;
+  bestStreak: number;
+}
+
+// Weekly summary
+export interface WeeklySummary {
+  weekStart: string; // YYYY-MM-DD format
+  totalStudyTime: number;
+  totalCards: number;
+  averageAccuracy: number;
+  daysActive: number;
+  achievements: Achievement[];
+  levelProgress: number;
 }
 
 export interface AppSettings {
@@ -109,6 +189,71 @@ export interface AppSettings {
   easyBonus: number;
   intervalModifier: number;
   maximumInterval: number;
+  
+  // Quiz settings
+  quizSize: number;
+  quizTimeLimit: number;
+  showQuizAnswers: boolean;
+  allowQuizRetake: boolean;
+}
+
+// Quiz-related interfaces
+export type QuizQuestionType = 
+  | 'multiple-choice'
+  | 'fill-blank'
+  | 'matching'
+  | 'true-false';
+
+export interface QuizQuestion {
+  id: string;
+  type: QuizQuestionType;
+  cardId: string;
+  question: string;
+  correctAnswer: string;
+  options?: string[];  // For multiple choice
+  userAnswer?: string;
+  isCorrect?: boolean;
+  timeSpent?: number;
+}
+
+export interface QuizSession {
+  id: string;
+  deckId: string;
+  questions: QuizQuestion[];
+  currentQuestionIndex: number;
+  startTime: Date;
+  endTime?: Date;
+  mode: StudyMode;
+  timeLimit?: number;
+  
+  // Results
+  score?: number;
+  totalQuestions: number;
+  correctAnswers: number;
+  averageTime?: number;
+  completed: boolean;
+}
+
+export interface QuizResult {
+  sessionId: string;
+  deckId: string;
+  deckName: string;
+  mode: StudyMode;
+  score: number;
+  totalQuestions: number;
+  correctAnswers: number;
+  averageTime: number;
+  completedAt: Date;
+  timeSpent: number;
+  
+  // Question breakdown
+  questionResults: {
+    question: string;
+    userAnswer: string;
+    correctAnswer: string;
+    isCorrect: boolean;
+    timeSpent: number;
+  }[];
 }
 
 export interface ImportData {

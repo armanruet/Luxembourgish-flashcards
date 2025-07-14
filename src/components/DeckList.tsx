@@ -8,7 +8,8 @@ import {
   Trash2, 
   BookOpen,
   Clock,
-  Target
+  Target,
+  Brain
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -206,6 +207,24 @@ const DeckList: React.FC = () => {
                     <Play className="h-4 w-4" />
                     <span>
                       {stats.total > 0 ? `Study (${stats.total} due)` : 'No cards due'}
+                    </span>
+                  </Link>
+                  
+                  <Link
+                    to={`/quiz/${deck.id}`}
+                    className={`
+                      w-full flex items-center justify-center space-x-2 py-3 px-4 rounded-lg
+                      font-medium transition-all duration-200
+                      ${deck.cards.length > 0
+                        ? 'bg-purple-600 text-white hover:bg-purple-700 shadow-md hover:shadow-lg'
+                        : 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                      }
+                    `}
+                    onClick={deck.cards.length === 0 ? (e) => e.preventDefault() : undefined}
+                  >
+                    <Brain className="h-4 w-4" />
+                    <span>
+                      {deck.cards.length > 0 ? `Take Quiz (${Math.min(10, deck.cards.length)} questions)` : 'No cards available'}
                     </span>
                   </Link>
                   
