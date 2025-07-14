@@ -105,6 +105,8 @@ export const updateUserSubscription = async (
   userId: string, 
   subscription: Partial<UserSubscription>
 ): Promise<void> => {
+  if (!db) throw new Error('Firestore not available');
+  
   try {
     const userRef = doc(db, 'users', userId);
     await updateDoc(userRef, {
@@ -119,6 +121,8 @@ export const updateUserSubscription = async (
 
 // Get user subscription from Firestore
 export const getUserSubscription = async (userId: string): Promise<UserSubscription | null> => {
+  if (!db) return null;
+  
   try {
     const userRef = doc(db, 'users', userId);
     const userDoc = await getDoc(userRef);

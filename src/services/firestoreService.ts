@@ -17,6 +17,8 @@ const COLLECTIONS = {
 
 // Save user progress to Firestore
 export const saveUserProgressToFirebase = async (userId: string, progress: UserProgress) => {
+  if (!db) throw new Error('Firestore not available');
+  
   try {
     const progressRef = doc(db, COLLECTIONS.userProgress, userId);
     
@@ -35,6 +37,8 @@ export const saveUserProgressToFirebase = async (userId: string, progress: UserP
 
 // Load user progress from Firestore
 export const loadUserProgressFromFirebase = async (userId: string): Promise<UserProgress | null> => {
+  if (!db) return null;
+  
   try {
     const progressRef = doc(db, COLLECTIONS.userProgress, userId);
     const progressSnapshot = await getDoc(progressRef);
@@ -58,6 +62,8 @@ export const loadUserProgressFromFirebase = async (userId: string): Promise<User
 
 // Save user's decks to Firestore
 export const saveUserDecksToFirebase = async (userId: string, decks: Deck[]) => {
+  if (!db) throw new Error('Firestore not available');
+  
   try {
     const userDecksRef = doc(db, COLLECTIONS.decks, userId);
     
@@ -84,6 +90,8 @@ export const saveUserDecksToFirebase = async (userId: string, decks: Deck[]) => 
 
 // Load user's decks from Firestore
 export const loadUserDecksFromFirebase = async (userId: string): Promise<Deck[]> => {
+  if (!db) return [];
+  
   try {
     const userDecksRef = doc(db, COLLECTIONS.decks, userId);
     const decksSnapshot = await getDoc(userDecksRef);
@@ -118,6 +126,11 @@ export const subscribeToUserProgress = (
   userId: string, 
   callback: (progress: UserProgress | null) => void
 ) => {
+  if (!db) {
+    callback(null);
+    return () => {}; // Return empty unsubscribe function
+  }
+  
   const progressRef = doc(db, COLLECTIONS.userProgress, userId);
   
   return onSnapshot(progressRef, (doc) => {
@@ -139,6 +152,11 @@ export const subscribeToUserDecks = (
   userId: string,
   callback: (decks: Deck[]) => void
 ) => {
+  if (!db) {
+    callback([]);
+    return () => {}; // Return empty unsubscribe function
+  }
+  
   const userDecksRef = doc(db, COLLECTIONS.decks, userId);
   
   return onSnapshot(userDecksRef, (doc) => {

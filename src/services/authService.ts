@@ -31,7 +31,7 @@ export interface UserProfile {
 
 // Create user profile in Firestore
 export const createUserProfile = async (user: User, additionalData: Partial<UserProfile> = {}) => {
-  if (!user) return;
+  if (!user || !db) return;
   
   const userRef = doc(db, 'users', user.uid);
   const userSnapshot = await getDoc(userRef);
@@ -101,6 +101,8 @@ export const createUserProfile = async (user: User, additionalData: Partial<User
 
 // Register with email and password
 export const registerWithEmail = async (email: string, password: string, displayName: string) => {
+  if (!auth) throw new Error('Firebase auth not available');
+  
   try {
     const { user } = await createUserWithEmailAndPassword(auth, email, password);
     
@@ -119,6 +121,8 @@ export const registerWithEmail = async (email: string, password: string, display
 
 // Sign in with email and password
 export const signInWithEmail = async (email: string, password: string) => {
+  if (!auth || !db) throw new Error('Firebase services not available');
+  
   try {
     const { user } = await signInWithEmailAndPassword(auth, email, password);
     
@@ -135,6 +139,8 @@ export const signInWithEmail = async (email: string, password: string) => {
 
 // Sign in with Google
 export const signInWithGoogle = async () => {
+  if (!auth) throw new Error('Firebase auth not available');
+  
   try {
     const provider = new GoogleAuthProvider();
     const { user } = await signInWithPopup(auth, provider);
@@ -151,6 +157,8 @@ export const signInWithGoogle = async () => {
 
 // Sign out
 export const signOutUser = async () => {
+  if (!auth) throw new Error('Firebase auth not available');
+  
   try {
     await signOut(auth);
   } catch (error) {
@@ -161,6 +169,8 @@ export const signOutUser = async () => {
 
 // Reset password
 export const resetPassword = async (email: string) => {
+  if (!auth) throw new Error('Firebase auth not available');
+  
   try {
     await sendPasswordResetEmail(auth, email);
   } catch (error) {
@@ -171,6 +181,8 @@ export const resetPassword = async (email: string) => {
 
 // Get user profile
 export const getUserProfile = async (uid: string): Promise<UserProfile | null> => {
+  if (!db) return null;
+  
   try {
     const userRef = doc(db, 'users', uid);
     const userSnapshot = await getDoc(userRef);

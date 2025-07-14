@@ -21,9 +21,65 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- GitHub Pages SPA script -->
+    <script type="text/javascript">
+      // Single Page Apps for GitHub Pages
+      // MIT License
+      (function(l) {
+        if (l.search[1] === '/' ) {
+          var decoded = l.search.slice(1).split('&').map(function(s) { 
+            return s.replace(/~and~/g, '&')
+          }).join('?');
+          window.history.replaceState(null, null,
+              l.pathname.slice(0, -1) + decoded + l.hash
+          );
+        }
+      }(window.location))
+    </script>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- Loading fallback while React app initializes -->
+      <div style="
+        min-height: 100vh; 
+        background: linear-gradient(135deg, #f0f9ff 0%, #e0e7ff 100%);
+        display: flex; 
+        align-items: center; 
+        justify-content: center;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      ">
+        <div style="text-align: center; max-width: 400px; padding: 2rem;">
+          <div style="font-size: 4rem; margin-bottom: 1rem;">🇱🇺</div>
+          <h1 style="
+            font-size: 1.5rem; 
+            font-weight: 700; 
+            color: #1f2937; 
+            margin-bottom: 0.5rem;
+          ">
+            Luxembourgish Flashcards
+          </h1>
+          <p style="color: #6b7280; margin-bottom: 2rem;">
+            Loading your language learning experience...
+          </p>
+          <div style="
+            width: 40px; 
+            height: 40px; 
+            border: 3px solid #e5e7eb; 
+            border-top: 3px solid #3b82f6; 
+            border-radius: 50%; 
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+          "></div>
+        </div>
+      </div>
+      <style>
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      </style>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

@@ -31,6 +31,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Handle case where Firebase auth is not available
+    if (!auth) {
+      console.warn('Firebase auth not available, running in offline mode');
+      setLoading(false);
+      return;
+    }
+
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setCurrentUser(user);
       
@@ -69,6 +76,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, []);
 
   const signOut = async () => {
+    if (!auth) {
+      console.warn('Firebase auth not available');
+      return;
+    }
+    
     try {
       await auth.signOut();
     } catch (error) {
