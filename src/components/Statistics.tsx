@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { 
   User,
   Trophy,
@@ -538,12 +539,12 @@ const Statistics: React.FC = () => {
                 </div>
               </div>
               
-              <a 
-                href="/study"
+              <Link 
+                to="/study"
                 className="block w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold py-4 px-6 rounded-2xl hover:from-blue-700 hover:to-indigo-700 transition-all duration-300 text-center transform hover:scale-105 shadow-lg"
               >
                 Continue Learning
-              </a>
+              </Link>
             </div>
           </motion.div>
         </div>

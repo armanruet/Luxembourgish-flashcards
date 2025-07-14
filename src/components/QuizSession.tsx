@@ -20,7 +20,7 @@ const QuizSession: React.FC = () => {
   const { deckId } = useParams<{ deckId: string }>();
   const navigate = useNavigate();
   
-  const { getDeckById } = useDeckStore();
+  const { getDeckById, getAllCards } = useDeckStore();
   
   const [quizSession, setQuizSession] = useState<QuizSessionType | null>(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -49,13 +49,11 @@ const QuizSession: React.FC = () => {
   }, [timeLeft, showResults]);
 
   const startQuiz = (mode: StudyMode, questionCount: number = 10, timeLimit?: number) => {
-    if (!currentDeck) {
-      toast.error('Deck not found');
-      return;
-    }
-
-    if (currentDeck.cards.length === 0) {
-      toast.error('No cards available in this deck');
+    // Get cards from specific deck or all decks
+    const cardsToUse = currentDeck ? currentDeck.cards : getAllCards();
+    
+    if (cardsToUse.length === 0) {
+      toast.error('No cards available for quiz');
       return;
     }
 
@@ -65,8 +63,8 @@ const QuizSession: React.FC = () => {
                         ['multiple-choice', 'fill-blank'];
 
     const questions = generateQuizQuestions(
-      currentDeck.cards,
-      Math.min(questionCount, currentDeck.cards.length),
+      cardsToUse,
+      Math.min(questionCount, cardsToUse.length),
       questionTypes
     );
 
@@ -77,7 +75,7 @@ const QuizSession: React.FC = () => {
 
     const newSession: QuizSessionType = {
       id: `quiz-${Date.now()}`,
-      deckId: currentDeck.id,
+      deckId: currentDeck?.id || 'all-decks',
       questions,
       currentQuestionIndex: 0,
       startTime: new Date(),
@@ -175,22 +173,17 @@ const QuizSession: React.FC = () => {
     navigate('/');
   };
 
-  if (!currentDeck) {
-    return (
-      <div className="max-w-2xl mx-auto text-center py-16">
-        <h1 className="text-2xl font-bold text-gray-900 mb-4">Deck not found</h1>
-        <button onClick={() => navigate('/')} className="btn-primary">
-          Return to Dashboard
-        </button>
-      </div>
-    );
-  }
+  // Get the deck name for display
+  const displayDeckName = currentDeck ? currentDeck.name : 'All Decks';
+  
+  // Get available cards count
+  const availableCards = currentDeck ? currentDeck.cards : getAllCards();
 
   if (showResults && quizSession) {
     return (
       <QuizResults 
         session={quizSession}
-        deckName={currentDeck.name}
+        deckName={displayDeckName}
         onRetake={handleRetakeQuiz}
         onFinish={handleEndQuiz}
       />
@@ -208,7 +201,7 @@ const QuizSession: React.FC = () => {
           <div className="text-center mb-8">
             <Brain className="h-16 w-16 text-blue-600 mx-auto mb-4" />
             <h1 className="text-3xl font-bold text-gray-900 mb-4">
-              Quiz: {currentDeck.name}
+              Quiz: {displayDeckName}
             </h1>
             <p className="text-gray-600">
               Test your knowledge with interactive quiz questions
@@ -240,22 +233,22 @@ const QuizSession: React.FC = () => {
               }
             ].map((option) => {
               const Icon = option.icon;
-              const availableCards = currentDeck.cards.length;
+              const cardCount = availableCards.length;
               
               return (
                 <motion.button
                   key={option.mode}
                   onClick={() => startQuiz(option.mode, 10, 300)} // 5 minutes
                   className={`p-6 rounded-xl text-white text-left transition-all duration-200 ${option.color} ${
-                    availableCards === 0 ? 'opacity-50 cursor-not-allowed' : 'shadow-lg hover:shadow-xl'
+                    cardCount === 0 ? 'opacity-50 cursor-not-allowed' : 'shadow-lg hover:shadow-xl'
                   }`}
-                  disabled={availableCards === 0}
-                  whileHover={{ y: availableCards > 0 ? -5 : 0 }}
-                  whileTap={{ scale: availableCards > 0 ? 0.95 : 1 }}
+                  disabled={cardCount === 0}
+                  whileHover={{ y: cardCount > 0 ? -5 : 0 }}
+                  whileTap={{ scale: cardCount > 0 ? 0.95 : 1 }}
                 >
                   <div className="flex items-center justify-between mb-4">
                     <Icon className="h-8 w-8" />
-                    <span className="text-2xl font-bold">{Math.min(10, availableCards)}</span>
+                    <span className="text-2xl font-bold">{Math.min(10, cardCount)}</span>
                   </div>
                   <h3 className="text-xl font-semibold mb-2">{option.title}</h3>
                   <p className="text-sm opacity-90">{option.description}</p>
@@ -305,7 +298,7 @@ const QuizSession: React.FC = () => {
           </button>
           <div>
             <h1 className="text-2xl font-bold text-gray-900">
-              Quiz: {currentDeck.name}
+              Quiz: {displayDeckName}
             </h1>
             <p className="text-gray-600">
               Question {currentQuestionIndex + 1} of {quizSession.questions.length}

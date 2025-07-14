@@ -225,7 +225,11 @@ const StudySession: React.FC = () => {
               const handleClick = () => {
                 if (option.isQuiz) {
                   // Navigate to quiz instead of starting study session
-                  navigate(`/quiz/${deckId || ''}`);
+                  if (deckId) {
+                    navigate(`/quiz/${deckId}`);
+                  } else {
+                    navigate('/quiz');
+                  }
                 } else {
                   startStudy(option.mode);
                 }
