@@ -1,4 +1,4 @@
-import { loadStripe, Stripe } from '@stripe/stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 import { doc, updateDoc, getDoc } from 'firebase/firestore';
 import { db } from '@/config/firebase';
 import { SubscriptionTier, UserSubscription } from '@/types';

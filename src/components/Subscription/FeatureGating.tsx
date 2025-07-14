@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Crown, Lock } from 'lucide-react';
 import { useSubscription } from '@/contexts/SubscriptionContext';
 import { useDeckStore } from '@/store/deckStore';
-import UpgradePrompt from '@/components/Subscription/UpgradePrompt';
+import { UpgradePrompt } from '@/components/Subscription/UpgradePrompt';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
@@ -83,6 +83,7 @@ export const CreateDeckButton: React.FC<CreateDeckButtonProps> = ({ className = 
           <UpgradePrompt
             feature="Unlimited Decks"
             description="Create as many flashcard decks as you want with Premium"
+            requiredTier="premium"
             onUpgrade={handleUpgrade}
             onClose={() => setShowUpgradePrompt(false)}
           />

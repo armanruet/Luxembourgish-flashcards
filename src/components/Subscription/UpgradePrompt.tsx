@@ -2,7 +2,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { 
   Crown, 
-  Zap, 
   X, 
   ArrowRight,
   Sparkles 
@@ -145,7 +144,7 @@ interface InlineUpgradeBannerProps {
 export const InlineUpgradeBanner: React.FC<InlineUpgradeBannerProps> = ({
   feature,
   description,
-  requiredTier,
+  requiredTier: _requiredTier,
   onUpgrade,
   className = ''
 }) => {

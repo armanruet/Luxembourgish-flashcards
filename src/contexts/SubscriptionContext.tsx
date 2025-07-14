@@ -2,14 +2,10 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { 
   UserSubscription, 
-  SubscriptionTier, 
-  getSubscriptionLimits,
-  SUBSCRIPTION_PLANS 
+  getSubscriptionLimits
 } from '@/types';
 import { 
-  getUserSubscription, 
-  canAccessPremiumFeature,
-  canAccessProFeature 
+  getUserSubscription
 } from '@/services/subscriptionService';
 
 interface SubscriptionContextType {

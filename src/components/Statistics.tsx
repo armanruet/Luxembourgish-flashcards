@@ -9,26 +9,18 @@ import {
   Calendar,
   TrendingUp,
   Target,
-  Award,
   BookOpen,
   Zap,
   Crown
 } from 'lucide-react';
 import { 
   ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
   BarChart,
   Bar,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
-  LineChart,
-  Line,
-  Area,
-  AreaChart,
   RadialBarChart,
   RadialBar
 } from 'recharts';
@@ -39,7 +31,6 @@ import { useAuth } from '@/contexts/AuthContext';
 import { 
   calculateLanguageLevel, 
   calculateUserRating, 
-  getNextMilestone,
   generateStudyGoals
 } from '@/utils/userStats';
 
@@ -66,10 +57,6 @@ const Statistics: React.FC = () => {
     calculateUserRating(userProgress), [userProgress]
   );
   
-  const nextMilestone = useMemo(() => 
-    getNextMilestone(userProgress), [userProgress]
-  );
-  
   const studyGoals = useMemo(() => 
     generateStudyGoals(userProgress), [userProgress]
   );
@@ -81,7 +68,7 @@ const Statistics: React.FC = () => {
     const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     const baseTime = userProgress.averageSessionTime || 20;
     
-    return days.map((day, index) => {
+    return days.map((day) => {
       const multiplier = userProgress.currentStreak > 0 ? 
         0.8 + (Math.random() * 0.4) : 
         0.3 + (Math.random() * 0.7);
@@ -90,32 +77,11 @@ const Statistics: React.FC = () => {
       const cards = Math.round(time / 2.5);
       const intensity = Math.min(100, (time / 45) * 100);
       
-      return { day, time, cards, intensity, index };
+      return { day, time, cards, intensity };
     });
   };
 
   const weeklyActivity = useMemo(() => generateWeeklyActivity(), [userProgress]);
-
-  // Enhanced progress data for learning journey
-  const generateProgressJourney = () => {
-    const weeks = ['Week 1', 'Week 2', 'Week 3', 'Week 4'];
-    let cumulativeCards = 0;
-    let cumulativeAccuracy = 60;
-    
-    return weeks.map((week, index) => {
-      cumulativeCards += 15 + Math.floor(Math.random() * 20);
-      cumulativeAccuracy = Math.min(95, cumulativeAccuracy + Math.random() * 8);
-      
-      return {
-        week,
-        cards: cumulativeCards,
-        accuracy: Math.round(cumulativeAccuracy),
-        level: index < 1 ? 'A1' : index < 2 ? 'A1+' : index < 3 ? 'A2' : 'A2+'
-      };
-    });
-  };
-
-  const progressJourney = useMemo(() => generateProgressJourney(), []);
 
   // Calculate real deck-based progress with enhanced visuals
   const categoryProgress = useMemo(() => {
@@ -389,7 +355,7 @@ const Statistics: React.FC = () => {
                 </div>
                 
                 <div className="grid grid-cols-4 gap-2">
-                  {['A1', 'A2', 'B1', 'B2'].map((level, index) => (
+                  {['A1', 'A2', 'B1', 'B2'].map((level) => (
                     <div key={level} className={`p-2 rounded-lg text-center ${
                       levelData.level === level ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-500'
                     }`}>

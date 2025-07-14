@@ -4,7 +4,6 @@ import {
   Check, 
   Crown, 
   Star, 
-  Zap, 
   CreditCard,
   Loader2 
 } from 'lucide-react';
