@@ -14,6 +14,7 @@ import {
 import { useDeckStore } from '@/store/deckStore';
 import { useStudyStore } from '@/store/studyStore';
 import { getDueCardsCount, calculateRetentionRate } from '@/utils/spacedRepetition';
+import { ContentUpdateBanner } from './ContentUpdateBanner';
 
 const Dashboard: React.FC = () => {
   const { getAllCards } = useDeckStore();
@@ -96,6 +97,9 @@ const Dashboard: React.FC = () => {
           Master Lëtzebuergesch with intelligent spaced repetition.
         </p>
       </motion.div>
+
+      {/* Content Update Banner */}
+      <ContentUpdateBanner />
 
       {/* Statistics Cards */}
       <motion.div

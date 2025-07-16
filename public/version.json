@@ -1,8 +1,9 @@
 {
-  "version": "2025.07.01.20250701_155054",
-  "buildTime": "2025-07-01T13:50:54Z",
+  "version": "2025.07.16.20250716_001",
+  "buildTime": "2025-07-16T16:00:00Z",
   "totalCards": 353,
-  "lastUpdate": "Cache busting deployment",
-  "deploymentId": "build_20250701_155054",
-  "cacheBuster": "20250701_155054"
+  "lastUpdate": "Added content versioning and migration system for automatic updates",
+  "deploymentId": "build_20250716_001",
+  "cacheBuster": "20250716_001",
+  "contentVersion": "2025.07.16.001"
 }

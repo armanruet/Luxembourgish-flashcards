@@ -65,9 +65,14 @@ export const saveUserDecksToFirebase = async (userId: string, decks: Deck[]) => 
   if (!db) throw new Error('Firestore not available');
   
   try {
+    console.log('💾 Starting Firebase save for user:', userId);
+    console.log('📊 Decks to save:', decks.length);
+    console.log('📊 Total cards:', decks.reduce((sum, deck) => sum + deck.cards.length, 0));
+    
     const userDecksRef = doc(db, COLLECTIONS.decks, userId);
     
     // Convert dates to Firestore timestamps
+    console.log('🔄 Converting dates to Firebase timestamps...');
     const firebaseDecks = decks.map(deck => ({
       ...deck,
       createdAt: Timestamp.fromDate(deck.createdAt),
@@ -81,9 +86,17 @@ export const saveUserDecksToFirebase = async (userId: string, decks: Deck[]) => 
       }))
     }));
     
+    console.log('💾 Saving to Firestore...');
     await setDoc(userDecksRef, { decks: firebaseDecks });
+    console.log('✅ Successfully saved to Firebase');
   } catch (error) {
-    console.error('Error saving user decks:', error);
+    console.error('❌ Error saving user decks to Firebase:', error);
+    console.error('Error details:', {
+      message: error instanceof Error ? error.message : 'Unknown error',
+      code: (error as any)?.code,
+      userId,
+      deckCount: decks.length
+    });
     throw error;
   }
 };

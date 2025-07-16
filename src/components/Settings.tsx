@@ -9,7 +9,11 @@ import {
   Bell,
   Clock,
   Brain,
-  Palette
+  Palette,
+  RefreshCw,
+  Package,
+  CheckCircle,
+  AlertCircle
 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -23,6 +27,7 @@ import {
   clearAllData 
 } from '@/utils/storage';
 import { AppSettings } from '@/types';
+import { useContentUpdates } from './ContentUpdateBanner';
 
 const Settings: React.FC = () => {
   const { loadUserProgress } = useStudyStore();
@@ -30,6 +35,22 @@ const Settings: React.FC = () => {
   
   const [settings, setSettings] = useState<AppSettings>(loadAppSettings());
   const [showResetConfirm, setShowResetConfirm] = useState(false);
+
+  // Content update functionality
+  const { 
+    migrationStatus, 
+    checkForContentUpdates, 
+    migrateUserContent 
+  } = useContentUpdates();
+  
+  const [isCheckingUpdates, setIsCheckingUpdates] = useState(false);
+  const [updateStatus, setUpdateStatus] = useState<{
+    hasUpdates: boolean;
+    newDecks: number;
+    updatedDecks: number;
+    newCards: number;
+    lastCheck?: Date;
+  } | null>(null);
 
   const updateSetting = <K extends keyof AppSettings>(
     key: K, 
@@ -90,6 +111,43 @@ const Settings: React.FC = () => {
     loadUserProgress();
     setShowResetConfirm(false);
     toast.success('All data has been reset');
+  };
+
+  // Content update handlers
+  const handleCheckForUpdates = async () => {
+    setIsCheckingUpdates(true);
+    try {
+      const updateInfo = await checkForContentUpdates();
+      setUpdateStatus({
+        ...updateInfo,
+        lastCheck: new Date()
+      });
+      
+      if (updateInfo.hasUpdates) {
+        toast.success(`Updates available! ${updateInfo.newDecks} new decks, ${updateInfo.newCards} new cards`);
+      } else {
+        toast.success('You have the latest content!');
+      }
+    } catch (error) {
+      toast.error('Failed to check for updates');
+    } finally {
+      setIsCheckingUpdates(false);
+    }
+  };
+
+  const handleUpdateContent = async () => {
+    try {
+      const success = await migrateUserContent();
+      if (success) {
+        toast.success('Content updated successfully!');
+        // Refresh update status
+        handleCheckForUpdates();
+      } else {
+        toast.error('Failed to update content');
+      }
+    } catch (error) {
+      toast.error('Failed to update content');
+    }
   };
 
   const settingSections = [
@@ -203,6 +261,13 @@ const Settings: React.FC = () => {
     }
   ];
 
+  // Content update section (separate from main settings) - currently unused
+  // const contentUpdateSection = {
+  //   title: 'Content Updates',
+  //   icon: Download,
+  //   description: 'Manage your flashcard content and get the latest updates'
+  // };
+
   return (
     <div className="max-w-4xl mx-auto space-y-8">
       {/* Header */}
@@ -301,6 +366,117 @@ const Settings: React.FC = () => {
           );
         })}
       </div>
+
+      {/* Content Updates */}
+      <motion.div
+        className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3 }}
+      >
+        <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
+          <h2 className="text-lg font-semibold text-gray-900 flex items-center">
+            <Package className="h-5 w-5 mr-2 text-primary" />
+            Content Updates
+          </h2>
+        </div>
+        
+        <div className="p-6 space-y-6">
+          {/* Check for updates */}
+          <div className="flex items-center justify-between py-3">
+            <div className="flex-1">
+              <h3 className="text-sm font-medium text-gray-900 mb-1">
+                Check for Updates
+              </h3>
+              <p className="text-sm text-gray-600">
+                Check if new flashcard decks or content updates are available
+              </p>
+              {updateStatus?.lastCheck && (
+                <p className="text-xs text-gray-500 mt-1">
+                  Last checked: {updateStatus.lastCheck.toLocaleString()}
+                </p>
+              )}
+            </div>
+            <button
+              onClick={handleCheckForUpdates}
+              disabled={isCheckingUpdates}
+              className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isCheckingUpdates ? (
+                <>
+                  <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                  Checking...
+                </>
+              ) : (
+                <>
+                  <RefreshCw className="h-4 w-4 mr-2" />
+                  Check Now
+                </>
+              )}
+            </button>
+          </div>
+
+          {/* Update status */}
+          {updateStatus && (
+            <div className="border-t border-gray-200 pt-4">
+              {updateStatus.hasUpdates ? (
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <div className="flex items-start">
+                    <AlertCircle className="h-5 w-5 text-blue-600 mt-0.5 mr-3 flex-shrink-0" />
+                    <div className="flex-1">
+                      <h4 className="text-sm font-medium text-blue-900 mb-2">
+                        Updates Available!
+                      </h4>
+                      <div className="text-sm text-blue-800 space-y-1">
+                        {updateStatus.newDecks > 0 && (
+                          <p>• {updateStatus.newDecks} new deck{updateStatus.newDecks !== 1 ? 's' : ''}</p>
+                        )}
+                        {updateStatus.updatedDecks > 0 && (
+                          <p>• {updateStatus.updatedDecks} updated deck{updateStatus.updatedDecks !== 1 ? 's' : ''}</p>
+                        )}
+                        {updateStatus.newCards > 0 && (
+                          <p>• {updateStatus.newCards} new card{updateStatus.newCards !== 1 ? 's' : ''}</p>
+                        )}
+                      </div>
+                      <button
+                        onClick={handleUpdateContent}
+                        disabled={migrationStatus === 'migrating'}
+                        className="mt-3 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {migrationStatus === 'migrating' ? (
+                          <>
+                            <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                            Updating...
+                          </>
+                        ) : (
+                          <>
+                            <Download className="h-4 w-4 mr-2" />
+                            Update Now
+                          </>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                  <div className="flex items-center">
+                    <CheckCircle className="h-5 w-5 text-green-600 mr-3" />
+                    <div>
+                      <h4 className="text-sm font-medium text-green-900">
+                        You're up to date!
+                      </h4>
+                      <p className="text-sm text-green-800">
+                        You have the latest flashcard content.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </motion.div>
 
       {/* Data Management */}
       <motion.div

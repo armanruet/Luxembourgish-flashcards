@@ -485,6 +485,8 @@ const StudySession: React.FC = () => {
           card={currentCard}
           isFlipped={isFlipped}
           onFlip={() => setIsFlipped(!isFlipped)}
+          deckId={currentDeck?.id}
+          deckName={currentDeck?.name}
         />
       </div>
 

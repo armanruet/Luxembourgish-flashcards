@@ -74,6 +74,14 @@ export interface Deck {
   newCards: number;
   reviewCards: number;
   learnedCards: number;
+  
+  // Content versioning metadata
+  metadata?: {
+    contentVersion?: string;
+    lastContentUpdate?: string;
+    source?: string;
+    [key: string]: any;
+  };
 }
 
 export interface UserProgress {
@@ -418,3 +426,6 @@ export const canCreateDeck = (
   const limit = userSubscription.limits.maxDecks;
   return limit === -1 || currentDeckCount < limit;
 };
+
+// Re-export error report types
+export * from './errorReport';

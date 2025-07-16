@@ -12,7 +12,8 @@ import {
   X,
   User,
   LogOut,
-  ChevronDown
+  ChevronDown,
+  AlertTriangle
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import toast from 'react-hot-toast';
@@ -28,6 +29,7 @@ const Navigation: React.FC = () => {
     { path: '/decks', icon: BookOpen, label: 'Decks' },
     { path: '/study', icon: Play, label: 'Study' },
     { path: '/statistics', icon: BarChart3, label: 'Statistics' },
+    { path: '/error-reports', icon: AlertTriangle, label: 'Error Reports' },
     { path: '/settings', icon: Settings, label: 'Settings' },
   ];
 

@@ -19,6 +19,8 @@ import StudySession from '@/components/StudySession';
 import QuizSession from '@/components/QuizSession';
 import Statistics from '@/components/Statistics';
 import Settings from '@/components/Settings';
+import ErrorReportManager from '@/components/ErrorReportManager';
+import ErrorReportTest from '@/components/ErrorReportTest';
 import { VersionChecker } from '@/components/VersionChecker';
 import { AuthForm } from '@/components/Auth/AuthForm';
 import { ProtectedRoute } from '@/components/Auth/ProtectedRoute';
@@ -26,34 +28,25 @@ import { PricingPage } from '@/components/Subscription/PricingPage';
 import { SubscriptionSuccess } from '@/components/Subscription/SubscriptionSuccess';
 import { SubscriptionCancelled } from '@/components/Subscription/SubscriptionCancelled';
 
-// Data import
-import { allDecks } from '@/data/vocabulary';
+// Data import - removed unused import
+// import { allDecks } from '@/data/vocabulary';
 
 function AppContent() {
   const { currentUser } = useAuth();
-  const { setUserId, addDeck, decks } = useDeckStore();
+  const { setUserId } = useDeckStore();
   const { setUserId: setStudyUserId } = useStudyStore();
 
   useEffect(() => {
     if (currentUser) {
-      // Set user ID in stores
+      // Set user ID in stores - this will trigger automatic content migration
       setUserId(currentUser.uid);
       setStudyUserId(currentUser.uid);
-      
-      // Initialize with sample data if no decks exist for new users
-      setTimeout(async () => {
-        if (decks.length === 0) {
-          for (const deck of allDecks) {
-            await addDeck(deck);
-          }
-        }
-      }, 1000); // Give time for Firebase to load
     } else {
       // Clear user data when logged out
       setUserId(null);
       setStudyUserId(null);
     }
-  }, [currentUser, setUserId, setStudyUserId, addDeck, decks.length]);
+  }, [currentUser, setUserId, setStudyUserId]);
 
   if (!currentUser) {
     return <AuthForm />;
@@ -95,6 +88,17 @@ function AppContent() {
               <Statistics />
             </ProtectedRoute>
           } />
+          <Route path="/error-reports" element={
+            <ProtectedRoute>
+              <ErrorReportManager />
+            </ProtectedRoute>
+          } />
+          <Route path="/test-error-report" element={
+            <ProtectedRoute>
+              <ErrorReportTest />
+            </ProtectedRoute>
+          } />
+          <Route path="/public-test" element={<ErrorReportTest />} />
           <Route path="/settings" element={
             <ProtectedRoute>
               <Settings />

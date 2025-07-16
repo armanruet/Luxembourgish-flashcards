@@ -1,13 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Volume2, Tag } from 'lucide-react';
+import { Volume2, Tag, AlertTriangle } from 'lucide-react';
 import { Flashcard as FlashcardType } from '@/types';
+import ErrorReportModal from './ErrorReportModal';
 
 interface FlashcardProps {
   card: FlashcardType;
   isFlipped: boolean;
   onFlip: () => void;
   showPronunciation?: boolean;
+  deckId?: string;
+  deckName?: string;
 }
 
 const Flashcard: React.FC<FlashcardProps> = ({
@@ -15,7 +18,10 @@ const Flashcard: React.FC<FlashcardProps> = ({
   isFlipped,
   onFlip,
   showPronunciation = true,
+  deckId,
+  deckName,
 }) => {
+  const [showErrorReport, setShowErrorReport] = useState(false);
   const playAudio = () => {
     // Use Web Speech API for text-to-speech
     if ('speechSynthesis' in window) {
@@ -266,6 +272,7 @@ const Flashcard: React.FC<FlashcardProps> = ({
   const difficultyColor = difficultyColors[card.difficulty] || difficultyColors['A1'];
 
   return (
+    <>
     <motion.div
       className="relative w-full max-w-2xl mx-auto mb-8"
       style={{ perspective: '1000px' }}
@@ -333,7 +340,21 @@ const Flashcard: React.FC<FlashcardProps> = ({
           {/* Footer - Fixed positioning */}
           <div className="flex items-center justify-between px-4 py-3 text-sm text-gray-500 bg-gray-50 rounded-b-3xl mt-auto">
             <span className="font-medium capitalize">{card.category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}</span>
-            <span className="text-gray-400">Click to reveal</span>
+            <div className="flex items-center gap-3">
+              {deckId && deckName && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowErrorReport(true);
+                  }}
+                  className="p-1 text-red-500 hover:text-red-600 transition-colors rounded"
+                  title="Report error"
+                >
+                  <AlertTriangle className="h-4 w-4" />
+                </button>
+              )}
+              <span className="text-gray-400">Click to reveal</span>
+            </div>
           </div>
         </div>
 
@@ -406,11 +427,37 @@ const Flashcard: React.FC<FlashcardProps> = ({
           {/* Footer - Fixed positioning */}
           <div className="flex items-center justify-between px-4 py-3 text-sm text-gray-500 bg-gray-50 rounded-b-3xl mt-auto">
             <span className="font-medium capitalize">{card.category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}</span>
-            <span className="text-gray-400">Click to flip back</span>
+            <div className="flex items-center gap-3">
+              {deckId && deckName && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowErrorReport(true);
+                  }}
+                  className="p-1 text-red-500 hover:text-red-600 transition-colors rounded"
+                  title="Report error"
+                >
+                  <AlertTriangle className="h-4 w-4" />
+                </button>
+              )}
+              <span className="text-gray-400">Click to flip back</span>
+            </div>
           </div>
         </div>
       </motion.div>
     </motion.div>
+
+    {/* Error Report Modal */}
+    {deckId && deckName && (
+      <ErrorReportModal
+        isOpen={showErrorReport}
+        onClose={() => setShowErrorReport(false)}
+        deckId={deckId}
+        deckName={deckName}
+        flashcard={card}
+      />
+    )}
+  </>
   );
 };
 

@@ -8,7 +8,6 @@ import {
   checkAndMigrateUserContent,
   getContentUpdateSummary
 } from '@/services/migrationService';
-import { loadUserDecksBatch } from '@/services/batchFirestoreService';
 
 interface DeckStore {
   decks: Deck[];
@@ -73,29 +72,16 @@ export const useDeckStore = create<DeckStore>((set, get) => ({
     try {
       set({ migrationStatus: 'checking' });
       
-      // Try loading with batch method first (handles both batched and regular data)
-      console.log('📥 Loading user decks...');
-      let userDecks = await loadUserDecksBatch(targetUserId);
-      
-      // Fallback to regular method if batch method returns empty
-      if (userDecks.length === 0) {
-        console.log('🔄 Fallback to regular loading method...');
-        userDecks = await loadUserDecksFromFirebase(targetUserId);
-      }
-      
-      console.log('✅ Loaded', userDecks.length, 'decks');
+      // Load user decks
+      const userDecks = await loadUserDecksFromFirebase(targetUserId);
       set({ decks: userDecks });
       
       // Check for content updates and auto-migrate
       const migrationSuccess = await checkAndMigrateUserContent(targetUserId);
       
       if (migrationSuccess) {
-        // Reload decks after migration (use batch method again)
-        let updatedDecks = await loadUserDecksBatch(targetUserId);
-        if (updatedDecks.length === 0) {
-          updatedDecks = await loadUserDecksFromFirebase(targetUserId);
-        }
-        
+        // Reload decks after migration
+        const updatedDecks = await loadUserDecksFromFirebase(targetUserId);
         set({ 
           decks: updatedDecks, 
           migrationStatus: 'completed',
@@ -351,4 +337,4 @@ export const useDeckStore = create<DeckStore>((set, get) => ({
       return false;
     }
   },
-}));
+});
