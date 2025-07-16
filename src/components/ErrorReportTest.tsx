@@ -10,14 +10,15 @@ const ErrorReportTest: React.FC = () => {
     pronunciation: '[KOM-men]',
     notes: 'ech kommen, du kënns, hien/hatt kënnt, mir kommen, dir kommt, si kommen',
     category: 'test-verbs',
-    difficulty: 'easy',
+    difficulty: 'A1' as const,
     createdAt: new Date(),
     updatedAt: new Date(),
     nextReview: new Date(),
     interval: 1,
     easeFactor: 2.5,
-    reviews: 0,
-    lapses: 0
+    repetition: 0,
+    reviewCount: 0,
+    successCount: 0
   };
 
   return (

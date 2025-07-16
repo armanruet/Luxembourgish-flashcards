@@ -3,7 +3,6 @@ import {
   setDoc,
   getDoc,
   writeBatch,
-  collection,
   Timestamp
 } from 'firebase/firestore';
 import { db } from '@/config/firebase';
@@ -38,7 +37,7 @@ export const saveUserDecksBatch = async (userId: string, decks: Deck[]) => {
     const batch = writeBatch(db);
     
     chunks.forEach((chunk, index) => {
-      const chunkRef = doc(db, COLLECTIONS.decks, `${userId}_chunk_${index}`);
+      const chunkRef = doc(db!, COLLECTIONS.decks, `${userId}_chunk_${index}`);
       batch.set(chunkRef, { 
         decks: chunk.map(deck => ({
           ...deck,
@@ -56,7 +55,7 @@ export const saveUserDecksBatch = async (userId: string, decks: Deck[]) => {
     });
     
     // Also keep the main document for compatibility
-    const mainRef = doc(db, COLLECTIONS.decks, userId);
+    const mainRef = doc(db!, COLLECTIONS.decks, userId);
     batch.set(mainRef, { 
       decks: [], // Empty main document, data is in chunks
       chunkCount: chunks.length,
@@ -84,7 +83,7 @@ export const loadUserDecksBatch = async (userId: string): Promise<Deck[]> => {
     console.log('📥 Loading user decks in batch mode for:', userId);
     
     // First check the main document to see if it's batched
-    const mainRef = doc(db, COLLECTIONS.decks, userId);
+    const mainRef = doc(db!, COLLECTIONS.decks, userId);
     const mainSnap = await getDoc(mainRef);
     
     if (!mainSnap.exists()) {
@@ -120,7 +119,7 @@ export const loadUserDecksBatch = async (userId: string): Promise<Deck[]> => {
     const promises = [];
     
     for (let i = 0; i < mainData.chunkCount; i++) {
-      const chunkRef = doc(db, COLLECTIONS.decks, `${userId}_chunk_${i}`);
+      const chunkRef = doc(db!, COLLECTIONS.decks, `${userId}_chunk_${i}`);
       promises.push(getDoc(chunkRef));
     }
     
