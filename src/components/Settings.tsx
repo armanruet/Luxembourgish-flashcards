@@ -175,6 +175,24 @@ const Settings: React.FC = () => {
       ]
     },
     {
+      title: 'User Interface',
+      icon: Globe,
+      settings: [
+        {
+          key: 'showCacheNotification' as const,
+          label: 'Show Cache Notification',
+          type: 'toggle' as const,
+          description: 'Display version checker and cache issue notifications'
+        },
+        {
+          key: 'showLiveStatsOverlay' as const,
+          label: 'Show Live Stats Overlay',
+          type: 'toggle' as const,
+          description: 'Display statistics overlay during study sessions'
+        }
+      ]
+    },
+    {
       title: 'Study Experience',
       icon: Brain,
       settings: [
