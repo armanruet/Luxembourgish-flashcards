@@ -14,38 +14,26 @@ const firebaseConfig = {
 
 // Only log in development mode
 if (import.meta.env.DEV) {
-  console.log('🔍 Environment Variables Check:');
-  console.log('API Key:', import.meta.env.VITE_FIREBASE_API_KEY ? 'SET' : 'USING FALLBACK');
-  console.log('Auth Domain:', import.meta.env.VITE_FIREBASE_AUTH_DOMAIN ? 'SET' : 'USING FALLBACK');
-  console.log('Project ID:', import.meta.env.VITE_FIREBASE_PROJECT_ID ? 'SET' : 'USING FALLBACK');
-  console.log('🔥 Firebase Config:', firebaseConfig);
+  console.log('Firebase config loaded successfully');
 }
 
-let app: FirebaseApp | null = null;
-let auth: Auth | null = null;
-let db: Firestore | null = null;
+// Initialize Firebase
+let app: FirebaseApp;
+let auth: Auth;
+let db: Firestore;
 
 try {
-  // Initialize Firebase
   app = initializeApp(firebaseConfig);
-  
-  // Initialize Firebase Authentication and get a reference to the service
   auth = getAuth(app);
-  
-  // Initialize Cloud Firestore and get a reference to the service
   db = getFirestore(app);
   
   if (import.meta.env.DEV) {
-    console.log('✅ Firebase initialized successfully');
+    console.log('Firebase initialized successfully');
   }
 } catch (error) {
-  console.error('❌ Firebase initialization failed:', error);
-  
-  // Keep auth and db as null for proper error handling
-  app = null;
-  auth = null;
-  db = null;
+  console.error('Error initializing Firebase:', error);
+  throw error;
 }
 
-export { auth, db };
+export { app, auth, db };
 export default app;

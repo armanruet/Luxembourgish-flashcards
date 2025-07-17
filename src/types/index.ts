@@ -188,6 +188,10 @@ export interface AppSettings {
   cardAnimation: boolean;
   studyReminders: boolean;
   
+  // UI settings
+  showCacheNotification: boolean;
+  showLiveStatsOverlay: boolean;
+  
   // Study settings
   newCardsPerDay: number;
   maxReviewsPerDay: number;

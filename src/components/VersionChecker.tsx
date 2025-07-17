@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { loadAppSettings } from '@/utils/storage';
 
 interface VersionInfo {
   version: string;
@@ -12,6 +13,7 @@ interface VersionInfo {
 export const VersionChecker: React.FC = () => {
   const [versionInfo, setVersionInfo] = useState<VersionInfo | null>(null);
   const [isLatest, setIsLatest] = useState<boolean>(true);
+  const [settings] = useState(() => loadAppSettings());
 
   useEffect(() => {
     const checkVersion = async () => {
@@ -43,7 +45,8 @@ export const VersionChecker: React.FC = () => {
     checkVersion();
   }, []);
 
-  if (!versionInfo) return null;
+  // Don't render if settings disabled or no version info
+  if (!versionInfo || !settings.showCacheNotification) return null;
 
   return (
     <div className={`fixed bottom-4 right-4 p-3 rounded-lg text-xs max-w-xs z-50 ${

@@ -18,6 +18,7 @@ import { useDeckStore } from '@/store/deckStore';
 import { useStudyStore } from '@/store/studyStore';
 import { ResponseQuality, StudyMode } from '@/types';
 import { getCardsForReview, getNewCards } from '@/utils/spacedRepetition';
+import { loadAppSettings } from '@/utils/storage';
 import Flashcard from './Flashcard';
 import LiveStatsOverlay from './LiveStatsOverlay';
 import AchievementCelebration from './AchievementCelebration';
@@ -42,10 +43,16 @@ const StudySession: React.FC = () => {
   const [showLiveStats, setShowLiveStats] = useState(true);
   const [currentAchievement, setCurrentAchievement] = useState<any>(null);
   const [previousStats, setPreviousStats] = useState({ accuracy: 0, correct: 0, total: 0 });
+  const [settings] = useState(() => loadAppSettings());
 
   const currentDeck = deckId ? getDeckById(deckId) : null;
   const currentCard = getCurrentCard();
   const stats = getSessionStats();
+
+  // Initialize showLiveStats based on settings
+  useEffect(() => {
+    setShowLiveStats(settings.showLiveStatsOverlay);
+  }, [settings.showLiveStatsOverlay]);
 
   useEffect(() => {
     // Keyboard shortcuts
@@ -79,7 +86,9 @@ const StudySession: React.FC = () => {
           break;
         case 'KeyH':
           e.preventDefault();
-          setShowLiveStats(!showLiveStats);
+          if (settings.showLiveStatsOverlay) {
+            setShowLiveStats(!showLiveStats);
+          }
           break;
       }
     };
@@ -366,7 +375,7 @@ const StudySession: React.FC = () => {
     <div className="max-w-4xl mx-auto px-4 py-8">
       {/* Live Statistics Overlay */}
       <LiveStatsOverlay 
-        isVisible={showLiveStats && isStudying}
+        isVisible={showLiveStats && isStudying && settings.showLiveStatsOverlay}
         position="top-right"
       />
       
@@ -440,13 +449,15 @@ const StudySession: React.FC = () => {
             </motion.div>
             <div>Accuracy</div>
           </div>
-          <button
-            onClick={() => setShowLiveStats(!showLiveStats)}
-            className="text-xs bg-gray-100 hover:bg-gray-200 px-2 py-1 rounded transition-colors"
-            title="Toggle live stats (H)"
-          >
-            {showLiveStats ? 'Hide Stats' : 'Show Stats'}
-          </button>
+          {settings.showLiveStatsOverlay && (
+            <button
+              onClick={() => setShowLiveStats(!showLiveStats)}
+              className="text-xs bg-gray-100 hover:bg-gray-200 px-2 py-1 rounded transition-colors"
+              title="Toggle live stats (H)"
+            >
+              {showLiveStats ? 'Hide Stats' : 'Show Stats'}
+            </button>
+          )}
         </div>
       </motion.div>
 

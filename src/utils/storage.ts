@@ -121,6 +121,11 @@ export function loadAppSettings(): AppSettings {
     showPronunciation: true,
     cardAnimation: true,
     studyReminders: true,
+    
+    // UI settings
+    showCacheNotification: true,
+    showLiveStatsOverlay: true,
+    
     newCardsPerDay: 20,
     maxReviewsPerDay: 100,
     showAnswerTimer: false,

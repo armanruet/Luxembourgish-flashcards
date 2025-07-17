@@ -20,7 +20,6 @@ import QuizSession from '@/components/QuizSession';
 import Statistics from '@/components/Statistics';
 import Settings from '@/components/Settings';
 import ErrorReportManager from '@/components/ErrorReportManager';
-import ErrorReportTest from '@/components/ErrorReportTest';
 import { VersionChecker } from '@/components/VersionChecker';
 import { AuthForm } from '@/components/Auth/AuthForm';
 import { ProtectedRoute } from '@/components/Auth/ProtectedRoute';
@@ -93,12 +92,6 @@ function AppContent() {
               <ErrorReportManager />
             </ProtectedRoute>
           } />
-          <Route path="/test-error-report" element={
-            <ProtectedRoute>
-              <ErrorReportTest />
-            </ProtectedRoute>
-          } />
-          <Route path="/public-test" element={<ErrorReportTest />} />
           <Route path="/settings" element={
             <ProtectedRoute>
               <Settings />
