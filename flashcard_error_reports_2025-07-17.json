@@ -1,0 +1,172 @@
+[
+  {
+    "id": "error_1752768464441_gfkcmlvy6",
+    "timestamp": "2025-07-17T16:07:44.441Z",
+    "deckId": "luxembourgish-grammar-comprehensive",
+    "deckName": "Luxembourgish Grammar - 100 Essential Cards",
+    "flashcardId": "modal-prohibition-net",
+    "flashcardContent": {
+      "luxembourgish": "Du däerfs do net parken",
+      "english": "You are not permitted to park there",
+      "pronunciation": "du DEER-fs do net PAR-ken",
+      "notes": "Prohibition using däerfen + net. Important for rules and regulations."
+    },
+    "errorField": "notes",
+    "errorDescription": "\"Ech Du däerfs do net parken Lëtzebuergesch léieren.\" (I you are not permitted to park there to learn Luxembourgish.)",
+    "correctAnswer": "Du däerfs do net parken, fir Lëtzebuergesch ze léieren.\n(You are not allowed to park there to learn Luxembourgish.)",
+    "status": "pending"
+  },
+  {
+    "id": "error_1752768613001_u42ofxvc1",
+    "timestamp": "2025-07-17T16:10:13.001Z",
+    "deckId": "luxembourgish-grammar-comprehensive",
+    "deckName": "Luxembourgish Grammar - 100 Essential Cards",
+    "flashcardId": "modal-example-waerten",
+    "flashcardContent": {
+      "luxembourgish": "D'Wieder wäert sech bestëmmt änneren",
+      "english": "The weather is definitely going to change",
+      "pronunciation": "de VEE-der veart sesh be-SHTIMT EN-ne-ren",
+      "notes": "Example of wäerten expressing future certainty. Shows reflexive pronoun sech with modal verb."
+    },
+    "errorField": "notes",
+    "errorDescription": "\"Ech D'Wieder wäert sech bestëmmt änneren Lëtzebuergesch léieren.\" (I the weather is definitely going to change to learn Luxembourgish.)",
+    "correctAnswer": "D'Wieder wäert sech bestëmmt änneren.\nThe weather is definitely going to change.",
+    "status": "pending"
+  },
+  {
+    "id": "error_1752768649367_tebyonqz9",
+    "timestamp": "2025-07-17T16:10:49.367Z",
+    "deckId": "luxembourgish-grammar-comprehensive",
+    "deckName": "Luxembourgish Grammar - 100 Essential Cards",
+    "flashcardId": "modal-negation-net",
+    "flashcardContent": {
+      "luxembourgish": "Hatt kann mech net verstoen",
+      "english": "She can't understand me",
+      "pronunciation": "hat kan mesh net ver-SHTO-en",
+      "notes": "Modal verbs with negation \"net\". Shows negative ability with kënnen."
+    },
+    "errorField": "notes",
+    "errorDescription": "\"Ech Hatt kann mech net verstoen Lëtzebuergesch léieren.\" (I she can't understand me to learn Luxembourgish.)",
+    "correctAnswer": "Hatt kann mech net verstoen",
+    "status": "pending"
+  },
+  {
+    "id": "error_1752768706102_fepkbhbrk",
+    "timestamp": "2025-07-17T16:11:46.102Z",
+    "deckId": "luxembourgish-grammar-comprehensive",
+    "deckName": "Luxembourgish Grammar - 100 Essential Cards",
+    "flashcardId": "modal-implied-infinitive",
+    "flashcardContent": {
+      "luxembourgish": "Ech muss muer op Bréissel",
+      "english": "I must [go] to Brussels tomorrow",
+      "pronunciation": "esh mus MUE-er op BRES-sel",
+      "notes": "Modal verbs can have implied infinitives when meaning is clear. Here \"goen\" (to go) is understood."
+    },
+    "errorField": "notes",
+    "errorDescription": "\"Ech Ech muss muer op Bréissel Lëtzebuergesch léieren.\" (I i must [go] to brussels tomorrow to learn Luxembourgish.)",
+    "correctAnswer": "Ech muss muer op Bréissel",
+    "status": "pending"
+  },
+  {
+    "id": "error_1752768756673_oglrtgz2m",
+    "timestamp": "2025-07-17T16:12:36.673Z",
+    "deckId": "luxembourgish-grammar-comprehensive",
+    "deckName": "Luxembourgish Grammar - 100 Essential Cards",
+    "flashcardId": "modal-example-mussen",
+    "flashcardContent": {
+      "luxembourgish": "Mir hunn den Zuch huele mussen",
+      "english": "We had to take the train",
+      "pronunciation": "meer hun den tsukh HUE-le MUS-sen",
+      "notes": "Example of mussen (must) in perfect tense. Shows past necessity with auxiliary verb hunn."
+    },
+    "errorField": "notes",
+    "errorDescription": "\"Ech Mir hunn den Zuch huele mussen Lëtzebuergesch léieren.\" (I we had to take the train to learn Luxembourgish.)",
+    "correctAnswer": "Mir hunn den Zuch huele mussen, well den Bus schonn fort war.\n(We had to take the train because the bus had already left.)",
+    "status": "pending"
+  },
+  {
+    "id": "error_1752768821370_pdixf0rvx",
+    "timestamp": "2025-07-17T16:13:41.370Z",
+    "deckId": "luxembourgish-grammar-comprehensive",
+    "deckName": "Luxembourgish Grammar - 100 Essential Cards",
+    "flashcardId": "modal-example-sollen",
+    "flashcardContent": {
+      "luxembourgish": "De Film soll ganz gutt sinn",
+      "english": "The movie is supposed to be very good",
+      "pronunciation": "de film sol gants gut zin",
+      "notes": "Example of sollen expressing supposition. Shows how sollen can express what is supposed to be true."
+    },
+    "errorField": "notes",
+    "errorDescription": "\"Ech De Film soll ganz gutt sinn Lëtzebuergesch léieren.\" (I the movie is supposed to be very good to learn Luxembourgish.)",
+    "correctAnswer": "De Film soll ganz gutt sinn, ech wëll en um Weekend kucken.\n(The movie is supposed to be very good—I want to watch it at the weekend.)",
+    "status": "pending"
+  },
+  {
+    "id": "error_1752768911370_jqo6bqbvq",
+    "timestamp": "2025-07-17T16:15:11.370Z",
+    "deckId": "luxembourgish-grammar-comprehensive",
+    "deckName": "Luxembourgish Grammar - 100 Essential Cards",
+    "flashcardId": "modal-pattern-simplified",
+    "flashcardContent": {
+      "luxembourgish": "Modal verbs: 2 forms only",
+      "english": "singular and plural forms",
+      "pronunciation": "MO-dal VER-ben",
+      "notes": "Modal verbs have simplified conjugation: singular pronouns (ech, du, hien/hatt) use singular form, plural pronouns (mir, dir, si) use plural form. du adds -s, dir adds -t."
+    },
+    "errorField": "notes",
+    "errorDescription": "\"Ech Modal verbs: 2 forms only Lëtzebuergesch léieren.\" (I singular and plural forms to learn Luxembourgish.)",
+    "correctAnswer": "relevant example",
+    "status": "pending"
+  },
+  {
+    "id": "error_1752768954750_s28avrp9k",
+    "timestamp": "2025-07-17T16:15:54.750Z",
+    "deckId": "luxembourgish-grammar-comprehensive",
+    "deckName": "Luxembourgish Grammar - 100 Essential Cards",
+    "flashcardId": "modal-example-kennen",
+    "flashcardContent": {
+      "luxembourgish": "Mir kënnen e bësse Lëtzebuergesch schwätzen",
+      "english": "We can speak a little Luxembourgish",
+      "pronunciation": "meer KEN-nen e BES-se LET-ze-buer-gesch SHVET-zen",
+      "notes": "Example of kënnen (can) expressing ability. Shows modal verb conjugation with plural subject mir kënnen."
+    },
+    "errorField": "notes",
+    "errorDescription": "\"Ech Mir kënnen e bësse Lëtzebuergesch schwätzen Lëtzebuergesch léieren.\" (I we can speak a little luxembourgish to learn Luxembourgish.)",
+    "correctAnswer": "Mir kënnen e bësse Lëtzebuergesch schwätzen, mee nach net fléissend.\n(We can speak a bit of Luxembourgish, but not fluently yet.)",
+    "status": "pending"
+  },
+  {
+    "id": "error_1752769028247_xrytre2h6",
+    "timestamp": "2025-07-17T16:17:08.247Z",
+    "deckId": "luxembourgish-grammar-comprehensive",
+    "deckName": "Luxembourgish Grammar - 100 Essential Cards",
+    "flashcardId": "modal-wellen-conjugation",
+    "flashcardContent": {
+      "luxembourgish": "wëllen",
+      "english": "to want",
+      "pronunciation": "VEL-len",
+      "notes": "ech wëll, du wëlls, hien/hatt wëll, mir wëllen, dir wëllt, si wëllen. Expresses desire and intention. Example: Meng Duechter wëll gär a Frankräich wunne goen. (My daughter wants to go live in France.)"
+    },
+    "errorField": "notes",
+    "errorDescription": "ech wëll, du wëlls, hien/hatt wëll, mir wëllen, dir wëllt, si wëllen. Expresses desire and intention. Example: Meng Duechter wëll gär a Frankräich wunne goen. (My daughter wants to go live in France.)",
+    "correctAnswer": "Meng Duechter wëll gär a Frankräich wunnen.\n My daughter wants to live in France.",
+    "status": "pending"
+  },
+  {
+    "id": "error_1752769095008_9732ulkq5",
+    "timestamp": "2025-07-17T16:18:15.008Z",
+    "deckId": "luxembourgish-grammar-comprehensive",
+    "deckName": "Luxembourgish Grammar - 100 Essential Cards",
+    "flashcardId": "modal-example-daerfen",
+    "flashcardContent": {
+      "luxembourgish": "D'Kanner däerfen den Owend méi laang opbleiwen",
+      "english": "The children are allowed to stay up longer tonight",
+      "pronunciation": "de KAN-ner DEER-fen den O-vent may lahng OP-bly-ven",
+      "notes": "Example of däerfen expressing permission. Shows how parents give permission to children."
+    },
+    "errorField": "notes",
+    "errorDescription": "\"Ech D'Kanner däerfen den Owend méi laang opbleiwen Lëtzebuergesch léieren.\" (I the children are allowed to stay up longer tonight to learn Luxembourgish.)",
+    "correctAnswer": "D'Kanner däerfen den Owend méi laang opbleiwen",
+    "status": "pending"
+  }
+]

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Trophy, 
@@ -28,6 +28,29 @@ const AchievementCelebration: React.FC<AchievementCelebrationProps> = ({
   achievement,
   onComplete
 }) => {
+  // Add keyboard listener for ESC key
+  useEffect(() => {
+    const handleEscKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && achievement) {
+        onComplete();
+      }
+    };
+
+    window.addEventListener('keydown', handleEscKey);
+    return () => window.removeEventListener('keydown', handleEscKey);
+  }, [achievement, onComplete]);
+
+  // Auto-dismiss achievement after 5 seconds
+  useEffect(() => {
+    if (achievement) {
+      const timer = setTimeout(() => {
+        onComplete();
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [achievement, onComplete]);
+
   if (!achievement) return null;
 
   const iconMap = {

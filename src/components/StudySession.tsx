@@ -35,7 +35,9 @@ const StudySession: React.FC = () => {
     endStudySession, 
     answerCard, 
     getCurrentCard,
-    getSessionStats 
+    getSessionStats,
+    userProgress,
+    addAchievement 
   } = useStudyStore();
 
   const [isFlipped, setIsFlipped] = useState(false);
@@ -43,6 +45,7 @@ const StudySession: React.FC = () => {
   const [showLiveStats, setShowLiveStats] = useState(true);
   const [currentAchievement, setCurrentAchievement] = useState<any>(null);
   const [previousStats, setPreviousStats] = useState({ accuracy: 0, correct: 0, total: 0 });
+  const [unlockedAchievements, setUnlockedAchievements] = useState<Set<string>>(new Set());
   const [settings] = useState(() => loadAppSettings());
 
   const currentDeck = deckId ? getDeckById(deckId) : null;
@@ -97,50 +100,114 @@ const StudySession: React.FC = () => {
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, [isStudying, isFlipped, showLiveStats]);
 
+  // Helper function to check if achievement is already unlocked
+  const isAchievementUnlocked = (achievementId: string) => {
+    // Check both local session state and persistent achievements
+    return unlockedAchievements.has(achievementId) || 
+           userProgress.achievements.some(achievement => achievement.id === achievementId);
+  };
+
   // Achievement detection
   useEffect(() => {
     const currentStats = getSessionStats();
     
     // Perfect streak achievement
     if (currentStats.total >= 5 && currentStats.accuracy === 100 && previousStats.accuracy < 100) {
-      setCurrentAchievement({
-        id: 'perfect_streak',
-        title: 'Perfect Streak!',
-        description: `Amazing! You got ${currentStats.total} cards perfect in a row!`,
-        icon: 'star',
-        color: 'bg-gradient-to-r from-yellow-400 to-orange-500',
-        value: currentStats.total
-      });
+      if (!isAchievementUnlocked('perfect_streak')) {
+        const achievement = {
+          id: 'perfect_streak',
+          title: 'Perfect Streak!',
+          description: `Amazing! You got ${currentStats.total} cards perfect in a row!`,
+          icon: 'star',
+          color: 'bg-gradient-to-r from-yellow-400 to-orange-500',
+          value: currentStats.total
+        };
+        
+        setCurrentAchievement(achievement);
+        setUnlockedAchievements(prev => new Set(prev).add('perfect_streak'));
+        
+        // Persist achievement to store
+        addAchievement({
+          id: 'perfect_streak',
+          title: 'Perfect Streak!',
+          description: `Amazing! You got ${currentStats.total} cards perfect in a row!`,
+          icon: 'star',
+          category: 'accuracy',
+          points: 150
+        });
+      }
     }
     
     // High accuracy achievement
     if (currentStats.total >= 10 && currentStats.accuracy >= 90 && previousStats.accuracy < 90) {
-      setCurrentAchievement({
-        id: 'high_accuracy',
-        title: 'Accuracy Master!',
-        description: `Incredible ${Math.round(currentStats.accuracy)}% accuracy!`,
-        icon: 'target',
-        color: 'bg-gradient-to-r from-green-400 to-blue-500',
-        value: Math.round(currentStats.accuracy)
-      });
+      if (!isAchievementUnlocked('high_accuracy')) {
+        const achievement = {
+          id: 'high_accuracy',
+          title: 'Accuracy Master!',
+          description: `Incredible ${Math.round(currentStats.accuracy)}% accuracy!`,
+          icon: 'target',
+          color: 'bg-gradient-to-r from-green-400 to-blue-500',
+          value: Math.round(currentStats.accuracy)
+        };
+        
+        setCurrentAchievement(achievement);
+        setUnlockedAchievements(prev => new Set(prev).add('high_accuracy'));
+        
+        // Persist achievement to store
+        addAchievement({
+          id: 'high_accuracy',
+          title: 'Accuracy Master!',
+          description: `Incredible ${Math.round(currentStats.accuracy)}% accuracy!`,
+          icon: 'target',
+          category: 'accuracy',
+          points: 125
+        });
+      }
     }
     
     // Speed achievement
-    if (currentStats.total >= 20 && currentStats.timeSpent <= 10) {
-      setCurrentAchievement({
-        id: 'speed_demon',
-        title: 'Speed Demon!',
-        description: `Lightning fast! ${currentStats.total} cards in ${currentStats.timeSpent} minutes!`,
-        icon: 'zap',
-        color: 'bg-gradient-to-r from-purple-400 to-pink-500',
-        value: currentStats.total
-      });
+    if (currentStats.total >= 20 && currentStats.timeSpent <= 1) {
+      if (!isAchievementUnlocked('speed_demon')) {
+        const achievement = {
+          id: 'speed_demon',
+          title: 'Speed Demon!',
+          description: `Lightning fast! ${currentStats.total} cards in ${currentStats.timeSpent} minutes!`,
+          icon: 'zap',
+          color: 'bg-gradient-to-r from-purple-400 to-pink-500',
+          value: currentStats.total
+        };
+        
+        setCurrentAchievement(achievement);
+        setUnlockedAchievements(prev => new Set(prev).add('speed_demon'));
+        
+        // Persist achievement to store
+        addAchievement({
+          id: 'speed_demon',
+          title: 'Speed Demon!',
+          description: `Lightning fast! ${currentStats.total} cards in ${currentStats.timeSpent} minutes!`,
+          icon: 'zap',
+          category: 'speed',
+          points: 200
+        });
+      }
     }
     
     setPreviousStats(currentStats);
-  }, [stats]);
+  }, [stats, userProgress.achievements]);
+
+  // Cleanup achievements when session ends or component unmounts
+  useEffect(() => {
+    return () => {
+      setCurrentAchievement(null);
+      setUnlockedAchievements(new Set());
+    };
+  }, []);
 
   const startStudy = (mode: StudyMode) => {
+    // Reset achievements for new session
+    setUnlockedAchievements(new Set());
+    setCurrentAchievement(null);
+    
     let cardsToStudy = [];
 
     if (currentDeck) {

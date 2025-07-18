@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashcard Settings Test</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .toggle-switch {
+            position: relative;
+            display: inline-flex;
+            height: 24px;
+            width: 44px;
+            align-items: center;
+            border-radius: 9999px;
+            transition: background-color 0.2s;
+            cursor: pointer;
+        }
+        .toggle-switch.enabled {
+            background-color: #3b82f6;
+        }
+        .toggle-switch.disabled {
+            background-color: #d1d5db;
+        }
+        .toggle-switch span {
+            display: inline-block;
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background-color: white;
+            transition: transform 0.2s;
+        }
+        .toggle-switch.enabled span {
+            transform: translateX(24px);
+        }
+        .toggle-switch.disabled span {
+            transform: translateX(4px);
+        }
+        
+        .cache-notification {
+            position: fixed;
+            bottom: 16px;
+            right: 16px;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            max-width: 320px;
+            z-index: 50;
+            background-color: #fef3c7;
+            color: #92400e;
+            border: 1px solid #f59e0b;
+        }
+        
+        .stats-overlay {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 50;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
+        .stat-card {
+            background-color: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 12px;
+            padding: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            min-width: 100px;
+        }
+        
+        .stat-icon {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+        }
+        
+        .stat-value {
+            font-size: 14px;
+            font-weight: bold;
+            color: #1f2937;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            font-weight: 500;
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 via-blue-100 to-blue-200 min-h-screen p-8">
+    <div class="max-w-4xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-3xl font-bold text-gray-900 mb-4">
+                🇱🇺 Flashcard Settings Demo
+            </h1>
+            <p class="text-gray-600">
+                Test the notification hide feature
+            </p>
+        </div>
+
+        <!-- User Interface Settings -->
+        <div class="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden mb-8">
+            <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
+                <h2 class="text-lg font-semibold text-gray-900 flex items-center">
+                    <svg class="h-5 w-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9"></path>
+                    </svg>
+                    User Interface
+                </h2>
+            </div>
+            
+            <div class="p-6 space-y-6">
+                <!-- Show Cache Notification -->
+                <div class="flex items-center justify-between py-3 border-b border-gray-100">
+                    <div class="flex-1">
+                        <label class="text-sm font-medium text-gray-900 block mb-1">
+                            Show Cache Notification
+                        </label>
+                        <p class="text-sm text-gray-600">Display version checker and cache issue notifications</p>
+                    </div>
+                    <div class="ml-6">
+                        <button 
+                            id="cacheToggle"
+                            class="toggle-switch enabled"
+                            onclick="toggleCacheNotification()"
+                        >
+                            <span></span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Show Live Stats Overlay -->
+                <div class="flex items-center justify-between py-3">
+                    <div class="flex-1">
+                        <label class="text-sm font-medium text-gray-900 block mb-1">
+                            Show Live Stats Overlay
+                        </label>
+                        <p class="text-sm text-gray-600">Display statistics overlay during study sessions</p>
+                    </div>
+                    <div class="ml-6">
+                        <button 
+                            id="statsToggle"
+                            class="toggle-switch enabled"
+                            onclick="toggleStatsOverlay()"
+                        >
+                            <span></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Demo Study Area -->
+        <div class="bg-white rounded-xl shadow-lg border border-gray-100 p-8 text-center">
+            <h3 class="text-xl font-semibold text-gray-900 mb-4">Study Session Demo</h3>
+            <div class="bg-blue-50 rounded-lg p-6 mb-4">
+                <div class="text-2xl font-bold text-blue-900 mb-2">kafen</div>
+                <div class="text-gray-600">(to buy)</div>
+                <div class="text-sm text-gray-500 mt-2">[KAH-fen]</div>
+            </div>
+            <p class="text-gray-600">
+                This simulates a flashcard study session. Toggle the settings above to hide/show the notifications.
+            </p>
+        </div>
+    </div>
+
+    <!-- Cache Notification (starts visible) -->
+    <div id="cacheNotification" class="cache-notification">
+        <div class="font-semibold mb-1">⚠️ Cache Issue?</div>
+        <div>Version: 2.0.0</div>
+        <div>Cards: 353</div>
+        <div class="mt-2 text-xs">
+            <div>If card count seems wrong:</div>
+            <div>• Hard refresh (Ctrl+Shift+R)</div>
+            <div>• Try incognito mode</div>
+            <div>• Clear browser cache</div>
+        </div>
+    </div>
+
+    <!-- Live Stats Overlay (starts visible) -->
+    <div id="statsOverlay" class="stats-overlay">
+        <div class="stat-card">
+            <div class="flex items-center">
+                <svg class="stat-icon text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <div class="flex-1">
+                    <div class="stat-label">Accuracy</div>
+                    <div class="stat-value">100%</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="flex items-center">
+                <svg class="stat-icon text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"></path>
+                </svg>
+                <div class="flex-1">
+                    <div class="stat-label">Streak</div>
+                    <div class="stat-value">0</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="flex items-center">
+                <svg class="stat-icon text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <div class="flex-1">
+                    <div class="stat-label">Time</div>
+                    <div class="stat-value">1m</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="flex items-center">
+                <svg class="stat-icon text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
+                </svg>
+                <div class="flex-1">
+                    <div class="stat-label">Correct</div>
+                    <div class="stat-value">1/1</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let cacheEnabled = true;
+        let statsEnabled = true;
+
+        function toggleCacheNotification() {
+            cacheEnabled = !cacheEnabled;
+            const toggle = document.getElementById('cacheToggle');
+            const notification = document.getElementById('cacheNotification');
+            
+            if (cacheEnabled) {
+                toggle.classList.remove('disabled');
+                toggle.classList.add('enabled');
+                notification.style.display = 'block';
+            } else {
+                toggle.classList.remove('enabled');
+                toggle.classList.add('disabled');
+                notification.style.display = 'none';
+            }
+        }
+
+        function toggleStatsOverlay() {
+            statsEnabled = !statsEnabled;
+            const toggle = document.getElementById('statsToggle');
+            const overlay = document.getElementById('statsOverlay');
+            
+            if (statsEnabled) {
+                toggle.classList.remove('disabled');
+                toggle.classList.add('enabled');
+                overlay.style.display = 'flex';
+            } else {
+                toggle.classList.remove('enabled');
+                toggle.classList.add('disabled');
+                overlay.style.display = 'none';
+            }
+        }
+
+        // Add some interactivity to make it feel real
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('✅ Settings test page loaded successfully!');
+            console.log('🔧 Toggle the settings above to see the notifications hide/show');
+        });
+    </script>
+</body>
+</html>

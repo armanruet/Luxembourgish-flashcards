@@ -3,10 +3,16 @@ import {
   setDoc,
   getDoc,
   onSnapshot,
-  Timestamp
+  Timestamp,
+  collection,
+  query,
+  where,
+  orderBy,
+  limit,
+  getDocs
 } from 'firebase/firestore';
 import { db } from '@/config/firebase';
-import { Deck, UserProgress } from '@/types';
+import { Deck, UserProgress, DailyActivity } from '@/types';
 
 // Collection names
 const COLLECTIONS = {
@@ -235,4 +241,101 @@ export const migrateLocalDataToFirebase = async (userId: string) => {
     console.error('Error migrating local data:', error);
     throw error;
   }
+};
+// Daily activity tracking functions
+export const saveDailyActivityToFirebase = async (userId: string, activity: DailyActivity) => {
+  if (!db) throw new Error('Firestore not available');
+  
+  try {
+    const activityRef = doc(db, 'dailyActivities', `${userId}_${activity.date}`);
+    await setDoc(activityRef, activity);
+  } catch (error) {
+    console.error('Error saving daily activity:', error);
+    throw error;
+  }
+};
+
+export const loadDailyActivitiesFromFirebase = async (userId: string): Promise<DailyActivity[]> => {
+  if (!db) return [];
+  
+  try {
+    const activitiesRef = collection(db, 'dailyActivities');
+    const q = query(
+      activitiesRef,
+      where('__name__', '>=', `${userId}_`),
+      where('__name__', '<', `${userId}_\uf8ff`),
+      orderBy('__name__', 'desc'),
+      limit(90) // Last 90 days
+    );
+    
+    const querySnapshot = await getDocs(q);
+    const activities: DailyActivity[] = [];
+    
+    querySnapshot.forEach((doc) => {
+      activities.push(doc.data() as DailyActivity);
+    });
+    
+    return activities.sort((a, b) => b.date.localeCompare(a.date));
+  } catch (error) {
+    console.error('Error loading daily activities:', error);
+    return [];
+  }
+};
+
+export const getWeeklyActivitiesFromFirebase = async (userId: string): Promise<DailyActivity[]> => {
+  if (!db) return [];
+  
+  try {
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+    const startDate = sevenDaysAgo.toISOString().split('T')[0];
+    
+    const activitiesRef = collection(db, 'dailyActivities');
+    const q = query(
+      activitiesRef,
+      where('__name__', '>=', `${userId}_${startDate}`),
+      where('__name__', '<', `${userId}_\uf8ff`),
+      orderBy('__name__', 'desc')
+    );
+    
+    const querySnapshot = await getDocs(q);
+    const activities: DailyActivity[] = [];
+    
+    querySnapshot.forEach((doc) => {
+      activities.push(doc.data() as DailyActivity);
+    });
+    
+    return activities;
+  } catch (error) {
+    console.error('Error loading weekly activities:', error);
+    return [];
+  }
+};
+
+// Real-time listener for daily activities
+export const subscribeToDailyActivities = (
+  userId: string,
+  callback: (activities: DailyActivity[]) => void
+) => {
+  if (!db) {
+    callback([]);
+    return () => {};
+  }
+  
+  const activitiesRef = collection(db, 'dailyActivities');
+  const q = query(
+    activitiesRef,
+    where('__name__', '>=', `${userId}_`),
+    where('__name__', '<', `${userId}_\uf8ff`),
+    orderBy('__name__', 'desc'),
+    limit(30) // Last 30 days for real-time updates
+  );
+  
+  return onSnapshot(q, (querySnapshot) => {
+    const activities: DailyActivity[] = [];
+    querySnapshot.forEach((doc) => {
+      activities.push(doc.data() as DailyActivity);
+    });
+    callback(activities.sort((a, b) => b.date.localeCompare(a.date)));
+  });
 };
