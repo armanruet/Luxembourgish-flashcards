@@ -28,7 +28,6 @@ export const ContentUpdateBanner: React.FC<ContentUpdateBannerProps> = ({ classN
   const [isVisible, setIsVisible] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [lastCheck, setLastCheck] = useState<Date | null>(null);
-  // const [debugMode, setDebugMode] = useState(false); // Currently unused
   const [debugReport, setDebugReport] = useState<string | null>(null);
 
   // Check for updates on component mount and periodically
@@ -92,7 +91,7 @@ export const ContentUpdateBanner: React.FC<ContentUpdateBannerProps> = ({ classN
 
     console.log('🔍 Starting debug migration...');
     setIsUpdating(true);
-    setDebugMode(true);
+    // setDebugMode(true); // Commented out with debugMode
     
     try {
       const result = await debugMigrateUserContent(currentUserId);
