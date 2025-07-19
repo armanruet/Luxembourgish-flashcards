@@ -97,14 +97,29 @@ export const mergeNewCardsIntoDeck = (userDeck: Deck, latestDeck: Deck): Deck =>
 
 // Add content version metadata to deck
 export const addVersionMetadata = (deck: Deck): Deck => {
-  return {
-    ...deck,
-    metadata: {
-      ...deck.metadata,
-      contentVersion: CURRENT_CONTENT_VERSION,
-      lastContentUpdate: new Date().toISOString()
-    }
-  };
+  try {
+    return {
+      ...deck,
+      // Ensure dates are proper Date objects
+      createdAt: deck.createdAt instanceof Date ? deck.createdAt : new Date(deck.createdAt),
+      updatedAt: deck.updatedAt instanceof Date ? deck.updatedAt : new Date(deck.updatedAt),
+      cards: deck.cards.map(card => ({
+        ...card,
+        createdAt: card.createdAt instanceof Date ? card.createdAt : new Date(card.createdAt),
+        updatedAt: card.updatedAt instanceof Date ? card.updatedAt : new Date(card.updatedAt),
+        nextReview: card.nextReview instanceof Date ? card.nextReview : new Date(card.nextReview),
+        lastReviewed: card.lastReviewed ? (card.lastReviewed instanceof Date ? card.lastReviewed : new Date(card.lastReviewed)) : undefined
+      })),
+      metadata: {
+        ...deck.metadata,
+        contentVersion: CURRENT_CONTENT_VERSION,
+        lastContentUpdate: new Date().toISOString()
+      }
+    };
+  } catch (error) {
+    console.error('❌ Error adding version metadata to deck:', deck.id, error);
+    throw error;
+  }
 };
 
 // Perform content migration for user

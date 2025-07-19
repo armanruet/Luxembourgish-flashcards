@@ -5,7 +5,9 @@ import {
   saveUserProgressToFirebase, 
   loadUserProgressFromFirebase,
   saveDailyActivityToFirebase,
-  loadDailyActivitiesFromFirebase
+  loadDailyActivitiesFromFirebase,
+  subscribeToDailyActivities,
+  subscribeToUserProgress
 } from '@/services/firestoreService';
 
 // Real-time update events
@@ -34,6 +36,7 @@ interface StudyStore {
   currentUserId: string | null;
   sessionStartTime: Date | null;
   sessionTimer: NodeJS.Timeout | null;
+  firebaseUnsubscribers: (() => void)[];
   realTimeStats: {
     sessionAccuracy: number;
     sessionCorrect: number;
@@ -63,6 +66,10 @@ interface StudyStore {
   updateTodaysActivity: (updates: Partial<DailyActivity>) => void;
   saveTodaysActivity: () => Promise<void>;
   loadDailyActivities: () => Promise<void>;
+  
+  // Real-time synchronization
+  setupRealtimeListeners: () => void;
+  cleanupRealtimeListeners: () => void;
   
   // Progress actions
   setUserId: (userId: string | null) => void;
@@ -187,6 +194,7 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
   currentUserId: null,
   sessionStartTime: null,
   sessionTimer: null,
+  firebaseUnsubscribers: [],
   realTimeStats: {
     sessionAccuracy: 0,
     sessionCorrect: 0,
@@ -298,6 +306,74 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
     }
   },
 
+  // Real-time synchronization setup
+  setupRealtimeListeners: () => {
+    const { currentUserId } = get();
+    if (!currentUserId) return;
+
+    // Cleanup any existing listeners first
+    get().cleanupRealtimeListeners();
+
+    // Subscribe to user progress changes (achievements, streak, etc.)
+    const userProgressUnsubscribe = subscribeToUserProgress(
+      currentUserId,
+      (progress) => {
+        if (progress) {
+          set({ userProgress: progress });
+          
+          // Emit events for UI updates
+          get().emitEvent({
+            type: 'streak_updated',
+            data: { streak: progress.currentStreak }
+          });
+          
+          get().emitEvent({
+            type: 'accuracy_changed',
+            data: { accuracy: progress.accuracy }
+          });
+        }
+      }
+    );
+
+    // Subscribe to daily activities changes
+    const dailyActivitiesUnsubscribe = subscribeToDailyActivities(
+      currentUserId,
+      (activities) => {
+        set({ dailyActivities: activities });
+        
+        // Recalculate streak when daily activities change
+        get().calculateStreak();
+        
+        // Emit event for real-time updates
+        get().emitEvent({
+          type: 'daily_activity_updated',
+          data: { activities }
+        });
+      }
+    );
+
+    // Store unsubscribers
+    set(state => ({
+      firebaseUnsubscribers: [...state.firebaseUnsubscribers, userProgressUnsubscribe, dailyActivitiesUnsubscribe]
+    }));
+  },
+
+  cleanupRealtimeListeners: () => {
+    const { firebaseUnsubscribers } = get();
+    
+    // Unsubscribe from all Firebase listeners
+    firebaseUnsubscribers.forEach(unsubscribe => {
+      try {
+        unsubscribe();
+      } catch (error) {
+        console.error('Error unsubscribing from Firebase listener:', error);
+      }
+    });
+    
+    // Clear the unsubscribers array
+    set({ firebaseUnsubscribers: [] });
+  },
+
   // User management
   setUserId: (userId) => {
     const { sessionTimer } = get();
@@ -306,10 +382,16 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
       set({ sessionTimer: null });
     }
     
+    // Cleanup existing listeners
+    get().cleanupRealtimeListeners();
+    
     set({ currentUserId: userId });
     if (userId) {
       get().loadUserProgress(userId);
       get().loadDailyActivities();
+      
+      // Setup real-time listeners for cross-device sync
+      get().setupRealtimeListeners();
     } else {
       set({ 
         userProgress: defaultProgress,
@@ -913,3 +995,10 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
     };
   },
 }));
+
+// Cleanup listeners when page is closed or refreshed
+if (typeof window !== 'undefined') {
+  window.addEventListener('beforeunload', () => {
+    useStudyStore.getState().cleanupRealtimeListeners();
+  });
+}

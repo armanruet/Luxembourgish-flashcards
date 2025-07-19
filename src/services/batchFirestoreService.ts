@@ -40,14 +40,14 @@ export const saveUserDecksBatch = async (userId: string, decks: Deck[]) => {
       batch.set(chunkRef, { 
         decks: chunk.map(deck => ({
           ...deck,
-          createdAt: Timestamp.fromDate(deck.createdAt),
-          updatedAt: Timestamp.fromDate(deck.updatedAt),
+          createdAt: Timestamp.fromDate(deck.createdAt instanceof Date ? deck.createdAt : new Date(deck.createdAt)),
+          updatedAt: Timestamp.fromDate(deck.updatedAt instanceof Date ? deck.updatedAt : new Date(deck.updatedAt)),
           cards: deck.cards.map(card => ({
             ...card,
-            createdAt: Timestamp.fromDate(card.createdAt),
-            updatedAt: Timestamp.fromDate(card.updatedAt),
-            nextReview: Timestamp.fromDate(card.nextReview),
-            lastReviewed: card.lastReviewed ? Timestamp.fromDate(card.lastReviewed) : null
+            createdAt: Timestamp.fromDate(card.createdAt instanceof Date ? card.createdAt : new Date(card.createdAt)),
+            updatedAt: Timestamp.fromDate(card.updatedAt instanceof Date ? card.updatedAt : new Date(card.updatedAt)),
+            nextReview: Timestamp.fromDate(card.nextReview instanceof Date ? card.nextReview : new Date(card.nextReview)),
+            lastReviewed: card.lastReviewed ? Timestamp.fromDate(card.lastReviewed instanceof Date ? card.lastReviewed : new Date(card.lastReviewed)) : null
           }))
         }))
       });

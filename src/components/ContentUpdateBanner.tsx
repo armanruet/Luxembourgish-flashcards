@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Download, RefreshCw, X, Package, Plus, AlertCircle } from 'lucide-react';
+import { Download, RefreshCw, X, Package, Plus, AlertCircle, Bug } from 'lucide-react';
 import { useDeckStore } from '@/store/deckStore';
 import toast from 'react-hot-toast';
+import { debugMigrateUserContent, generateDebugReport } from '@/services/debugMigrationService';
 
 interface ContentUpdateBannerProps {
   className?: string;
@@ -13,7 +14,8 @@ export const ContentUpdateBanner: React.FC<ContentUpdateBannerProps> = ({ classN
     migrationStatus, 
     // lastMigrationCheck, // Currently unused
     checkForContentUpdates, 
-    migrateUserContent 
+    migrateUserContent,
+    currentUserId
   } = useDeckStore();
   
   const [updateInfo, setUpdateInfo] = useState<{
@@ -26,6 +28,8 @@ export const ContentUpdateBanner: React.FC<ContentUpdateBannerProps> = ({ classN
   const [isVisible, setIsVisible] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [lastCheck, setLastCheck] = useState<Date | null>(null);
+  const [debugMode, setDebugMode] = useState(false);
+  const [debugReport, setDebugReport] = useState<string | null>(null);
 
   // Check for updates on component mount and periodically
   useEffect(() => {
@@ -70,11 +74,43 @@ export const ContentUpdateBanner: React.FC<ContentUpdateBannerProps> = ({ classN
         console.log('✅ Update completed successfully');
       } else {
         console.error('❌ Migration returned false');
-        toast.error('Failed to update content. Please try again.');
+        toast.error('Failed to update content. Click "Debug Migration" for details.');
       }
     } catch (error) {
       console.error('❌ Update failed with exception:', error);
-      toast.error('Failed to update content. Please try again.');
+      toast.error('Failed to update content. Click "Debug Migration" for details.');
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
+  const handleDebugMigration = async () => {
+    if (!currentUserId) {
+      toast.error('No user ID available for debugging');
+      return;
+    }
+
+    console.log('🔍 Starting debug migration...');
+    setIsUpdating(true);
+    setDebugMode(true);
+    
+    try {
+      const result = await debugMigrateUserContent(currentUserId);
+      const report = generateDebugReport(result.debugInfo);
+      
+      console.log('🔍 Debug report:', report);
+      setDebugReport(report);
+      
+      if (result.success) {
+        toast.success('Debug migration completed! Check console for details.');
+        setIsVisible(false);
+        setUpdateInfo(null);
+      } else {
+        toast.error(`Debug migration failed: ${result.error}`);
+      }
+    } catch (error) {
+      console.error('❌ Debug migration failed:', error);
+      toast.error('Debug migration failed. Check console for details.');
     } finally {
       setIsUpdating(false);
     }
@@ -192,6 +228,15 @@ export const ContentUpdateBanner: React.FC<ContentUpdateBannerProps> = ({ classN
                 <RefreshCw className="w-4 h-4 mr-2" />
                 Check Again
               </button>
+              
+              <button
+                onClick={handleDebugMigration}
+                disabled={isUpdating}
+                className="inline-flex items-center px-3 py-2 border border-orange-300 text-sm leading-4 font-medium rounded-md text-orange-700 bg-orange-50 hover:bg-orange-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
+                <Bug className="w-4 h-4 mr-2" />
+                Debug
+              </button>
             </div>
           </div>
         </div>
@@ -207,6 +252,22 @@ export const ContentUpdateBanner: React.FC<ContentUpdateBannerProps> = ({ classN
         {lastCheck && (
           <div className="mt-2 text-xs text-gray-500">
             Last checked: {lastCheck.toLocaleTimeString()}
+          </div>
+        )}
+        
+        {/* Debug report */}
+        {debugReport && (
+          <div className="mt-4 p-3 bg-gray-100 rounded-lg">
+            <h4 className="text-sm font-medium text-gray-900 mb-2">Debug Report:</h4>
+            <pre className="text-xs text-gray-700 whitespace-pre-wrap overflow-x-auto">
+              {debugReport}
+            </pre>
+            <button
+              onClick={() => setDebugReport(null)}
+              className="mt-2 text-xs text-gray-500 hover:text-gray-700"
+            >
+              Close Report
+            </button>
           </div>
         )}
       </motion.div>
