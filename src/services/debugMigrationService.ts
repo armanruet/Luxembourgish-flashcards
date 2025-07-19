@@ -1,4 +1,4 @@
-import { Deck } from '@/types';
+// import { Deck } from '@/types'; // Currently unused
 import { allDecks } from '@/data/vocabulary';
 import { saveUserDecksToFirebase, loadUserDecksFromFirebase } from './firestoreService';
 import { saveUserDecksBatch } from './batchFirestoreService';

@@ -28,7 +28,7 @@ export const ContentUpdateBanner: React.FC<ContentUpdateBannerProps> = ({ classN
   const [isVisible, setIsVisible] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
   const [lastCheck, setLastCheck] = useState<Date | null>(null);
-  const [debugMode, setDebugMode] = useState(false);
+  // const [debugMode, setDebugMode] = useState(false); // Currently unused
   const [debugReport, setDebugReport] = useState<string | null>(null);
 
   // Check for updates on component mount and periodically
