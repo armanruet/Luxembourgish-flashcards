@@ -4653,8 +4653,8 @@ export const initialDecks: Deck[] = [
   "description": "Opening phrases, auxiliary verbs, and people description",
   "color": "#007BFF",
   "icon": "🖼️",
-  "createdAt": "2025-07-21T12:00:00.000Z",
-  "updatedAt": "2025-07-21T12:00:00.000Z",
+  createdAt: new Date(),
+  updatedAt: new Date(),
   "totalCards": 185,
   "newCards": 185,
   "reviewCards": 0,
@@ -4669,7 +4669,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Essential opening phrase for picture descriptions. - Am Bild gesinn ech eng Famill. (In the image, I see a family.)",
       "tags": ["opening", "framework", "phrase"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat1-2",
@@ -4680,7 +4680,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Alternative opening phrase. - Op der Foto gesinn ech vill Leit. (On the photo, I see many people.)",
       "tags": ["opening", "framework", "phrase"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat1-3",
@@ -4691,7 +4691,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Location phrase for indoor scenes. Opposite: D'Foto gouf bausse geholl (The photo was taken outside)",
       "tags": ["location", "passive-voice", "framework"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat1-4",
@@ -4702,7 +4702,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Spatial description starter. - Am Virdergrond gesinn ech zwou Persounen. (In the foreground, I see two people.)",
       "tags": ["position", "framework", "spatial"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat1-5",
@@ -4713,7 +4713,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Background description. - Am Hannergrond gesinn ech vill Beem. (In the background, I see many trees.)",
       "tags": ["position", "framework", "spatial"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat1-6",
@@ -4724,7 +4724,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Central position description. - An der Mëtt vum Bild steet e Mann. (In the middle of the image stands a man.)",
       "tags": ["position", "framework", "spatial"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat1-7",
@@ -4735,7 +4735,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Left side description. - Lénks gesinn ech eng jonk Fra. (On the left, I see a young woman.)",
       "tags": ["position", "framework", "spatial"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat1-8",
@@ -4746,7 +4746,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Right side description. - Riets gesinn ech en ale Mann. (On the right, I see an old man.)",
       "tags": ["position", "framework", "spatial"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat1-9",
@@ -4757,7 +4757,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Opinion starter for conclusions. - Ech mengen, datt et Summer ass. (I think that it is summer.)",
       "tags": ["conclusion", "opinion", "subordinate-clause"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat1-10",
@@ -4768,7 +4768,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Assumption phrase. - Et gesäit aus wéi et reent. (It looks like it's raining.)",
       "tags": ["conclusion", "opinion", "phrase"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat1-11",
@@ -4779,7 +4779,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Basic observation phrase. - Ech gesinn e puer Glieser op dem Dësch. (I see a few glasses on the table.)",
       "tags": ["opening", "phrase"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat1-12",
@@ -4790,7 +4790,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Positive conclusion phrase Use at end - Et ass eng schéin Famill-Foto. (It's a beautiful family photo.)",
       "tags": ["conclusion", "opinion", "phrase"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat1-13",
@@ -4801,7 +4801,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "B1",
       "notes": "Summary connector. - Alles an allem ass et eng frou Atmosphär. (All in all, it's a happy atmosphere.)",
       "tags": ["conclusion", "connector", "phrase"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat1-14",
@@ -4812,7 +4812,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Emotional observation. Alternative: Si gesinn zefridde aus. (They look satisfied.)",
       "tags": ["conclusion", "emotion", "people"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat1-15",
@@ -4823,7 +4823,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "B1",
       "notes": "Descriptive conclusion. Use for unique or noteworthy scenes.",
       "tags": ["conclusion", "opinion", "phrase"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat2-16",
@@ -4834,7 +4834,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Present: ech sinn, du bass, hien/si/et ass, mir sinn, dir sidd, si sinn. - Ech sinn midd. (I am tired.)",
       "tags": ["verb", "auxiliary", "conjugation"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat2-17",
@@ -4845,7 +4845,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Past: ech war, du waars, hien/si/et war, mir waren, dir waart, si waren. - Ech war midd. (I was tired.)",
       "tags": ["verb", "auxiliary", "conjugation", "past-tense"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat2-18",
@@ -4856,7 +4856,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Present: ech hunn, du hues, hien/si/et huet, mir hunn, dir hutt, si hunn. - Ech hunn en Auto. (I have a car.)",
       "tags": ["verb", "auxiliary", "conjugation"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat2-19",
@@ -4867,7 +4867,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Past: ech hat, du has, hien/si/et hat, mir haten, dir hat, si haten. - Du has vill Zäit. (You had much time.)",
       "tags": ["verb", "auxiliary", "conjugation", "past-tense"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat2-20",
@@ -4878,7 +4878,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Present: ech ginn, du gëss, hien/si/et gëtt, mir ginn, dir gitt, si ginn. - Ech ginn dir e Buch. (I give you a book.)",
       "tags": ["verb", "conjugation"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat2-21",
@@ -4889,7 +4889,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Uses \"sinn\" auxiliary in perfect. Et gëtt kal. (It becomes cold.) Perfect: Et ass kal ginn. (It became cold.)",
       "tags": ["verb", "conjugation", "auxiliary"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat2-22",
@@ -4900,7 +4900,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Present: ech stinn, du stees, hien/si/et steet, mir stinn, dir steht, si stinn. - De Mann steet riets. (The man stands on the right.)",
       "tags": ["verb", "action", "conjugation"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat2-23",
@@ -4911,7 +4911,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Present: ech sëtzen, du sëtz, hien/si/et sëtzt, mir sëtzen, dir sëtzt, si sëtzen. - Si sëtzt um Stol. (She sits on the chair.)",
       "tags": ["verb", "action", "conjugation"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat2-24",
@@ -4922,7 +4922,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Present: ech kucken, du kucks, hien/si/et kuckt, mir kucken, dir kuckt, si kucken. - Si kucken d'Foto. (They look at the photo.)",
       "tags": ["verb", "action", "conjugation"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat2-25",
@@ -4933,7 +4933,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Present: ech maachen, du maachs, hien/si/et maacht, mir maachen, dir maacht, si maachen. - Wat maachen d'Persounen? (What are the people doing?)",
       "tags": ["verb", "action", "conjugation"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat2-26",
@@ -4944,7 +4944,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Present: ech schaffen, du schaffs, hien/si/et schafft, mir schaffen, dir schafft, si schaffen. - Hien schafft an der Kichen. (He works in the kitchen.)",
       "tags": ["verb", "action", "conjugation"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat2-27",
@@ -4955,7 +4955,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Present: ech laachen, du laachs, hien/si/et laacht, mir laachen, dir laacht, si laachen. - D'Kanner laachen. (The children laugh.)",
       "tags": ["verb", "action", "conjugation"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat2-28",
@@ -4966,7 +4966,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Present: ech schwätzen, du schwätz, hien/si/et schwätzt, mir schwätzen, dir schwätzt, si schwätzen. - Si schwätzen mateneen. (They talk to each other.)",
       "tags": ["verb", "action", "conjugation"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat2-29",
@@ -4977,7 +4977,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Present: ech drénken, du drénks, hien/si/et drénkt, mir drénken, dir drénkt, si drénken. - Hien drénkt Kaffi. (He drinks coffee.)",
       "tags": ["verb", "action", "conjugation"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat2-30",
@@ -4988,7 +4988,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Present: ech iessen, du ësst, hien/si/et ësst, mir iessen, dir iesst, si iessen. - Si iessen zesummen. (They eat together.)",
       "tags": ["verb", "action", "conjugation"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat3-31",
@@ -4999,7 +4999,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Feminine noun. - Ech gesinn eng jonk Fra. (I see a young woman.) Plural: d'Fraen (the women)",
       "tags": ["noun", "people"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat3-32",
@@ -5010,7 +5010,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Masculine noun. - De Mann steet lénks. (The man stands on the left.) Plural: d'Männer (the men)",
       "tags": ["noun", "people"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat3-33",
@@ -5021,7 +5021,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Neuter noun. - Et ass e glécklecht Kand. (It's a happy child.) Plural: d'Kanner (the children)",
       "tags": ["noun", "people"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat3-34",
@@ -5032,7 +5032,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Adjective. - Si ass eng jonk Fra. (She is a young woman.) Agreement: jonken (masc.), jonk (fem.), jonkt (neut.)",
       "tags": ["adjective", "age", "people"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat3-35",
@@ -5043,7 +5043,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Adjective. - En alen Mann. (An old man.) Agreement: alen (masc.), al (fem.), alt (neut.)",
       "tags": ["adjective", "age", "people"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat3-36",
@@ -5054,7 +5054,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Adjective. - Hien ass grouss a sportlech. (He is tall and sporty.) Agreement: grousse (masc.), grouss (fem.), grousst (neut.)",
       "tags": ["adjective", "appearance", "people"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat3-37",
@@ -5065,7 +5065,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Adjective. - Eng kleng Fra. (A small woman.) Agreement: klengen (masc.), kleng (fem.), klengt (neut.)",
       "tags": ["adjective", "appearance", "people"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat3-38",
@@ -5076,7 +5076,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Adjective. - Si ass jonk a schlank. (She is young and slim.) Agreement: schlanken (masc.), schlank (fem.), schlankt (neut.)",
       "tags": ["adjective", "appearance", "people"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat3-39",
@@ -5087,7 +5087,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Hair color. - Si huet laang blond Hoer. (She has long blonde hair.) Other colors: brong (brown), schwaarz (black)",
       "tags": ["hair", "appearance", "people"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat3-40",
@@ -5098,7 +5098,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Hair length. - D'Fra huet laang brong Hoer. (The woman has long brown hair.) Opposite: kuerz Hoer (short hair)",
       "tags": ["hair", "appearance", "people"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat3-41",
@@ -5109,7 +5109,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Masculine noun. - De Mann huet e bronge Baart. (The man has a brown beard.) Also: e Schnauz (a moustache)",
       "tags": ["facial-hair", "appearance", "people"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat3-42",
@@ -5120,7 +5120,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Masculine noun. - Hien huet e Brëll op. (He is wearing glasses.) Use \"ophunn\" for things worn on head/face.",
       "tags": ["accessory", "appearance", "people"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat3-43",
@@ -5131,7 +5131,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Adjective. - Si gesinn all frou aus. (They all look happy.) Also: glécklech (happy), zefridde (satisfied)",
       "tags": ["adjective", "emotion", "people"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat3-44",
@@ -5142,7 +5142,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "B1",
       "notes": "Adjective. - Hie gesäit sympathesch an zefridde aus. (He looks likeable and satisfied.)",
       "tags": ["adjective", "emotion", "people"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat3-45",
@@ -5153,7 +5153,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "B1",
       "notes": "Adjective. - Hien ass grouss a sportlech. (He is tall and sporty.)",
       "tags": ["adjective", "appearance", "people"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat3-46",
@@ -5164,7 +5164,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Age expression. - D'Mamm ass ongeféier 35 Joer al. (The mother is approximately 35 years old.)",
       "tags": ["phrase", "age", "people"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat3-47",
@@ -5175,7 +5175,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "B1",
       "notes": "Age range. - D'Kanner hunn tëschent 8 an 10 Joer. (The children are between 8 and 10 years old.)",
       "tags": ["phrase", "age", "people"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat3-48",
@@ -5186,7 +5186,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "B1",
       "notes": "Hair texture. - Si huet gekrauselt brong Hoer. (She has curly brown hair.) Opposite: glat Hoer (straight hair)",
       "tags": ["hair", "appearance", "people"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat3-49",
@@ -5197,7 +5197,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "B1",
       "notes": "Feminine noun. - De Mann huet eng Glatz. (The man has a bald head.)",
       "tags": ["hair", "appearance", "people"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat3-50",
@@ -5208,7 +5208,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "B1",
       "notes": "Masculine noun. - Si huet hir Hoer an engem Päerdsschwanz. (She has her hair in a ponytail.)",
       "tags": ["hair", "appearance", "people"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat3-51",
@@ -5219,7 +5219,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "B1",
       "notes": "Adjective. - Hie gesäit seriö aus. (He looks serious.)",
       "tags": ["adjective", "emotion", "people"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat3-52",
@@ -5230,7 +5230,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "B1",
       "notes": "Adjective. - Si gesäit e bëssen nervös aus. (She looks a bit nervous.)",
       "tags": ["adjective", "emotion", "people"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat3-53",
@@ -5241,7 +5241,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Adjective. - Si gesinn all frëndlech aus. (They all look friendly.)",
       "tags": ["adjective", "emotion", "people"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat3-54",
@@ -5252,7 +5252,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Feminine noun. - Op der Foto gesinn ech eng Famill. (On the photo, I see a family.) Members: de Papp, d'Mamm, d'Kanner",
       "tags": ["noun", "people", "family"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat3-55",
@@ -5263,7 +5263,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Plural noun. - Ech mengen, si si Frënn. (I think they are friends.) Singular: de Frënd (male friend), d'Frëndin (female friend)",
       "tags": ["noun", "people", "friends"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat4-56",
@@ -5274,7 +5274,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Masculine noun. - Hien huet e roude Pullover un. (He is wearing a red sweater.) Use \"unhunn\" for wearing clothes.",
       "tags": ["noun", "clothing"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat4-57",
@@ -5285,7 +5285,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Neuter noun. - Si dréit en T-Shirt. (She is wearing a T-shirt.)",
       "tags": ["noun", "clothing"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat4-58",
@@ -5296,7 +5296,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Feminine noun. - Eng schwaarz Box. (Black pants.) Always plural in meaning but singular in grammar.",
       "tags": ["noun", "clothing"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat4-59",
@@ -5307,7 +5307,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Masculine noun. - E kuerze Rock. (A short skirt.) Also: e laange Rock (a long skirt)",
       "tags": ["noun", "clothing"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat4-60",
@@ -5318,7 +5318,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Feminine noun. - Eng blo Jackett. (A blue jacket.)",
       "tags": ["noun", "clothing"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat4-61",
@@ -5329,7 +5329,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Plural noun. - Brong Schong. (Brown shoes.) Always plural, use appropriate color endings.",
       "tags": ["noun", "clothing", "plural"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat4-62",
@@ -5340,7 +5340,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Masculine noun. - D'Fra huet e Brëll op. (The woman has glasses on.) Use \"ophunn\" for head/face items.",
       "tags": ["noun", "accessory"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat4-63",
@@ -5351,7 +5351,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Feminine noun. - Eng schéin Auer. (A beautiful watch.)",
       "tags": ["noun", "accessory"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat4-64",
@@ -5362,7 +5362,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Feminine noun. - Eng grouss Posch. (A big bag.)",
       "tags": ["noun", "accessory"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat4-65",
@@ -5373,7 +5373,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "B1",
       "notes": "Plural noun. - Giel Ouerréng. (Yellow earrings.)",
       "tags": ["noun", "accessory"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat4-66",
@@ -5384,7 +5384,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "B1",
       "notes": "Feminine noun. - Eng sëlwer Ketten. (A silver necklace.)",
       "tags": ["noun", "accessory"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat4-67",
@@ -5395,7 +5395,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Masculine noun. - En rouden Hutt. (A red hat.) Use \"ophunn\" for wearing hats.",
       "tags": ["noun", "accessory"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat4-68",
@@ -5406,7 +5406,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Feminine noun. - Eng blo Kap. (A blue cap.)",
       "tags": ["noun", "accessory"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat4-69",
@@ -5417,7 +5417,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Separable verb for wearing clothes on body. - Si huet eng Jackett un. (She is wearing a jacket.)",
       "tags": ["verb", "clothing"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat4-70",
@@ -5428,7 +5428,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Separable verb for head/face items. - Hien huet e Brëll op. (He is wearing glasses.)",
       "tags": ["verb", "clothing"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat4-71",
@@ -5439,7 +5439,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Regular verb. - Si dréit schéin Kleeder. (She wears beautiful clothes.)",
       "tags": ["verb", "clothing"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat4-72",
@@ -5450,7 +5450,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Color adjective. Agreement: rouden (masc.), rout (fem.), rout (neut.). - E roude Pullover (a red sweater)",
       "tags": ["adjective", "color"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat4-73",
@@ -5461,7 +5461,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Color adjective. Agreement: bloen (masc.), blo (fem.), blot (neut.). - Eng blo Jackett (a blue jacket)",
       "tags": ["adjective", "color"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat4-74",
@@ -5472,7 +5472,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Color adjective. Agreement: wäissen (masc.), wäiss (fem.), wäisst (neut.). - E wäissen T-Shirt (a white T-shirt)",
       "tags": ["adjective", "color"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat4-75",
@@ -5483,7 +5483,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Color adjective. Agreement: schwaarzen (masc.), schwaarz (fem.), schwaarzt (neut.). - Eng schwaarz Box (black pants)",
       "tags": ["adjective", "color"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat5-76",
@@ -5494,7 +5494,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Irregular verb. Si iessen zesummen. (They eat together.) Present: ech iessen, du ësst, hien/si ësst",
       "tags": ["verb", "action"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat5-77",
@@ -5505,7 +5505,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Regular verb. Hien drénkt Kaffi. (He drinks coffee.) Also: Si drénke Wäin. (They drink wine.)",
       "tags": ["verb", "action"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat5-78",
@@ -5516,7 +5516,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Regular verb. Si schwätze mateneen. (They talk to each other.) Also: schwätzen iwwer eppes (talk about something)",
       "tags": ["verb", "action"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat5-79",
@@ -5527,7 +5527,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Regular verb. D'Kanner laachen. (The children laugh.) Shows happiness in pictures.",
       "tags": ["verb", "action", "emotion"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat5-80",
@@ -5538,7 +5538,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Regular verb. Si sëtzt um Stull. (She sits on the chair.) Position description in pictures.",
       "tags": ["verb", "action", "position"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat5-81",
@@ -5549,7 +5549,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Irregular verb. De Mann steet riets. (The man stands on the right.) Present: ech stinn, du stees, hien steet",
       "tags": ["verb", "action", "position"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat5-82",
@@ -5560,7 +5560,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Regular verb. Si spadséieren am Park. (They walk in the park.) Leisurely walking activity.",
       "tags": ["verb", "action", "movement"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat5-83",
@@ -5571,7 +5571,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Regular verb. Si feieren e Gebuertsdag. (They celebrate a birthday.) Party/celebration scenes.",
       "tags": ["verb", "action", "event"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat5-84",
@@ -5582,7 +5582,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Regular verb. Si kafen Liewensmëttel. (They buy groceries.) Shopping activity descriptions.",
       "tags": ["verb", "action", "shopping"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat5-85",
@@ -5593,7 +5593,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Regular verb. Si kucken d'Foto. (They look at the photo.) Observing activity in pictures.",
       "tags": ["verb", "action"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat5-86",
@@ -5604,7 +5604,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Regular verb. Si trëppelen. (They are walking.) More casual than spadséieren.",
       "tags": ["verb", "action", "movement"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat5-87",
@@ -5615,7 +5615,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Regular verb. D'Kanner spillen am Gaart. (The children play in the garden.) Children's activities.",
       "tags": ["verb", "action", "children"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat5-88",
@@ -5626,7 +5626,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Regular verb. Si kachen zesummen. (They cook together.) Kitchen activity scenes.",
       "tags": ["verb", "action", "food"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat5-89",
@@ -5637,7 +5637,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Compound verb. Si fuere Vëlo. (They are cycling.) Outdoor activity with bicycle.",
       "tags": ["verb", "action", "sport"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat5-90",
@@ -5648,7 +5648,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Regular verb. Si liewen do. (They live there.) Used for describing people's situations.",
       "tags": ["verb", "state"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat5-91",
@@ -5659,7 +5659,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Regular verb. Hie schafft an der Kichen. (He works in the kitchen.) Work activities in pictures.",
       "tags": ["verb", "action", "work"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat5-92",
@@ -5670,7 +5670,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "B1",
       "notes": "Strong verb. Si hëlleft am Haus. (She helps in the house.) Helping activity descriptions.",
       "tags": ["verb", "action"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat5-93",
@@ -5681,7 +5681,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "B1",
       "notes": "Regular verb. Si preparéiert d'Iessen. (She prepares the food.) Food preparation activities.",
       "tags": ["verb", "action", "food"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat5-94",
@@ -5692,7 +5692,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "B1",
       "notes": "Regular verb. Hie servéiert d'Iessen. (He serves the food.) Restaurant/dining scenes.",
       "tags": ["verb", "action", "food"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat5-95",
@@ -5703,7 +5703,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Regular verb. Si danzen. (They are dancing.) Party/celebration activities.",
       "tags": ["verb", "action", "event"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat5-96",
@@ -5714,7 +5714,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Regular verb. Si sangen zesummen. (They sing together.) Musical activities in pictures.",
       "tags": ["verb", "action", "music"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat5-97",
@@ -5725,7 +5725,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Strong verb. Hie liest e Buch. (He reads a book.) Reading activities in pictures.",
       "tags": ["verb", "action"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat5-98",
@@ -5736,7 +5736,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "B1",
       "notes": "Regular verb. Si klappen an d'Hänn. (They clap their hands.) Celebration gesture descriptions.",
       "tags": ["verb", "action", "event"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat5-99",
@@ -5747,7 +5747,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "B1",
       "notes": "Regular verb. Si ëmaarme sech. (They hug each other.) Affectionate gesture descriptions.",
       "tags": ["verb", "action", "emotion"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat5-100",
@@ -5758,7 +5758,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "B1",
       "notes": "Regular verb. Si wénkt. (She waves.) Greeting gesture descriptions.",
       "tags": ["verb", "action"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat6-101",
@@ -5769,7 +5769,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Spatial description. - Op der lénker Säit gesinn ech eng Fra. (On the left side, I see a woman.)",
       "tags": ["position", "spatial", "phrase"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat6-102",
@@ -5780,7 +5780,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Spatial description. - Op der rietser Säit steet e Mann. (On the right side stands a man.)",
       "tags": ["position", "spatial", "phrase"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat6-103",
@@ -5791,7 +5791,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Central position. - Am Mëttelpunkt vum Bild. (In the center of the image.)",
       "tags": ["position", "spatial", "phrase"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat6-104",
@@ -5802,7 +5802,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Object location. - Op dem Dësch gesinn ech Teller. (On the table, I see plates.)",
       "tags": ["position", "spatial", "preposition"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat6-105",
@@ -5813,7 +5813,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Room location. - Si sinn an der Kichen. (They are in the kitchen.)",
       "tags": ["location", "place", "preposition"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat6-106",
@@ -5824,7 +5824,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Location type. - D'Leit iessen am Restaurant. (The people eat in the restaurant.)",
       "tags": ["location", "place", "preposition"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat6-107",
@@ -5835,7 +5835,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Outdoor location. - D'Kanner spillen am Gaart. (The children play in the garden.)",
       "tags": ["location", "place", "preposition"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat6-108",
@@ -5846,7 +5846,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Public location. - Si spadséieren am Park. (They walk in the park.)",
       "tags": ["location", "place", "preposition"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat6-109",
@@ -5857,7 +5857,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Home location. - Si sinn doheem. (They are at home.)",
       "tags": ["location", "place"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat6-110",
@@ -5868,7 +5868,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Outdoor location. - Si sinn dobaussen. (They are outside.)",
       "tags": ["location", "place"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat6-111",
@@ -5879,7 +5879,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Indoor location. - Si sinn dobannen. (They are inside.)",
       "tags": ["location", "place"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat6-112",
@@ -5890,7 +5890,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Proximity. - Nieft dem Mann steet eng Fra. (Next to the man stands a woman.)",
       "tags": ["position", "preposition"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat6-113",
@@ -5901,7 +5901,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Position. - Hannert him steet en Dësch. (Behind him stands a table.)",
       "tags": ["position", "preposition"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat6-114",
@@ -5912,7 +5912,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Position. - Virun der Fra steet e Kand. (In front of the woman stands a child.)",
       "tags": ["position", "preposition"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat6-115",
@@ -5923,7 +5923,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "B1",
       "notes": "Position. - Tëschent deenen zwee Still. (Between the two chairs.)",
       "tags": ["position", "preposition"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat7-116",
@@ -5934,7 +5934,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Masculine noun. - Op dem Dësch stinn Glieser. (On the table stand glasses.)",
       "tags": ["noun", "object", "furniture"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat7-117",
@@ -5945,7 +5945,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Masculine noun. - Si sëtzt op engem Stull. (She sits on a chair.)",
       "tags": ["noun", "object", "furniture"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat7-118",
@@ -5956,7 +5956,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Neuter noun. - E Glas Wäin. (A glass of wine.) Plural: Glieser",
       "tags": ["noun", "object", "tableware"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat7-119",
@@ -5967,7 +5967,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Masculine noun. - Op dem Teller ass Iessen. (On the plate is food.)",
       "tags": ["noun", "object", "tableware"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat7-120",
@@ -5978,7 +5978,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Feminine noun. - Eng Fläsch Wäin. (A bottle of wine.)",
       "tags": ["noun", "object", "tableware"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat7-121",
@@ -5989,7 +5989,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Feminine noun. - Eng grouss Posch. (A big bag.)",
       "tags": ["noun", "object", "accessory"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat7-122",
@@ -6000,7 +6000,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Neuter noun. - Hie liest e Buch. (He reads a book.)",
       "tags": ["noun", "object"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat7-123",
@@ -6011,7 +6011,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Neuter noun. - D'Iessen gesäit lecker aus. (The food looks delicious.)",
       "tags": ["noun", "food"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat7-124",
@@ -6022,7 +6022,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Feminine noun. - Eng schéin Luucht. (A beautiful lamp.)",
       "tags": ["noun", "object", "furniture"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat7-125",
@@ -6033,7 +6033,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Masculine noun. - Si sëtzen op dem Sofa. (They sit on the sofa.)",
       "tags": ["noun", "object", "furniture"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat7-126",
@@ -6044,7 +6044,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Masculine noun. - Hien huet en Handy an der Hand. (He has a mobile phone in his hand.)",
       "tags": ["noun", "object", "technology"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat7-127",
@@ -6055,7 +6055,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Feminine noun. - Eng digital Kamera. (A digital camera.)",
       "tags": ["noun", "object", "technology"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat7-128",
@@ -6066,7 +6066,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Plural noun. - Schéin Blummen op dem Dësch. (Beautiful flowers on the table.)",
       "tags": ["noun", "object", "nature"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat7-129",
@@ -6077,7 +6077,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Masculine noun. - E grousse Gebuertsdagskuch. (A big birthday cake.)",
       "tags": ["noun", "food", "event"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat7-130",
@@ -6088,7 +6088,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Plural noun. - Faarweg Ballonen. (Colorful balloons.)",
       "tags": ["noun", "object", "event"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat8-131",
@@ -6099,7 +6099,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Season description. - Ech mengen, et ass Summer. (I think it is summer.) Other seasons: Wanter, Hierscht, Fréijoer",
       "tags": ["phrase", "time", "weather", "season"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat8-132",
@@ -6110,7 +6110,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Weather description. - D'Sonn schéngt hell. (The sun shines brightly.)",
       "tags": ["phrase", "weather"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat8-133",
@@ -6121,7 +6121,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Temperature. - Et ass e waarmen Dag. (It is a warm day.)",
       "tags": ["phrase", "weather", "temperature"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat8-134",
@@ -6132,7 +6132,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Temperature. - Et gesäit kal aus. (It looks cold.)",
       "tags": ["phrase", "weather", "temperature"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat8-135",
@@ -6143,7 +6143,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Time of day. - Et ass moies. (It is morning.) Also: mëttes (noon), owes (evening), nuets (night)",
       "tags": ["adverb", "time"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat8-136",
@@ -6154,7 +6154,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Time of day. - Si iessen owes. (They eat in the evening.)",
       "tags": ["adverb", "time"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat8-137",
@@ -6165,7 +6165,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Time period. - Et ass de Weekend. (It is the weekend.)",
       "tags": ["noun", "time"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat8-138",
@@ -6176,7 +6176,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Current day. - Haut ass e schéinen Dag. (Today is a beautiful day.)",
       "tags": ["adverb", "time"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat8-139",
@@ -6187,7 +6187,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Weather condition. - Et gesäit aus wéi wann et reent. (It looks like it's raining.)",
       "tags": ["phrase", "weather"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat8-140",
@@ -6198,7 +6198,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Weather description. - Et ass e schéine Summerdag. (It is a beautiful summer day.)",
       "tags": ["phrase", "weather"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat9-141",
@@ -6209,7 +6209,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Basic connector. - De Mann an d'Fra. (The man and the woman.) No inversion after \"an\"",
       "tags": ["connector", "conjunction"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat9-142",
@@ -6220,7 +6220,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Contrast connector. - Hien ass al, mee gesond. (He is old, but healthy.) No inversion after \"mee\"",
       "tags": ["connector", "conjunction"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat9-143",
@@ -6231,7 +6231,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Alternative connector. - Am Restaurant oder doheem. (In the restaurant or at home.)",
       "tags": ["connector", "conjunction"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat9-144",
@@ -6242,7 +6242,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "B1",
       "notes": "Conclusion connector. - Et ass waarm, dofir droe si liicht Kleeder. (It is warm, therefore they wear light clothes.)",
       "tags": ["connector", "adverb"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat9-145",
@@ -6253,7 +6253,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "B1",
       "notes": "Contrast connector. - Et ass schéin, allerdéngs e bësse kal. (It is beautiful, however a bit cold.)",
       "tags": ["connector", "adverb"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat9-146",
@@ -6264,7 +6264,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "B1",
       "notes": "Clarification connector. - An der Kichen, an zwar nieft dem Uewen. (In the kitchen, more precisely next to the stove.)",
       "tags": ["connector", "phrase"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat9-147",
@@ -6275,7 +6275,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Example connector. - Vill Aktivitéiten, zum Beispill kachen. (Many activities, for example cooking.)",
       "tags": ["connector", "phrase"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat9-148",
@@ -6286,7 +6286,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Possibility word. - Vläicht si si eng Famill. (Perhaps they are a family.)",
       "tags": ["connector", "adverb"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat9-149",
@@ -6297,7 +6297,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Certainty word. - Si si sécher frou. (They are certainly happy.)",
       "tags": ["connector", "adverb"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "cat9-150",
@@ -6308,7 +6308,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Reason connector with verb-last rule. - Si laachen, well si frou sinn. (They laugh because they are happy.) Note: Verb goes to end in subordinate clause.",
       "tags": ["connector", "conjunction", "subordinate-clause"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "add1-151",
@@ -6319,7 +6319,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "A very common phrase for describing scenes with crowds. - Am Bild gesinn ech vill Leit. (In the image, I see many people.)",
       "tags": ["phrase", "people", "quantity"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "add1-152",
@@ -6330,7 +6330,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Used to describe two people together, often a man and a woman. - An der Mëtt gesinn ech eng Koppel. (In the middle, I see a couple.)",
       "tags": ["noun", "people", "family"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "add1-153",
@@ -6341,7 +6341,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "B1",
       "notes": "To describe people talking to each other. - Si spadséieren an diskutéieren. (They are walking and discussing.)",
       "tags": ["verb", "action"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "add1-154",
@@ -6352,7 +6352,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Used with 'op'. - Villäicht, sinn si waarden op seng Kanner. (Perhaps they are waiting for their children.)",
       "tags": ["verb", "action"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "add1-155",
@@ -6363,7 +6363,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Describes the activity of camping. - D'Leit campéieren. (The people are camping.)",
       "tags": ["verb", "action", "leisure", "outdoors"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "add1-156",
@@ -6374,7 +6374,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Feminine clothing item. - D'Fra huet e Rack un. (The woman is wearing a dress.)",
       "tags": ["noun", "clothing"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "add1-157",
@@ -6385,7 +6385,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Neuter noun. Often used for button-up shirts. - Hien huet e karéiert Hiem un. (He is wearing a plaid shirt.)",
       "tags": ["noun", "clothing"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "add1-158",
@@ -6396,7 +6396,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Masculine noun. - Si huet e roude Schal un. (She is wearing a red scarf.)",
       "tags": ["noun", "clothing", "accessory"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "add1-159",
@@ -6407,7 +6407,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Masculine noun. - Si huet och e roude Rucksack. (She also has a red backpack.)",
       "tags": ["noun", "accessory"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "add1-160",
@@ -6418,7 +6418,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Feminine noun, common for travel scenes. - Ech gesinn eng rout Valis. (I see a red suitcase.)",
       "tags": ["noun", "accessory", "travel"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "add1-161",
@@ -6429,7 +6429,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Masculine noun. Used for sunny weather descriptions. - Hien huet e Sonnebrëll op. (He is wearing sunglasses.)",
       "tags": ["noun", "accessory"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "add1-162",
@@ -6440,7 +6440,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "B1",
       "notes": "Adjective for patterns on clothing. - Hien huet e gesträift Hiem un. (He is wearing a striped shirt.)",
       "tags": ["adjective", "pattern", "clothing"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "add1-163",
@@ -6451,7 +6451,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "B1",
       "notes": "Adjective for describing a common pattern. - Si huet eng karéiert Box un. (She is wearing plaid pants.)",
       "tags": ["adjective", "pattern", "clothing"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "add1-164",
@@ -6462,7 +6462,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "General adjective for describing vibrant objects or clothes. - De Klon huet eng faarweg Krawatt un. (The clown is wearing a colorful tie.)",
       "tags": ["adjective", "color"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "add1-165",
@@ -6473,7 +6473,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Masculine noun. Essential for outdoor scenes. Plural: d'Beem. - Am Hannergrond gesinn ech vill Beem. (In the background, I see many trees.)",
       "tags": ["noun", "object", "nature"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "add1-166",
@@ -6484,7 +6484,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Neuter noun. Useful for city or town scenes. Plural: d'Gebaier. - Op der lénkser Säit gesinn ech Gebaier. (On the left side, I see buildings.)",
       "tags": ["noun", "object", "place"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "add1-167",
@@ -6495,7 +6495,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Masculine noun. For describing street or shopping scenes. Plural: d'Butteker. - Riets ass e Buttek. (On the right is a shop.)",
       "tags": ["noun", "place", "shopping"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "add1-168",
@@ -6506,7 +6506,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Feminine noun. Fundamental for describing cityscapes. - D'Strooss ass eng Foussgängerzon. (The street is a pedestrian zone.)",
       "tags": ["noun", "place"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "add1-169",
@@ -6517,7 +6517,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Neuter noun. Key vocabulary for camping scenes. - Am Hannergrond gesinn ech vill Zelter. (In the background, I see many tents.)",
       "tags": ["noun", "object", "camping"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "add1-170",
@@ -6528,7 +6528,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Masculine noun. For outdoor and sport activities. - Ech gesinn véier Vëloen. (I see four bicycles.)",
       "tags": ["noun", "object", "sport", "transport"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "add1-171",
@@ -6539,7 +6539,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "B1",
       "notes": "Neuter noun. Used for describing campfires or fireplaces. - Si sëtzen ronderëm d'Feier. (They are sitting around the fire.)",
       "tags": ["noun", "object", "nature"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "add1-172",
@@ -6550,7 +6550,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Neuter noun (collective). For describing food at markets or picnics. - Ech gesinn verschidden Zorten Uebst. (I see different types of fruit.)",
       "tags": ["noun", "food"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "add1-173",
@@ -6561,7 +6561,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Neuter noun (collective). For describing food at markets. - Um Stand ass vill Geméis. (There are a lot of vegetables at the stall.)",
       "tags": ["noun", "food"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "add1-174",
@@ -6572,7 +6572,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "B1",
       "notes": "Masculine noun. Specific location for travel pictures. - D'Foto ass op engem Fluchhafen. (The photo is at an airport.)",
       "tags": ["noun", "place", "travel"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "add1-175",
@@ -6583,7 +6583,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "B1",
       "notes": "Masculine noun. Specific location for school scenes. - D'Kanner sinn an engem Klassesall. (The children are in a classroom.)",
       "tags": ["noun", "place", "school"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "add1-176",
@@ -6594,7 +6594,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Masculine noun. For nature and landscape descriptions. - Am Hannergrond ass e Séi. (In the background is a lake.)",
       "tags": ["noun", "place", "nature"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "add1-177",
@@ -6605,7 +6605,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Plural noun. For landscape descriptions. - Am Hannergrond gesinn ech Bierger. (In the background I see mountains.)",
       "tags": ["noun", "place", "nature"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "add1-178",
@@ -6616,7 +6616,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Masculine noun. Essential for weather descriptions. - Den Himmel ass blo. (The sky is blue.)",
       "tags": ["noun", "weather", "nature"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "add1-179",
@@ -6627,7 +6627,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Plural noun. - Ech gesinn Wolleken um Himmel. (I see clouds in the sky.)",
       "tags": ["noun", "weather", "nature"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "add1-180",
@@ -6638,7 +6638,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Masculine noun. For winter scenes. - Am Hannergrond gesäit ee vill Schnéi. (In the background one sees a lot of snow.)",
       "tags": ["noun", "weather", "winter"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "add1-181",
@@ -6649,7 +6649,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "B1",
       "notes": "Describes a cloudy day. - D'Wieder ass bedeckt an et ass net sonneg. (The weather is overcast and it is not sunny.)",
       "tags": ["phrase", "weather"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "add1-182",
@@ -6660,7 +6660,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A1",
       "notes": "Season description, opposite of summer. - D'Leit hunn déck Jacketten un, ech mengen et ass Wanter. (The people are wearing thick jackets, I think it is winter.)",
       "tags": ["phrase", "time", "weather", "season"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "add1-183",
@@ -6671,7 +6671,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Season description. - Alles ass gréng, vläicht ass et Fréijoer. (Everything is green, perhaps it is spring.)",
       "tags": ["phrase", "time", "weather", "season"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "add1-184",
@@ -6682,7 +6682,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Season description. - D'Leit hunn Jacketten un, vläicht ass et Hierscht. (The people are wearing jackets, perhaps it's autumn.)",
       "tags": ["phrase", "time", "weather", "season"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
     {
       "id": "add1-185",
@@ -6693,7 +6693,7 @@ export const initialDecks: Deck[] = [
       "difficulty": "A2",
       "notes": "Describes the time of day, especially when dark. - Et ass Owend well et ganz donkel ass. (It is evening because it is very dark.)",
       "tags": ["phrase", "time"],
-      "easeFactor": 2.5, "interval": 0, "repetition": 0, "nextReview": "2025-07-21T12:00:00.000Z", "reviewCount": 0, "successCount": 0, "createdAt": "2025-07-21T12:00:00.000Z", "updatedAt": "2025-07-21T12:00:00.000Z"
+      "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     }
   ]
 },
