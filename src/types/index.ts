@@ -51,7 +51,11 @@ export type StudyMode =
   | 'quiz-multiple-choice'  // Quiz with multiple choice questions
   | 'quiz-fill-blank'       // Quiz with fill-in-the-blank questions
   | 'quiz-matching'         // Quiz with matching exercises
-  | 'quiz-mixed';           // Quiz with mixed question types
+  | 'quiz-mixed'            // Quiz with mixed question types
+  | 'quiz-context'          // Quiz with real-world scenarios
+  | 'quiz-conversation'     // Quiz with conversation comprehension
+  | 'quiz-grammar'          // Quiz with grammar focus
+  | 'quiz-advanced-mc';     // Quiz with advanced multiple choice
 
 export type ResponseQuality = 
   | 'again'      // 0 - Wrong/forgot
@@ -214,7 +218,14 @@ export type QuizQuestionType =
   | 'multiple-choice'
   | 'fill-blank'
   | 'matching'
-  | 'true-false';
+  | 'true-false'
+  | 'context-scenario'     // Real-world scenarios
+  | 'conversation-comp'    // Conversation comprehension
+  | 'grammar-context'      // Grammar in context
+  | 'error-correction'     // Find and fix mistakes
+  | 'word-association'     // Group related words
+  | 'sentence-completion'  // Complete sentences
+  | 'advanced-multiple-choice'; // Advanced practical questions
 
 export interface QuizQuestion {
   id: string;

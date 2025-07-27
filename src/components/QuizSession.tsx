@@ -57,10 +57,13 @@ const QuizSession: React.FC = () => {
       return;
     }
 
-    const questionTypes: QuestionType[] = mode === 'quiz-multiple-choice' ? ['multiple-choice'] :
-                        mode === 'quiz-fill-blank' ? ['fill-blank'] :
+    const questionTypes: QuestionType[] = mode === 'quiz-fill-blank' ? ['fill-blank'] :
                         mode === 'quiz-matching' ? ['matching'] :
-                        ['multiple-choice', 'fill-blank'];
+                        mode === 'quiz-context' ? ['context-scenario'] :
+                        mode === 'quiz-conversation' ? ['conversation-comp'] :
+                        mode === 'quiz-grammar' ? ['grammar-context', 'error-correction'] :
+                        mode === 'quiz-advanced-mc' ? ['advanced-multiple-choice'] :
+                        ['multiple-choice', 'fill-blank', 'context-scenario', 'conversation-comp', 'grammar-context', 'error-correction', 'word-association', 'sentence-completion', 'advanced-multiple-choice'];
 
     const questions = generateQuizQuestions(
       cardsToUse,
@@ -208,15 +211,8 @@ const QuizSession: React.FC = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              {
-                mode: 'quiz-multiple-choice' as StudyMode,
-                title: 'Multiple Choice',
-                description: 'Choose the correct answer from 4 options',
-                icon: Target,
-                color: 'bg-blue-600 hover:bg-blue-700'
-              },
               {
                 mode: 'quiz-fill-blank' as StudyMode,
                 title: 'Fill in the Blank',
@@ -226,10 +222,38 @@ const QuizSession: React.FC = () => {
               },
               {
                 mode: 'quiz-mixed' as StudyMode,
-                title: 'Mixed Quiz',
-                description: 'Combination of different question types',
+                title: 'Enhanced Mixed Quiz',
+                description: 'Advanced questions with context and scenarios',
                 icon: CheckCircle,
                 color: 'bg-purple-600 hover:bg-purple-700'
+              },
+              {
+                mode: 'quiz-context' as StudyMode,
+                title: 'Real-World Scenarios',
+                description: 'Practice with practical situations',
+                icon: Target,
+                color: 'bg-orange-600 hover:bg-orange-700'
+              },
+              {
+                mode: 'quiz-conversation' as StudyMode,
+                title: 'Conversation Practice',
+                description: 'Test your listening comprehension',
+                icon: Brain,
+                color: 'bg-teal-600 hover:bg-teal-700'
+              },
+              {
+                mode: 'quiz-grammar' as StudyMode,
+                title: 'Grammar Focus',
+                description: 'Practice verb conjugations and grammar',
+                icon: CheckCircle,
+                color: 'bg-indigo-600 hover:bg-indigo-700'
+              },
+              {
+                mode: 'quiz-advanced-mc' as StudyMode,
+                title: 'Advanced Multiple Choice',
+                description: 'Practical questions with cultural context',
+                icon: Target,
+                color: 'bg-emerald-600 hover:bg-emerald-700'
               }
             ].map((option) => {
               const Icon = option.icon;
