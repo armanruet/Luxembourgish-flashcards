@@ -102,17 +102,17 @@ function generateContextualQuestion(
   
   switch (questionType) {
     case 'context-scenario':
-      return generateContextualScenario(card, strategy, userLevel, allCards);
+      return generateContextualScenario(card, strategy, userLevel, _allCards);
     case 'sentence-completion':
       return generateContextualSentenceCompletion(card, strategy, userLevel);
     case 'advanced-multiple-choice':
-      return generateContextualMultipleChoice(card, allCards, strategy, userLevel);
+      return generateContextualMultipleChoice(card, _allCards, strategy, userLevel);
     case 'conversation-comp':
       return generateContextualConversation(card, strategy, userLevel);
     case 'cultural-context':
       return generateCulturalContextQuestion(card, strategy, userLevel);
     case 'word-association':
-      return generateContextualWordAssociation(card, allCards, strategy, userLevel);
+      return generateContextualWordAssociation(card, _allCards, strategy, userLevel);
     default:
       return generateFallbackQuestion(card, userLevel);
   }
@@ -139,7 +139,7 @@ function generateContextualScenario(
       correctAnswer = card.luxembourgish;
       
       // Get other opening phrases for options
-      const otherOpenings = allCards.filter(c => 
+      const otherOpenings = _allCards.filter(c => 
         c.category === 'opening-phrases-framework' && c.id !== card.id
       ).slice(0, 3).map(c => c.luxembourgish);
       
@@ -149,7 +149,7 @@ function generateContextualScenario(
       question = 'How do you describe what\'s in the background of the photo?';
       correctAnswer = card.luxembourgish;
       
-      const otherSpatial = allCards.filter(c => 
+      const otherSpatial = _allCards.filter(c => 
         c.category === 'spatial-description' && c.id !== card.id
       ).slice(0, 3).map(c => c.luxembourgish);
       
@@ -160,7 +160,7 @@ function generateContextualScenario(
     question = `How do you say "${card.english}" in Luxembourgish?`;
     correctAnswer = card.luxembourgish;
     
-    const otherMusic = allCards.filter(c => 
+    const otherMusic = _allCards.filter(c => 
       c.category === card.category && c.id !== card.id
     ).slice(0, 3).map(c => c.luxembourgish);
     
@@ -193,7 +193,7 @@ function generateContextualSentenceCompletion(
   card: Flashcard,
   strategy: DeckQuizStrategy,
   _userLevel: 'A1' | 'A2' | 'B1' | 'B2'
-): QuizQuestion {
+, _allCards: Flashcard[]): QuizQuestion {
   let sentence = '';
   let correctAnswer = '';
   
@@ -249,13 +249,13 @@ function generateContextualMultipleChoice(
     question = `When describing a photo in the Sproochentest, what does "${card.luxembourgish}" mean?`;
     correctAnswer = card.english;
     
-    const otherCards = allCards.filter(c => c.id !== card.id).slice(0, 3);
+    const otherCards = _allCards.filter(c => c.id !== card.id).slice(0, 3);
     options = [correctAnswer, ...otherCards.map(c => c.english)];
   } else if (strategy.deckId === 'sproochentest-musek') {
     question = `In Luxembourgish music culture, what does "${card.luxembourgish}" mean?`;
     correctAnswer = card.english;
     
-    const otherCards = allCards.filter(c => c.id !== card.id).slice(0, 3);
+    const otherCards = _allCards.filter(c => c.id !== card.id).slice(0, 3);
     options = [correctAnswer, ...otherCards.map(c => c.english)];
   }
   
@@ -263,7 +263,7 @@ function generateContextualMultipleChoice(
   if (!question) {
     question = `What does "${card.luxembourgish}" mean?`;
     correctAnswer = card.english;
-    const otherCards = allCards.filter(c => c.id !== card.id).slice(0, 3);
+    const otherCards = _allCards.filter(c => c.id !== card.id).slice(0, 3);
     options = [correctAnswer, ...otherCards.map(c => c.english)];
   }
   
@@ -285,7 +285,7 @@ function generateContextualConversation(
   card: Flashcard,
   strategy: DeckQuizStrategy,
   _userLevel: 'A1' | 'A2' | 'B1' | 'B2'
-): QuizQuestion {
+, _allCards: Flashcard[]): QuizQuestion {
   let conversation = '';
   let question = '';
   let correctAnswer = '';
@@ -327,7 +327,7 @@ function generateCulturalContextQuestion(
   card: Flashcard,
   strategy: DeckQuizStrategy,
   _userLevel: 'A1' | 'A2' | 'B1' | 'B2'
-): QuizQuestion {
+, _allCards: Flashcard[]): QuizQuestion {
   let question = '';
   let correctAnswer = '';
   let options: string[] = [];
@@ -374,17 +374,17 @@ function generateContextualWordAssociation(
   strategy: DeckQuizStrategy,
   _userLevel: 'A1' | 'A2' | 'B1' | 'B2'
 ): QuizQuestion {
-  // Find related words from same category
-  const relatedCards = allCards.filter(c => 
+  // Find related words from same _category
+  const relatedCards = _allCards.filter(c => 
     c.category === card.category && c.id !== card.id
   ).slice(0, 3);
   
   const question = `Which word is most closely related to "${card.luxembourgish}" in the context of ${strategy.vocabularyThemes?.[0] || 'this topic'}?`;
-  const correctAnswer = relatedCards[0]?.luxembourgish || card.luxembourgish;
+  const correctAnswer = relatedCards[0]?._luxembourgish || card.luxembourgish;
   const options = [correctAnswer, ...relatedCards.slice(1).map(c => c.luxembourgish)];
   
   // Add unrelated distractors
-  const unrelatedCards = allCards.filter(c => c.category !== card.category).slice(0, 2);
+  const unrelatedCards = _allCards.filter(c => c.category !== card.category).slice(0, 2);
   options.push(...unrelatedCards.map(c => c.luxembourgish));
   
   return {
@@ -476,7 +476,7 @@ function generateFallbackQuestions(
 /**
  * Generate fallback question
  */
-function generateFallbackQuestion(card: Flashcard, _userLevel: 'A1' | 'A2' | 'B1' | 'B2'): QuizQuestion {
+function generateFallbackQuestion(card: Flashcard, _userLevel: 'A1' | 'A2' | 'B1' | 'B2', _allCards: Flashcard[]): QuizQuestion {
   return {
     id: `fallback-${Date.now()}-${Math.random()}`,
     type: 'advanced-multiple-choice',

@@ -157,7 +157,7 @@ const EnhancedQuizSession: React.FC = () => {
     const timeSpent = Date.now() - startTime;
 
     // Update question with user answer
-    const updatedQuestion: EnhancedQuizQuestion = {
+    const updatedQuestion: QuizQuestion = {
       ...currentQuestion,
       userAnswer,
       isCorrect,
@@ -168,13 +168,25 @@ const EnhancedQuizSession: React.FC = () => {
     const updatedQuestions = [...quizSession.questions];
     updatedQuestions[currentQuestionIndex] = updatedQuestion;
 
-    // Update performance tracking
-    const skillArea = currentQuestion.skillArea;
-    const difficulty = currentQuestion.difficulty;
+    // Safely update performance tracking
+    const skillArea = (currentQuestion as any).skillArea || currentQuestion.category || 'general';
+    const difficulty = currentQuestion.difficulty || 'A1';
     
-    const updatedSkillBreakdown = { ...quizSession.performanceTracking.skillBreakdown };
-    const updatedDifficultyBreakdown = { ...quizSession.performanceTracking.difficultyBreakdown };
+    // Initialize performance tracking if not exists
+    const performanceTracking = quizSession.performanceTracking || {
+      skillBreakdown: {},
+      difficultyBreakdown: {},
+      timeAnalysis: {
+        averageTimePerQuestion: 0,
+        slowestQuestions: [],
+        fastestQuestions: []
+      }
+    };
     
+    const updatedSkillBreakdown = { ...performanceTracking.skillBreakdown };
+    const updatedDifficultyBreakdown = { ...performanceTracking.difficultyBreakdown };
+    
+    // Initialize breakdown entries if they don't exist
     if (!updatedSkillBreakdown[skillArea]) {
       updatedSkillBreakdown[skillArea] = { correct: 0, total: 0, percentage: 0 };
     }
@@ -200,13 +212,13 @@ const EnhancedQuizSession: React.FC = () => {
       questions: updatedQuestions,
       correctAnswers: updatedQuestions.filter(q => q.isCorrect).length,
       performanceTracking: {
-        ...quizSession.performanceTracking,
         skillBreakdown: updatedSkillBreakdown,
         difficultyBreakdown: updatedDifficultyBreakdown,
         timeAnalysis: {
-          ...quizSession.performanceTracking.timeAnalysis,
           averageTimePerQuestion: 
-            updatedQuestions.reduce((sum, q) => sum + (q.timeSpent || 0), 0) / updatedQuestions.length
+            updatedQuestions.reduce((sum, q) => sum + (q.timeSpent || 0), 0) / updatedQuestions.length,
+          slowestQuestions: performanceTracking.timeAnalysis.slowestQuestions,
+          fastestQuestions: performanceTracking.timeAnalysis.fastestQuestions
         }
       }
     };
@@ -245,8 +257,10 @@ const EnhancedQuizSession: React.FC = () => {
       completed: true
     };
 
-    const results = // calculateEnhancedQuizScore(session.questions);
-    finalSession.score = results.score;
+    // Calculate results
+    const correctAnswers = session.questions.filter(q => q.isCorrect).length;
+    const score = (correctAnswers / session.questions.length) * 100;
+    finalSession.score = score;
 
     setQuizSession(finalSession);
     setShowResults(true);
@@ -291,10 +305,13 @@ const EnhancedQuizSession: React.FC = () => {
         defaultConfig={{
           questionCount: 10,
           difficulty: 'intermediate',
+          questionTypes: ['multiple-choice'],
+          includeAudio: false,
+          includeCultural: false,
+          adaptiveDifficulty: false,
           focusAreas: ['vocabulary', 'grammar'],
           adaptiveMode: true,
           includeSpacedRepetition: true,
-          includeAudio: false,
           timeLimit: undefined
         }}
       />

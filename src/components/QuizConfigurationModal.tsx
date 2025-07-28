@@ -19,19 +19,23 @@ const QuizConfigurationModal: React.FC<QuizConfigurationModalProps> = ({
   const [config, setConfig] = useState<QuizConfig>(defaultConfig || {
     questionCount: 10,
     difficulty: 'intermediate',
-    focusAreas: ['vocabulary', 'grammar'],
-    adaptiveMode: true,
-    includeSpacedRepetition: true,
+    questionTypes: ['multiple-choice'],
     includeAudio: false,
+    includeCultural: false,
+    adaptiveDifficulty: false,
+    // Additional properties
+    adaptiveMode: true,
+    focusAreas: ['vocabulary', 'grammar'], 
+    includeSpacedRepetition: true,
     timeLimit: undefined
   });
 
   const handleFocusAreaToggle = (area: string) => {
-    setConfig((prev: any) => ({
+    setConfig((prev: QuizConfig) => ({
       ...prev,
-      focusAreas: prev.focusAreas.includes(area as any)
-        ? prev.focusAreas.filter((a: any) => a !== area)
-        : [...prev.focusAreas, area as any]
+      focusAreas: prev.focusAreas?.includes(area)
+        ? prev.focusAreas.filter(a => a !== area)
+        : [...(prev.focusAreas || []), area]
     }));
   };
 
@@ -144,7 +148,7 @@ const QuizConfigurationModal: React.FC<QuizConfigurationModalProps> = ({
                   onClick={() => handleFocusAreaToggle(area.value)}
                   className={`
                     p-4 rounded-xl border-2 transition-all duration-200 text-center
-                    ${config.focusAreas.includes(area.value as any)
+                    ${config.focusAreas?.includes(area.value)
                       ? `border-${area.color}-500 bg-${area.color}-50 text-${area.color}-800`
                       : 'border-gray-300 hover:border-gray-400'
                     }
@@ -166,8 +170,8 @@ const QuizConfigurationModal: React.FC<QuizConfigurationModalProps> = ({
               <label className="flex items-center space-x-3">
                 <input
                   type="checkbox"
-                  checked={config.adaptiveMode}
-                  onChange={(e) => setConfig((prev: any) => ({ ...prev, adaptiveMode: e.target.checked }))}
+                  checked={config.adaptiveMode || false}
+                  onChange={(e) => setConfig(prev => ({ ...prev, adaptiveMode: e.target.checked }))}
                   className="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
                 />
                 <div className="flex items-center space-x-2">
@@ -182,8 +186,8 @@ const QuizConfigurationModal: React.FC<QuizConfigurationModalProps> = ({
               <label className="flex items-center space-x-3">
                 <input
                   type="checkbox"
-                  checked={config.includeSpacedRepetition}
-                  onChange={(e) => setConfig((prev: any) => ({ ...prev, includeSpacedRepetition: e.target.checked }))}
+                  checked={config.includeSpacedRepetition || false}
+                  onChange={(e) => setConfig(prev => ({ ...prev, includeSpacedRepetition: e.target.checked }))}
                   className="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
                 />
                 <div className="flex items-center space-x-2">

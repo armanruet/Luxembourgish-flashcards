@@ -1,4 +1,4 @@
-import { Flashcard, QuizQuestion } from '@/types';
+import { Flashcard } from '@/types';
 
 /**
  * AI-Powered Quiz Generation Service
@@ -71,7 +71,7 @@ async function generateWithOpenAI(_request: AIQuizRequest): Promise<AIQuizRespon
     throw new Error('OpenAI API key not configured');
   }
 
-  const prompt = createAIPrompt(request);
+  const prompt = createAIPrompt(_request);
   
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
@@ -103,7 +103,7 @@ async function generateWithOpenAI(_request: AIQuizRequest): Promise<AIQuizRespon
   const data = await response.json();
   const content = data.choices[0].message.content;
   
-  return parseAIResponse(content, request);
+  return parseAIResponse(content, _request);
 }
 
 /**
@@ -115,7 +115,7 @@ async function generateWithClaude(_request: AIQuizRequest): Promise<AIQuizRespon
     throw new Error('Anthropic API key not configured');
   }
 
-  const prompt = createAIPrompt(request);
+  const prompt = createAIPrompt(_request);
   
   const response = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
@@ -143,7 +143,7 @@ async function generateWithClaude(_request: AIQuizRequest): Promise<AIQuizRespon
   const data = await response.json();
   const content = data.content[0].text;
   
-  return parseAIResponse(content, request);
+  return parseAIResponse(content, _request);
 }
 
 /**
@@ -161,7 +161,7 @@ async function generateWithLocalAI(__request: AIQuizRequest): Promise<AIQuizResp
 async function generateWithFallback(_request: AIQuizRequest): Promise<AIQuizResponse> {
   const { generateanys } = await import('@/utils/enhancedQuizGenerator');
   
-  const questions = generateanys(request.cards, request.config);
+  const questions = generateanys(_request._cards, _request.config);
   
   return {
     questions,
@@ -182,9 +182,9 @@ async function generateWithFallback(_request: AIQuizRequest): Promise<AIQuizResp
  * Create AI prompt for quiz generation
  */
 function createAIPrompt(_request: AIQuizRequest): string {
-  const { cards, config, userContext, language } = request;
+  const { _cards, config, userContext, language } = _request;
   
-  const cardExamples = cards.slice(0, 5).map(card => ({
+  const cardExamples = _cards.slice(0, 5).map(card => ({
     luxembourgish: card.luxembourgish,
     english: card.english,
     pronunciation: card.pronunciation,
@@ -278,7 +278,7 @@ function parseAIResponse(content: string, _request: AIQuizRequest): AIQuizRespon
     const questions: any[] = parsed.questions.map((q: any, index: number) => ({
       id: q.id || `ai-${Date.now()}-${index}`,
       type: q.type || 'multiple-choice',
-      cardId: q.cardId || request.cards[0]?.id || 'unknown',
+      cardId: q.cardId || _request._cards[0]?.id || 'unknown',
       question: q.question,
       correctAnswer: q.correctAnswer,
       options: q.options || [],
@@ -318,7 +318,7 @@ export async function generateContextualScenarios(
   _cards: Flashcard[],
   scenarioType: 'shopping' | 'transportation' | 'greetings' | 'weather' | 'food'
 ): Promise<any[]> {
-  const scenarioCards = cards.filter(card => 
+  const scenarioCards = _cards.filter(card => 
     card.category.toLowerCase().includes(scenarioType) ||
     card.luxembourgish.toLowerCase().includes(scenarioType) ||
     card.english.toLowerCase().includes(scenarioType)
@@ -329,7 +329,7 @@ export async function generateContextualScenarios(
   }
 
   const _request: AIQuizRequest = {
-    cards: scenarioCards,
+    _cards: scenarioCards,
     config: {
       questionCount: 5,
       difficulty: 'intermediate',
@@ -342,7 +342,7 @@ export async function generateContextualScenarios(
   };
 
   try {
-    const response = await generateAIQuizQuestions(request);
+    const response = await generateAIQuizQuestions(_request);
     return response.questions;
   } catch (error) {
     console.error('Failed to generate contextual scenarios:', error);
@@ -356,7 +356,7 @@ export async function generateContextualScenarios(
 export async function generatePronunciationQuestions(
   _cards: Flashcard[]
 ): Promise<any[]> {
-  const pronunciationCards = cards.filter(card => 
+  const pronunciationCards = _cards.filter(card => 
     card.pronunciation && card.pronunciation.length > 0
   );
 
@@ -365,7 +365,7 @@ export async function generatePronunciationQuestions(
   }
 
   const _request: AIQuizRequest = {
-    cards: pronunciationCards,
+    _cards: pronunciationCards,
     config: {
       questionCount: 5,
       difficulty: 'beginner',
@@ -378,7 +378,7 @@ export async function generatePronunciationQuestions(
   };
 
   try {
-    const response = await generateAIQuizQuestions(request);
+    const response = await generateAIQuizQuestions(_request);
     return response.questions;
   } catch (error) {
     console.error('Failed to generate pronunciation questions:', error);
@@ -392,7 +392,7 @@ export async function generatePronunciationQuestions(
 export async function generateGrammarQuestions(
   _cards: Flashcard[]
 ): Promise<any[]> {
-  const grammarCards = cards.filter(card => 
+  const grammarCards = _cards.filter(card => 
     card.category.includes('verb') || 
     card.notes?.includes('Present:') ||
     card.notes?.includes('Imperfect:') ||
@@ -404,7 +404,7 @@ export async function generateGrammarQuestions(
   }
 
   const _request: AIQuizRequest = {
-    cards: grammarCards,
+    _cards: grammarCards,
     config: {
       questionCount: 5,
       difficulty: 'intermediate',
@@ -417,7 +417,7 @@ export async function generateGrammarQuestions(
   };
 
   try {
-    const response = await generateAIQuizQuestions(request);
+    const response = await generateAIQuizQuestions(_request);
     return response.questions;
   } catch (error) {
     console.error('Failed to generate grammar questions:', error);
@@ -431,7 +431,7 @@ export async function generateGrammarQuestions(
 export async function generateCulturalQuestions(
   _cards: Flashcard[]
 ): Promise<any[]> {
-  const culturalCards = cards.filter(card => 
+  const culturalCards = _cards.filter(card => 
     card.category.includes('greeting') ||
     card.category.includes('culture') ||
     card.category.includes('custom') ||
@@ -444,7 +444,7 @@ export async function generateCulturalQuestions(
   }
 
   const _request: AIQuizRequest = {
-    cards: culturalCards,
+    _cards: culturalCards,
     config: {
       questionCount: 5,
       difficulty: 'intermediate',
@@ -457,7 +457,7 @@ export async function generateCulturalQuestions(
   };
 
   try {
-    const response = await generateAIQuizQuestions(request);
+    const response = await generateAIQuizQuestions(_request);
     return response.questions;
   } catch (error) {
     console.error('Failed to generate cultural questions:', error);
@@ -471,7 +471,7 @@ export async function generateCulturalQuestions(
 export async function generateConversationQuestions(
   _cards: Flashcard[]
 ): Promise<any[]> {
-  const conversationCards = cards.filter(card => 
+  const conversationCards = _cards.filter(card => 
     card.category.includes('greeting') ||
     card.category.includes('conversation') ||
     card.category.includes('question') ||
@@ -487,7 +487,7 @@ export async function generateConversationQuestions(
   }
 
   const _request: AIQuizRequest = {
-    cards: conversationCards,
+    _cards: conversationCards,
     config: {
       questionCount: 5,
       difficulty: 'intermediate',
@@ -500,7 +500,7 @@ export async function generateConversationQuestions(
   };
 
   try {
-    const response = await generateAIQuizQuestions(request);
+    const response = await generateAIQuizQuestions(_request);
     return response.questions;
   } catch (error) {
     console.error('Failed to generate conversation questions:', error);

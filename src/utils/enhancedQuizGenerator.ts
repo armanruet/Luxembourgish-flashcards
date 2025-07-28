@@ -190,35 +190,35 @@ function generateQuestionByType(
     case 'pronunciation-practice':
       return generatePronunciationQuestion(card, config);
     case 'cultural-context':
-      return generateCulturalContextQuestion(card, allCards, config);
+      return generateCulturalContextQuestion(card, _allCards, config);
     case 'listening-comprehension':
-      return generateListeningComprehensionQuestion(card, allCards, config);
+      return generateListeningComprehensionQuestion(card, _allCards, config);
     case 'grammar-pattern':
-      return generateGrammarPatternQuestion(card, allCards, config);
+      return generateGrammarPatternQuestion(card, _allCards, config);
     case 'situational-dialogue':
-      return generateSituationalDialogueQuestion(card, allCards, config);
+      return generateSituationalDialogueQuestion(card, _allCards, config);
     case 'vocabulary-in-context':
-      return generateVocabularyInContextQuestion(card, allCards, config);
+      return generateVocabularyInContextQuestion(card, _allCards, config);
     case 'error-detection':
-      return generateErrorDetectionQuestion(card, allCards, config);
+      return generateErrorDetectionQuestion(card, _allCards, config);
     case 'translation-practice':
       return generateTranslationPracticeQuestion(card, config);
     case 'multiple-choice':
-      return generateEnhancedMultipleChoiceQuestion(card, allCards, config);
+      return generateEnhancedMultipleChoiceQuestion(card, _allCards, config);
     case 'context-scenario':
-      return generateEnhancedContextScenarioQuestion(card, allCards, config);
+      return generateEnhancedContextScenarioQuestion(card, _allCards, config);
     case 'conversation-comp':
-      return generateEnhancedConversationQuestion(card, allCards, config);
+      return generateEnhancedConversationQuestion(card, _allCards, config);
     case 'grammar-context':
-      return generateEnhancedGrammarQuestion(card, allCards, config);
+      return generateEnhancedGrammarQuestion(card, _allCards, config);
     case 'sentence-completion':
-      return generateEnhancedSentenceCompletionQuestion(card, allCards, config);
+      return generateEnhancedSentenceCompletionQuestion(card, _allCards, config);
     case 'word-association':
-      return generateEnhancedWordAssociationQuestion(card, allCards, config);
+      return generateEnhancedWordAssociationQuestion(card, _allCards, config);
     case 'fill-blank':
       return generateEnhancedFillBlankQuestion(card, config);
     default:
-      return generateEnhancedMultipleChoiceQuestion(card, allCards, config);
+      return generateEnhancedMultipleChoiceQuestion(card, _allCards, config);
   }
 }
 
@@ -334,7 +334,7 @@ function generateGrammarPatternQuestion(
   }
   
   // Fallback to basic grammar question
-  return generateEnhancedGrammarQuestion(card, allCards, config);
+  return generateEnhancedGrammarQuestion(card, _allCards, config);
 }
 
 /**
@@ -460,7 +460,7 @@ function generateEnhancedMultipleChoiceQuestion(
   config: any
 ): any {
   const difficulty = determineQuestionDifficulty(card, config);
-  const questionData = generateContextualQuestion(card, allCards);
+  const questionData = generateContextualQuestion(card, _allCards);
   
   return {
     id: `enhanced-mc-${card.id}-${Date.now()}`,
@@ -485,7 +485,7 @@ function generateEnhancedContextScenarioQuestion(
   config: any
 ): any {
   const difficulty = determineQuestionDifficulty(card, config);
-  const scenario = generateEnhancedScenario(card, allCards);
+  const scenario = generateEnhancedScenario(card, _allCards);
   
   return {
     id: `enhanced-scenario-${card.id}-${Date.now()}`,
@@ -510,7 +510,7 @@ function generateEnhancedConversationQuestion(
   config: any
 ): any {
   const difficulty = determineQuestionDifficulty(card, config);
-  const conversation = generateEnhancedConversation(card, allCards);
+  const conversation = generateEnhancedConversation(card, _allCards);
   
   return {
     id: `enhanced-conv-${card.id}-${Date.now()}`,
@@ -535,7 +535,7 @@ function generateEnhancedGrammarQuestion(
   config: any
 ): any {
   const difficulty = determineQuestionDifficulty(card, config);
-  const grammarData = generateGrammarQuestion(card, allCards);
+  const grammarData = generateGrammarQuestion(card, _allCards);
   
   return {
     id: `enhanced-grammar-${card.id}-${Date.now()}`,
@@ -560,7 +560,7 @@ function generateEnhancedSentenceCompletionQuestion(
   config: any
 ): any {
   const difficulty = determineQuestionDifficulty(card, config);
-  const completion = generateEnhancedCompletion(card, allCards);
+  const completion = generateEnhancedCompletion(card, _allCards);
   
   return {
     id: `enhanced-completion-${card.id}-${Date.now()}`,
@@ -585,7 +585,7 @@ function generateEnhancedWordAssociationQuestion(
   config: any
 ): any {
   const difficulty = determineQuestionDifficulty(card, config);
-  const association = generateEnhancedAssociation(card, allCards);
+  const association = generateEnhancedAssociation(card, _allCards);
   
   return {
     id: `enhanced-association-${card.id}-${Date.now()}`,
@@ -668,8 +668,8 @@ function generateWrongPronunciation(word: string): string {
 }
 
 function getCulturalContext(card: Flashcard): any {
-  // Generate cultural context based on card category and content
-  const category = card.category.toLowerCase();
+  // Generate cultural context based on card _category and content
+  const _category = card.category.toLowerCase();
   
   if (category.includes('greeting')) {
     return {
@@ -712,7 +712,7 @@ function getCulturalContext(card: Flashcard): any {
 }
 
 function generateRealisticDialogue(card: Flashcard): any {
-  const category = card.category.toLowerCase();
+  const _category = card.category.toLowerCase();
   
   if (category.includes('shopping')) {
     return {
@@ -737,7 +737,7 @@ function generateRealisticDialogue(card: Flashcard): any {
 }
 
 function generateRealisticSituation(card: Flashcard): any {
-  const category = card.category.toLowerCase();
+  const _category = card.category.toLowerCase();
   
   if (category.includes('greeting')) {
     return {
@@ -794,7 +794,7 @@ function generateCommonError(card: Flashcard): any {
 }
 
 function generateContextualQuestion(card: Flashcard, __allCards: Flashcard[]): any {
-  const category = card.category.toLowerCase();
+  const _category = card.category.toLowerCase();
   
   if (category.includes('verb')) {
     return {

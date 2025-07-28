@@ -17,16 +17,35 @@ export interface EnhancedQuizSessionType {
   correctAnswers: number;
   averageTime?: number;
   completed: boolean;
+  // Additional properties referenced in the code
+  config?: QuizConfig;
+  adaptiveAdjustments?: {
+    difficultyChanges: number;
+    focusAreaChanges: string[];
+  };
+  performanceTracking?: {
+    skillBreakdown: Record<string, { correct: number; total: number; percentage: number; }>;
+    difficultyBreakdown: Record<string, { correct: number; total: number; percentage: number; }>;
+    timeAnalysis: {
+      averageTimePerQuestion: number;
+      slowestQuestions: string[];
+      fastestQuestions: string[];
+    };
+  };
 }
 
 export interface QuizConfig {
   questionCount: number;
   timeLimit?: number;
-  difficulty: 'A1' | 'A2' | 'B1' | 'B2' | 'mixed';
+  difficulty: 'A1' | 'A2' | 'B1' | 'B2' | 'mixed' | 'intermediate';
   questionTypes: QuizQuestionType[];
   includeAudio: boolean;
   includeCultural: boolean;
   adaptiveDifficulty: boolean;
+  // Additional properties referenced in the code
+  adaptiveMode?: boolean;
+  focusAreas?: string[];
+  includeSpacedRepetition?: boolean;
 }
 
 // ===== IMMERSIVE REAL-WORLD SCENARIOS =====
@@ -401,12 +420,9 @@ export type EnhancedQuizQuestionType =
   | 'social-quiz'
   | 'adaptive-quiz';
 
-export interface EnhancedQuizQuestion {
-  id: string;
-  type: EnhancedQuizQuestionType;
+export interface EnhancedQuizQuestion extends QuizQuestion {
   title: string;
   description: string;
-  difficulty: 'A1' | 'A2' | 'B1' | 'B2';
   culturalContext: string;
   vocabulary: string[];
   grammar: string[];

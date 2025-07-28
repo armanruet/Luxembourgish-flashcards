@@ -18,7 +18,7 @@ export interface ComprehensiveQuizSet {
     B1: number;
     B2: number;
   };
-  categoryDistribution: Record<string, number>;
+  _categoryDistribution: Record<string, number>;
 }
 
 /**
@@ -32,7 +32,7 @@ export function generateComprehensiveQuizSet(
   const questions: QuizQuestion[] = [];
   const questionTypes: QuizQuestionType[] = [];
   const difficultyDistribution = { A1: 0, A2: 0, B1: 0, B2: 0 };
-  const categoryDistribution: Record<string, number> = {};
+  const _categoryDistribution: Record<string, number> = {};
 
   // Generate questions for each card
   deck.cards.forEach((card, cardIndex) => {
@@ -45,7 +45,7 @@ export function generateComprehensiveQuizSet(
         questionTypes.push(q.type);
       }
       difficultyDistribution[card.difficulty]++;
-      categoryDistribution[card.category] = (categoryDistribution[card.category] || 0) + 1;
+      _categoryDistribution[card.category] = (_categoryDistribution[card.category] || 0) + 1;
     });
   });
 
@@ -60,7 +60,7 @@ export function generateComprehensiveQuizSet(
     totalQuestions: shuffledQuestions.length,
     questionTypes,
     difficultyDistribution,
-    categoryDistribution
+    _categoryDistribution
   };
 }
 
@@ -71,15 +71,15 @@ export function generateComprehensiveQuizSet(
  */
 function generateQuestionsForCard(
   card: Flashcard,
-  allCards: Flashcard[],
+  _allCards: Flashcard[],
   _cardIndex: number,
   _questionsPerCard: number
 ): QuizQuestion[] {
   const questions: QuizQuestion[] = [];
 
   // Always generate exactly these two specific question types
-  questions.push(generateTranslationQuestion(card, allCards));
-  questions.push(generateFillInBlankContextQuestion(card, allCards));
+  questions.push(generateTranslationQuestion(card, _allCards));
+  questions.push(generateFillInBlankContextQuestion(card, _allCards));
 
   return questions;
 }
@@ -90,12 +90,12 @@ function generateQuestionsForCard(
  */
 function generateTranslationQuestion(
   card: Flashcard,
-  allCards: Flashcard[]
+  _allCards: Flashcard[]
 ): QuizQuestion {
   const questionId = `trans_${card.id}_${Date.now()}`;
   
-  // Create distractors from other cards in the same category or similar words
-  const distractors = createSemanticDistractors(card, allCards, 3);
+  // Create distractors from other cards in the same _category or similar words
+  const distractors = createSemanticDistractors(card, _allCards, 3);
   const options = shuffleArray([card.english, ...distractors]);
 
   return {
@@ -119,7 +119,7 @@ function generateTranslationQuestion(
  */
 function generateFillInBlankContextQuestion(
   card: Flashcard,
-  allCards: Flashcard[]
+  _allCards: Flashcard[]
 ): QuizQuestion {
   const questionId = `context_${card.id}_${Date.now()}`;
   
@@ -127,7 +127,7 @@ function generateFillInBlankContextQuestion(
   const contextSentence = generateContextSentence(card);
   
   // Create options for the fill-in-the-blank based on the word's function
-  const options = generateContextOptions(card, allCards);
+  const options = generateContextOptions(card, _allCards);
 
   return {
     id: questionId,
@@ -183,7 +183,7 @@ function generateContextSentence(card: Flashcard): { lux: string; eng: string } 
     ]
   };
 
-  // Determine word type based on category or tags
+  // Determine word type based on _category or tags
   let wordType: 'verb' | 'noun' | 'adjective' | 'default' = 'default';
   if (card.category?.includes('verb') || card.tags?.includes('verb')) {
     wordType = 'verb';
@@ -204,9 +204,9 @@ function generateContextSentence(card: Flashcard): { lux: string; eng: string } 
 /**
  * Generate context-appropriate options for fill-in-the-blank
  */
-function generateContextOptions(card: Flashcard, allCards: Flashcard[]): string[] {
+function generateContextOptions(card: Flashcard, _allCards: Flashcard[]): string[] {
   // Create semantic distractors based on the word type and context
-  const distractors = createSemanticDistractors(card, allCards, 3);
+  const distractors = createSemanticDistractors(card, _allCards, 3);
   return shuffleArray([card.english, ...distractors]);
 }
 
@@ -215,13 +215,13 @@ function generateContextOptions(card: Flashcard, allCards: Flashcard[]): string[
  */
 function createSemanticDistractors(
   card: Flashcard,
-  allCards: Flashcard[],
+  _allCards: Flashcard[],
   count: number
 ): string[] {
   // const distractors: string[] = [];
-  const otherCards = allCards.filter(c => c.id !== card.id);
+  const otherCards = _allCards.filter(c => c.id !== card.id);
   
-  // First, try to get cards from the same category
+  // First, try to get cards from the same _category
   const sameCategory = otherCards.filter(c => c.category === card.category);
   
   // Then, try to get cards with similar difficulty
@@ -261,19 +261,17 @@ function shuffleArray<T>(array: T[]): T[] {
 /**
  * Generate advanced multiple choice question with semantic distractors
  */
-function generateAdvancedMultipleChoice(card: Flashcard, allCards: Flashcard[]): QuizQuestion {
-  const category = card.category.toLowerCase();
-  const luxembourgish = card.luxembourgish.toLowerCase();
-  const english = card.english.toLowerCase();
+function generateAdvancedMultipleChoice(card: Flashcard, _allCards: Flashcard[]): QuizQuestion {
+  // Local variables removed - using card properties directly
   const notes = card.notes?.toLowerCase() || '';
 
   // Get semantically related wrong answers
-  const relatedCards = allCards.filter(c => 
-    c.category.toLowerCase() === category && c.id !== card.id
+  const relatedCards = _allCards.filter(c => 
+    c.card.category.toLowerCase().toLowerCase() === _category && c.id !== card.id
   );
   
-  const unrelatedCards = allCards.filter(c => 
-    c.category.toLowerCase() !== category && c.id !== card.id
+  const unrelatedCards = _allCards.filter(c => 
+    c.card.category.toLowerCase().toLowerCase() !== _category && c.id !== card.id
   );
 
   // Create plausible distractors
@@ -308,16 +306,14 @@ function generateAdvancedMultipleChoice(card: Flashcard, allCards: Flashcard[]):
  * Generate real-world context scenario question
  */
 function _generateContextScenario(card: Flashcard, _allCards: Flashcard[]): QuizQuestion {
-  const category = card.category.toLowerCase();
-  const luxembourgish = card.luxembourgish.toLowerCase();
-  const english = card.english.toLowerCase();
+  // Local variables removed - using card properties directly
 
-  // Create realistic scenarios based on card category
+  // Create realistic scenarios based on card _category
   let scenario: { question: string; options: string[]; correctAnswer: string } | null = null;
 
   // Shopping scenarios
-  if (category.includes('shopping') || category.includes('supermarket') || 
-      luxembourgish.includes('cactus') || luxembourgish.includes('delhaize')) {
+  if (card.category.toLowerCase().toLowerCase().includes('shopping') || card.category.toLowerCase().includes('supermarket') || 
+      card.luxembourgish.toLowerCase().toLowerCase().includes('cactus') || card.luxembourgish.toLowerCase().toLowerCase().includes('delhaize')) {
     scenario = {
       question: `You're at ${card.luxembourgish} and need to buy groceries. What's the most important thing to remember?`,
       options: ['Bring a euro coin for the shopping cart', 'Bring your passport', 'Bring a credit card', 'Nothing special'],
@@ -326,10 +322,10 @@ function _generateContextScenario(card: Flashcard, _allCards: Flashcard[]): Quiz
   }
   
   // Transportation scenarios
-  else if (category.includes('transport') || category.includes('bus') || 
-           category.includes('tram') || category.includes('train') ||
-           luxembourgish.includes('bus') || luxembourgish.includes('tram') || 
-           luxembourgish.includes('zuch')) {
+  else if (card.category.toLowerCase().toLowerCase().includes('transport') || card.category.toLowerCase().includes('bus') || 
+           card.category.toLowerCase().includes('tram') || card.category.toLowerCase().includes('train') ||
+           card.luxembourgish.toLowerCase().toLowerCase().includes('bus') || card.luxembourgish.toLowerCase().toLowerCase().includes('tram') || 
+           card.luxembourgish.toLowerCase().toLowerCase().includes('zuch')) {
     scenario = {
       question: `You want to take the ${card.luxembourgish} to work. What do you need?`,
       options: ['A ticket', 'A car', 'A bike', 'Walking shoes'],
@@ -338,9 +334,9 @@ function _generateContextScenario(card: Flashcard, _allCards: Flashcard[]): Quiz
   }
   
   // Time scenarios
-  else if (category.includes('time') || category.includes('hour') || 
-           luxembourgish.includes('auer') || luxembourgish.includes('zäit') ||
-           english.includes('o\'clock') || english.includes('time')) {
+  else if (card.category.toLowerCase().toLowerCase().includes('time') || card.category.toLowerCase().includes('hour') || 
+           card.luxembourgish.toLowerCase().toLowerCase().includes('auer') || card.luxembourgish.toLowerCase().toLowerCase().includes('zäit') ||
+           card.english.toLowerCase().toLowerCase().includes('o\'clock') || card.english.toLowerCase().toLowerCase().includes('time')) {
     scenario = {
       question: `Someone asks you "Wéi vill Auer ass et?" and you want to say "${card.english}". What do you say?`,
       options: [`"Et ass ${card.luxembourgish}"`, `"Et ass ${card.english}"`, `"Et ass ${card.luxembourgish} Auer"`, `"Et ass ${card.english} Auer"`],
@@ -349,22 +345,22 @@ function _generateContextScenario(card: Flashcard, _allCards: Flashcard[]): Quiz
   }
   
   // Weather scenarios
-  else if (category.includes('weather') || category.includes('wieder') ||
-           luxembourgish.includes('reen') || luxembourgish.includes('sonn') || 
-           luxembourgish.includes('wollek') || luxembourgish.includes('schnei')) {
+  else if (card.category.toLowerCase().toLowerCase().includes('weather') || card.category.toLowerCase().includes('wieder') ||
+           card.luxembourgish.toLowerCase().toLowerCase().includes('reen') || card.luxembourgish.toLowerCase().toLowerCase().includes('sonn') || 
+           card.luxembourgish.toLowerCase().toLowerCase().includes('wollek') || card.luxembourgish.toLowerCase().toLowerCase().includes('schnei')) {
     scenario = {
       question: `The weather forecast says "${card.luxembourgish}". What should you bring?`,
       options: ['An umbrella', 'Sunglasses', 'A coat', 'Nothing special'],
-      correctAnswer: luxembourgish.includes('reen') ? 'An umbrella' : 
-                    luxembourgish.includes('sonn') ? 'Sunglasses' : 'A coat'
+      correctAnswer: card.luxembourgish.toLowerCase().toLowerCase().includes('reen') ? 'An umbrella' : 
+                    card.luxembourgish.toLowerCase().toLowerCase().includes('sonn') ? 'Sunglasses' : 'A coat'
     };
   }
   
   // Food and dining scenarios
-  else if (category.includes('food') || category.includes('restaurant') || 
-           category.includes('bakery') || category.includes('bread') ||
-           luxembourgish.includes('baguette') || luxembourgish.includes('croissant') ||
-           luxembourgish.includes('kaffi') || luxembourgish.includes('bier')) {
+  else if (card.category.toLowerCase().toLowerCase().includes('food') || card.category.toLowerCase().includes('restaurant') || 
+           card.category.toLowerCase().includes('bakery') || card.category.toLowerCase().includes('bread') ||
+           card.luxembourgish.toLowerCase().toLowerCase().includes('baguette') || card.luxembourgish.toLowerCase().toLowerCase().includes('croissant') ||
+           card.luxembourgish.toLowerCase().toLowerCase().includes('kaffi') || card.luxembourgish.toLowerCase().toLowerCase().includes('bier')) {
     scenario = {
       question: `You're at a bakery and want to order "${card.luxembourgish}". What do you say?`,
       options: [`"Ech hätt gär ${card.luxembourgish}, wann ech gelift."`, 
@@ -376,9 +372,9 @@ function _generateContextScenario(card: Flashcard, _allCards: Flashcard[]): Quiz
   }
   
   // Greeting scenarios
-  else if (category.includes('greeting') || luxembourgish.includes('gudde') || 
-           luxembourgish.includes('moien') || luxembourgish.includes('owes') ||
-           english.includes('good') || english.includes('hello') || english.includes('bye')) {
+  else if (card.category.toLowerCase().toLowerCase().includes('greeting') || card.luxembourgish.toLowerCase().toLowerCase().includes('gudde') || 
+           card.luxembourgish.toLowerCase().toLowerCase().includes('moien') || card.luxembourgish.toLowerCase().toLowerCase().includes('owes') ||
+           card.english.toLowerCase().toLowerCase().includes('good') || card.english.toLowerCase().toLowerCase().includes('hello') || card.english.toLowerCase().toLowerCase().includes('bye')) {
     scenario = {
       question: `You meet someone and want to say "${card.english}". What do you say?`,
       options: [`"${card.luxembourgish}!"`, `"${card.luxembourgish}?"`, `"${card.luxembourgish}."`, `"${card.luxembourgish},"`],
@@ -387,9 +383,9 @@ function _generateContextScenario(card: Flashcard, _allCards: Flashcard[]): Quiz
   }
   
   // Work and business scenarios
-  else if (category.includes('work') || category.includes('business') || 
-           english.includes('work') || english.includes('office') ||
-           english.includes('meeting') || english.includes('project')) {
+  else if (card.category.toLowerCase().toLowerCase().includes('work') || card.category.toLowerCase().includes('business') || 
+           card.english.toLowerCase().toLowerCase().includes('work') || card.english.toLowerCase().toLowerCase().includes('office') ||
+           card.english.toLowerCase().toLowerCase().includes('meeting') || card.english.toLowerCase().toLowerCase().includes('project')) {
     scenario = {
       question: `In a Luxembourgish workplace, how do you professionally say "${card.english}"?`,
       options: [`"${card.luxembourgish}"`, 'Use English', 'Use French', 'Use German'],
@@ -398,8 +394,8 @@ function _generateContextScenario(card: Flashcard, _allCards: Flashcard[]): Quiz
   }
   
   // Language learning scenarios
-  else if (category.includes('language') || luxembourgish.includes('lëtzebuergesch') || 
-           english.includes('speak') || english.includes('language')) {
+  else if (card.category.toLowerCase().toLowerCase().includes('language') || card.luxembourgish.toLowerCase().toLowerCase().includes('lëtzebuergesch') || 
+           card.english.toLowerCase().toLowerCase().includes('speak') || card.english.toLowerCase().toLowerCase().includes('language')) {
     scenario = {
       question: `When someone asks if you speak Luxembourgish, what's the most honest response?`,
       options: ['"Jo, e bëssen." (Yes, a little)', '"Nee, iwwerhaapt net." (No, not at all)', '"Jo, perfekt." (Yes, perfectly)', 'Say nothing'],
@@ -409,7 +405,7 @@ function _generateContextScenario(card: Flashcard, _allCards: Flashcard[]): Quiz
   
   // Default scenario
   if (!scenario) {
-    const wrongAnswers = allCards
+    const wrongAnswers = _allCards
       .filter(c => c.id !== card.id && c.english !== card.english)
       .map(c => c.english)
       .sort(() => Math.random() - 0.5)
@@ -436,15 +432,15 @@ function _generateContextScenario(card: Flashcard, _allCards: Flashcard[]): Quiz
  * Generate conversation comprehension question
  */
 function _generateConversationComprehension(card: Flashcard, _allCards: Flashcard[]): QuizQuestion {
-  const _category = card.category.toLowerCase();
-  const _luxembourgish = card.luxembourgish.toLowerCase();
+  const _category = card.category.toLowerCase().toLowerCase();
+  const _luxembourgish = card.luxembourgish.toLowerCase().toLowerCase();
   
   // Create realistic conversations based on card content
   let conversation: { dialogue: string; question: string; options: string[]; correctAnswer: string } | null = null;
   
   // Shopping conversations
-  if (category.includes('shopping') || category.includes('supermarket') || 
-      luxembourgish.includes('cactus') || luxembourgish.includes('delhaize')) {
+  if (card.category.toLowerCase().toLowerCase().includes('shopping') || card.category.toLowerCase().includes('supermarket') || 
+      card.luxembourgish.toLowerCase().toLowerCase().includes('cactus') || card.luxembourgish.toLowerCase().toLowerCase().includes('delhaize')) {
     conversation = {
       dialogue: `"Gudde Moien! Ech hätt gär e Baguette an e Croissant, wann ech gelift."
 "Jo, natierlech! Dat sinn 3 Euro 50."`,
@@ -455,8 +451,8 @@ function _generateConversationComprehension(card: Flashcard, _allCards: Flashcar
   }
   
   // Time conversations
-  else if (category.includes('time') || luxembourgish.includes('auer') || 
-           card.english.includes('o\'clock')) {
+  else if (card.category.toLowerCase().toLowerCase().includes('time') || card.luxembourgish.toLowerCase().toLowerCase().includes('auer') || 
+           card.card.english.toLowerCase().toLowerCase().includes('o\'clock')) {
     conversation = {
       dialogue: `"Wéi vill Auer ass et?"
 "Et ass ${card.luxembourgish}."`,
@@ -467,8 +463,8 @@ function _generateConversationComprehension(card: Flashcard, _allCards: Flashcar
   }
   
   // Greeting conversations
-  else if (category.includes('greeting') || luxembourgish.includes('gudde') || 
-           luxembourgish.includes('moien') || luxembourgish.includes('owes')) {
+  else if (card.category.toLowerCase().toLowerCase().includes('greeting') || card.luxembourgish.toLowerCase().toLowerCase().includes('gudde') || 
+           card.luxembourgish.toLowerCase().toLowerCase().includes('moien') || card.luxembourgish.toLowerCase().toLowerCase().includes('owes')) {
     conversation = {
       dialogue: `"${card.luxembourgish}!"
 "${card.luxembourgish}! Wéi geet et?"`,
@@ -479,8 +475,8 @@ function _generateConversationComprehension(card: Flashcard, _allCards: Flashcar
   }
   
   // Weather conversations
-  else if (category.includes('weather') || luxembourgish.includes('reen') || 
-           luxembourgish.includes('sonn') || luxembourgish.includes('wieder')) {
+  else if (card.category.toLowerCase().toLowerCase().includes('weather') || card.luxembourgish.toLowerCase().toLowerCase().includes('reen') || 
+           card.luxembourgish.toLowerCase().toLowerCase().includes('sonn') || card.luxembourgish.toLowerCase().toLowerCase().includes('wieder')) {
     conversation = {
       dialogue: `"Wéi ass d'Wieder haut?"
 "Et ass ${card.luxembourgish}."`,
@@ -491,8 +487,8 @@ function _generateConversationComprehension(card: Flashcard, _allCards: Flashcar
   }
   
   // Food conversations
-  else if (category.includes('food') || category.includes('bread') || 
-           luxembourgish.includes('baguette') || luxembourgish.includes('croissant')) {
+  else if (card.category.toLowerCase().toLowerCase().includes('food') || card.category.toLowerCase().includes('bread') || 
+           card.luxembourgish.toLowerCase().toLowerCase().includes('baguette') || card.luxembourgish.toLowerCase().toLowerCase().includes('croissant')) {
     conversation = {
       dialogue: `"Wat hätt dir gär fir d'Fruuchstéck?"
 "Ech hätt gär ${card.luxembourgish}."`,
@@ -503,8 +499,8 @@ function _generateConversationComprehension(card: Flashcard, _allCards: Flashcar
   }
   
   // Transportation conversations
-  else if (category.includes('transport') || luxembourgish.includes('bus') || 
-           luxembourgish.includes('tram') || luxembourgish.includes('zuch')) {
+  else if (card.category.toLowerCase().toLowerCase().includes('transport') || card.luxembourgish.toLowerCase().toLowerCase().includes('bus') || 
+           card.luxembourgish.toLowerCase().toLowerCase().includes('tram') || card.luxembourgish.toLowerCase().toLowerCase().includes('zuch')) {
     conversation = {
       dialogue: `"Wéi fueren dir op d'Aarbecht?"
 "Ech fueren mam ${card.luxembourgish}."`,
@@ -539,11 +535,11 @@ function _generateConversationComprehension(card: Flashcard, _allCards: Flashcar
  * Generate grammar in context question
  */
 function _generateGrammarContext(card: Flashcard, _allCards: Flashcard[]): QuizQuestion {
-  const _category = card.category.toLowerCase();
+  const _category = card.category.toLowerCase().toLowerCase();
   const notes = card.notes || '';
   
   // Focus on verbs and their conjugations
-  if (category.includes('verb') || notes.includes('Present:') || notes.includes('Imperfect:')) {
+  if (card.category.toLowerCase().toLowerCase().includes('verb') || notes.includes('Present:') || notes.includes('Imperfect:')) {
     const conjugations = notes.match(/Present:\s*([^.]+)/i)?.[1] || '';
     const forms = conjugations.split(',').map(f => f.trim());
     
@@ -600,8 +596,8 @@ function _generateGrammarContext(card: Flashcard, _allCards: Flashcard[]): QuizQ
  * Generate error correction question
  */
 function _generateErrorCorrection(card: Flashcard, _allCards: Flashcard[]): QuizQuestion {
-  const _category = card.category.toLowerCase();
-  const _luxembourgish = card.luxembourgish.toLowerCase();
+  const _category = card.category.toLowerCase().toLowerCase();
+  const _luxembourgish = card.luxembourgish.toLowerCase().toLowerCase();
   
   // Common Luxembourgish grammar errors
   const errors = [
@@ -653,21 +649,21 @@ function _generateErrorCorrection(card: Flashcard, _allCards: Flashcard[]): Quiz
  * Generate word association question
  */
 function _generateWordAssociation(card: Flashcard, _allCards: Flashcard[]): QuizQuestion {
-  const _category = card.category.toLowerCase();
+  const _category = card.category.toLowerCase().toLowerCase();
   
-  // Get related words from the same category
-  const relatedCards = allCards.filter(c => 
-    c.category.toLowerCase() === category && c.id !== card.id
+  // Get related words from the same _category
+  const relatedCards = _allCards.filter(c => 
+    c.card.category.toLowerCase().toLowerCase() === _category && c.id !== card.id
   ).slice(0, 3);
   
   if (relatedCards.length >= 2) {
     const options = [card.english, ...relatedCards.map(c => c.english)];
-    const wrongCard = allCards.find(c => 
-      c.category.toLowerCase() !== category && c.id !== card.id
+    const wrongCard = _allCards.find(c => 
+      c.card.category.toLowerCase().toLowerCase() !== _category && c.id !== card.id
     );
     
     if (wrongCard) {
-      options.push(wrongCard.english);
+      options.push(wrongCard._english);
     }
     
     return {
@@ -675,21 +671,21 @@ function _generateWordAssociation(card: Flashcard, _allCards: Flashcard[]): Quiz
       type: 'word-association',
       cardId: card.id,
       question: `Which word doesn't belong with the others?`,
-      correctAnswer: wrongCard?.english || options[options.length - 1],
+      correctAnswer: wrongCard?._english || options[options.length - 1],
       options: options.sort(() => Math.random() - 0.5)
     };
   }
   
   // Fallback to basic question
-  return generateAdvancedMultipleChoice(card, allCards);
+  return generateAdvancedMultipleChoice(card, _allCards);
 }
 
 /**
  * Generate sentence completion question
  */
 function _generateSentenceCompletion(card: Flashcard, _allCards: Flashcard[]): QuizQuestion {
-  const _category = card.category.toLowerCase();
-  const _luxembourgish = card.luxembourgish.toLowerCase();
+  const _category = card.category.toLowerCase().toLowerCase();
+  const _luxembourgish = card.luxembourgish.toLowerCase().toLowerCase();
   
   // Create contextual sentence completions
   const completions = [
@@ -731,15 +727,15 @@ function _generateSentenceCompletion(card: Flashcard, _allCards: Flashcard[]): Q
  * Generate practical multiple choice question with real-world focus
  */
 function _generatePracticalMultipleChoice(card: Flashcard, _allCards: Flashcard[]): QuizQuestion {
-  const _category = card.category.toLowerCase();
-  const _luxembourgish = card.luxembourgish.toLowerCase();
-  const _english = card.english.toLowerCase();
+  const _category = card.category.toLowerCase().toLowerCase();
+  const _luxembourgish = card.luxembourgish.toLowerCase().toLowerCase();
+  const _english = card.english.toLowerCase().toLowerCase();
   
   // Create practical, real-world focused questions
   let questionData: { question: string; correctAnswer: string; options: string[] } | null = null;
   
   // Cultural context questions
-  if (category.includes('shopping') || luxembourgish.includes('cactus') || luxembourgish.includes('delhaize')) {
+  if (card.category.toLowerCase().toLowerCase().includes('shopping') || card.luxembourgish.toLowerCase().toLowerCase().includes('cactus') || card.luxembourgish.toLowerCase().toLowerCase().includes('delhaize')) {
     questionData = {
       question: `You're at ${card.luxembourgish} and need to buy groceries. What's the most important thing to remember?`,
       correctAnswer: 'Bring a euro coin for the shopping cart',
@@ -748,7 +744,7 @@ function _generatePracticalMultipleChoice(card: Flashcard, _allCards: Flashcard[
   }
   
   // Social etiquette questions
-  else if (category.includes('greeting') || luxembourgish.includes('gudde') || luxembourgish.includes('moien')) {
+  else if (card.category.toLowerCase().toLowerCase().includes('greeting') || card.luxembourgish.toLowerCase().toLowerCase().includes('gudde') || card.luxembourgish.toLowerCase().toLowerCase().includes('moien')) {
     questionData = {
       question: `When meeting someone in Luxembourg, what's the most appropriate greeting to use?`,
       correctAnswer: `"${card.luxembourgish}"`,
@@ -757,7 +753,7 @@ function _generatePracticalMultipleChoice(card: Flashcard, _allCards: Flashcard[
   }
   
   // Transportation etiquette
-  else if (category.includes('transport') || luxembourgish.includes('bus') || luxembourgish.includes('tram')) {
+  else if (card.category.toLowerCase().toLowerCase().includes('transport') || card.luxembourgish.toLowerCase().toLowerCase().includes('bus') || card.luxembourgish.toLowerCase().toLowerCase().includes('tram')) {
     questionData = {
       question: `When taking the ${card.luxembourgish} in Luxembourg, what should you do first?`,
       correctAnswer: 'Buy a ticket before boarding',
@@ -766,7 +762,7 @@ function _generatePracticalMultipleChoice(card: Flashcard, _allCards: Flashcard[
   }
   
   // Language learning strategy
-  else if (category.includes('language') || luxembourgish.includes('lëtzebuergesch')) {
+  else if (card.category.toLowerCase().toLowerCase().includes('language') || card.luxembourgish.toLowerCase().toLowerCase().includes('lëtzebuergesch')) {
     questionData = {
       question: `When someone asks if you speak Luxembourgish, what's the most honest response?`,
       correctAnswer: '"Jo, e bëssen." (Yes, a little)',
@@ -775,7 +771,7 @@ function _generatePracticalMultipleChoice(card: Flashcard, _allCards: Flashcard[
   }
   
   // Time and punctuality
-  else if (category.includes('time') || luxembourgish.includes('auer')) {
+  else if (card.category.toLowerCase().toLowerCase().includes('time') || card.luxembourgish.toLowerCase().toLowerCase().includes('auer')) {
     questionData = {
       question: `In Luxembourg, when someone asks "Wéi vill Auer ass et?", what's the proper way to respond?`,
       correctAnswer: `"Et ass ${card.luxembourgish}."`,
@@ -784,18 +780,18 @@ function _generatePracticalMultipleChoice(card: Flashcard, _allCards: Flashcard[
   }
   
   // Weather and planning
-  else if (category.includes('weather') || luxembourgish.includes('reen') || luxembourgish.includes('sonn')) {
+  else if (card.category.toLowerCase().toLowerCase().includes('weather') || card.luxembourgish.toLowerCase().toLowerCase().includes('reen') || card.luxembourgish.toLowerCase().toLowerCase().includes('sonn')) {
     questionData = {
       question: `If the weather forecast says "${card.luxembourgish}", what should you plan for?`,
-      correctAnswer: luxembourgish.includes('reen') ? 'Bring an umbrella and plan indoor activities' : 
-                    luxembourgish.includes('sonn') ? 'Plan outdoor activities and bring sunscreen' : 'Check the weather again',
+      correctAnswer: card.luxembourgish.toLowerCase().toLowerCase().includes('reen') ? 'Bring an umbrella and plan indoor activities' : 
+                    card.luxembourgish.toLowerCase().toLowerCase().includes('sonn') ? 'Plan outdoor activities and bring sunscreen' : 'Check the weather again',
       options: ['Bring an umbrella and plan indoor activities', 'Plan outdoor activities and bring sunscreen', 'Check the weather again', 'Stay home all day'].sort(() => Math.random() - 0.5)
     };
   }
   
   // Restaurant and dining etiquette
-  else if (category.includes('food') || category.includes('restaurant') || 
-           luxembourgish.includes('baguette') || luxembourgish.includes('croissant')) {
+  else if (card.category.toLowerCase().toLowerCase().includes('food') || card.category.toLowerCase().includes('restaurant') || 
+           card.luxembourgish.toLowerCase().toLowerCase().includes('baguette') || card.luxembourgish.toLowerCase().toLowerCase().includes('croissant')) {
     questionData = {
       question: `At a Luxembourgish bakery, how do you politely order "${card.luxembourgish}"?`,
       correctAnswer: `"Ech hätt gär ${card.luxembourgish}, wann ech gelift."`,
@@ -807,8 +803,8 @@ function _generatePracticalMultipleChoice(card: Flashcard, _allCards: Flashcard[
   }
   
   // Work and business context
-  else if (category.includes('work') || category.includes('business') || 
-           english.includes('work') || english.includes('office')) {
+  else if (card.category.toLowerCase().toLowerCase().includes('work') || card.category.toLowerCase().includes('business') || 
+           card.english.toLowerCase().toLowerCase().includes('work') || card.english.toLowerCase().toLowerCase().includes('office')) {
     questionData = {
       question: `In a Luxembourgish workplace, how do you professionally say "${card.english}"?`,
       correctAnswer: `"${card.luxembourgish}"`,
@@ -853,7 +849,7 @@ export function getQuizStatistics(quizSet: ComprehensiveQuizSet) {
     totalQuestions: quizSet.totalQuestions,
     questionTypes: quizSet.questionTypes,
     difficultyDistribution: quizSet.difficultyDistribution,
-    categoryDistribution: quizSet.categoryDistribution,
+    _categoryDistribution: quizSet._categoryDistribution,
     averageQuestionsPerCard: quizSet.totalQuestions / (quizSet.totalQuestions / 3) // Assuming 3 questions per card
   };
 } 
