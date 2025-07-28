@@ -1,5 +1,5 @@
 // Enhanced Quiz System Types for Luxembourgish Learning
-import { QuizQuestion, QuizQuestionType } from './index';
+import { QuizQuestion, QuizQuestionType, StudyMode } from './index';
 
 // ===== ENHANCED QUIZ SESSION TYPES =====
 
@@ -10,7 +10,7 @@ export interface EnhancedQuizSessionType {
   currentQuestionIndex: number;
   startTime: Date;
   endTime?: Date;
-  mode: string;
+  mode: StudyMode;
   timeLimit?: number;
   score?: number;
   totalQuestions: number;

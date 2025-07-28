@@ -15,14 +15,12 @@ import {
   StoryQuiz, 
   VisualQuestion, 
   AudioQuestion, 
-  Achievement,
-  DailyChallenge 
+  Achievement
 } from '@/types/quizEnhancements';
 
 // Example Enhanced Quiz Component
 const EnhancedQuizExample: React.FC = () => {
   const [showFeedback, setShowFeedback] = useState(false);
-  const [userAnswer, setUserAnswer] = useState<string>('');
 
   // Example Story Quiz
   const storyQuiz: StoryQuiz = {
@@ -117,24 +115,7 @@ const EnhancedQuizExample: React.FC = () => {
     }
   };
 
-  // Example Daily Challenge
-  const dailyChallenge: DailyChallenge = {
-    id: 'daily-1',
-    date: '2025-01-17',
-    theme: 'Coffee Shop Conversations',
-    description: 'Practice ordering coffee and making small talk in Luxembourgish',
-    questions: [], // Would be populated with actual questions
-    bonus: {
-      streakMultiplier: 2,
-      extraPoints: 50,
-      specialRewards: ['coffee-expert-badge'],
-      achievement: 'coffee-conversation-master'
-    },
-    completed: false
-  };
-
-  const handleAnswer = (answer: string) => {
-    setUserAnswer(answer);
+  const handleAnswer = (_answer: string) => {
     setShowFeedback(true);
   };
 

@@ -1,8 +1,4 @@
-import { Flashcard, QuizQuestion, QuizQuestionType } from '@/types';
-
-// Type aliases to fix compilation errors
-type QuizConfig = any;
-type EnhancedQuizQuestion = QuizQuestion;
+import { Flashcard, QuizQuestionType } from '@/types';
 
 /**
  * Enhanced Quiz Generator with Advanced Language Learning Features
@@ -668,10 +664,10 @@ function generateWrongPronunciation(word: string): string {
 }
 
 function getCulturalContext(card: Flashcard): any {
-  // Generate cultural context based on card _category and content
+  // Generate cultural context based on card category and content
   const _category = card.category.toLowerCase();
   
-  if (category.includes('greeting')) {
+  if (_category.includes('greeting')) {
     return {
       question: `When meeting someone in Luxembourg, what's the most appropriate greeting?`,
       correctAnswer: `"${card.luxembourgish}"`,
@@ -681,7 +677,7 @@ function getCulturalContext(card: Flashcard): any {
     };
   }
   
-  if (category.includes('shopping')) {
+  if (_category.includes('shopping')) {
     return {
       question: `At a Luxembourgish store, how do you politely ask for "${card.luxembourgish}"?`,
       correctAnswer: `"Ech hätt gär ${card.luxembourgish}, wann ech gelift."`,
@@ -714,7 +710,7 @@ function getCulturalContext(card: Flashcard): any {
 function generateRealisticDialogue(card: Flashcard): any {
   const _category = card.category.toLowerCase();
   
-  if (category.includes('shopping')) {
+  if (_category.includes('shopping')) {
     return {
       text: `"Gudde Moien! Ech hätt gär ${card.luxembourgish}, wann ech gelift."
 "Jo, natierlech! Dat sinn 3 Euro 50."`,
@@ -739,7 +735,7 @@ function generateRealisticDialogue(card: Flashcard): any {
 function generateRealisticSituation(card: Flashcard): any {
   const _category = card.category.toLowerCase();
   
-  if (category.includes('greeting')) {
+  if (_category.includes('greeting')) {
     return {
       context: `You're entering a shop in Luxembourg and see the shopkeeper.`,
       correctAnswer: `"${card.luxembourgish}!"`,
@@ -796,7 +792,7 @@ function generateCommonError(card: Flashcard): any {
 function generateContextualQuestion(card: Flashcard, __allCards: Flashcard[]): any {
   const _category = card.category.toLowerCase();
   
-  if (category.includes('verb')) {
+  if (_category.includes('verb')) {
     return {
       question: `What is the correct form of "${card.luxembourgish}" for "I"?`,
       correctAnswer: card.luxembourgish,

@@ -104,17 +104,17 @@ function generateContextualQuestion(
     case 'context-scenario':
       return generateContextualScenario(card, strategy, userLevel, _allCards);
     case 'sentence-completion':
-      return generateContextualSentenceCompletion(card, strategy, userLevel);
+      return generateContextualSentenceCompletion(card, strategy, userLevel, _allCards);
     case 'advanced-multiple-choice':
       return generateContextualMultipleChoice(card, _allCards, strategy, userLevel);
     case 'conversation-comp':
-      return generateContextualConversation(card, strategy, userLevel);
+      return generateContextualConversation(card, strategy, userLevel, _allCards);
     case 'cultural-context':
-      return generateCulturalContextQuestion(card, strategy, userLevel);
+      return generateCulturalContextQuestion(card, strategy, userLevel, _allCards);
     case 'word-association':
       return generateContextualWordAssociation(card, _allCards, strategy, userLevel);
     default:
-      return generateFallbackQuestion(card, userLevel);
+      return generateFallbackQuestion(card, userLevel, _allCards);
   }
 }
 
@@ -380,7 +380,7 @@ function generateContextualWordAssociation(
   ).slice(0, 3);
   
   const question = `Which word is most closely related to "${card.luxembourgish}" in the context of ${strategy.vocabularyThemes?.[0] || 'this topic'}?`;
-  const correctAnswer = relatedCards[0]?._luxembourgish || card.luxembourgish;
+  const correctAnswer = relatedCards[0]?.luxembourgish || card.luxembourgish;
   const options = [correctAnswer, ...relatedCards.slice(1).map(c => c.luxembourgish)];
   
   // Add unrelated distractors
@@ -467,7 +467,7 @@ function generateFallbackQuestions(
   
   for (let i = 0; i < Math.min(questionCount, shuffledCards.length); i++) {
     const card = shuffledCards[i];
-    questions.push(generateFallbackQuestion(card, userLevel));
+    questions.push(generateFallbackQuestion(card, userLevel, cards));
   }
   
   return questions;

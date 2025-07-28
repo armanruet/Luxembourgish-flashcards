@@ -20,14 +20,12 @@ const EnhancedQuizQuestion: React.FC<EnhancedQuizQuestionProps> = ({
   const [inputAnswer, setInputAnswer] = useState<string>('');
   const [hasAnswered, setHasAnswered] = useState(false);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
-  const [showExplanation, setShowExplanation] = useState(false);
 
   // Reset state when question changes
   useEffect(() => {
     setSelectedAnswer('');
     setInputAnswer('');
     setHasAnswered(false);
-    setShowExplanation(false);
   }, [question.id]);
 
   const handleMultipleChoiceAnswer = (answer: string) => {

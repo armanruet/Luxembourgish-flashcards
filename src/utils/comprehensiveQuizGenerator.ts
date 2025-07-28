@@ -267,11 +267,11 @@ function generateAdvancedMultipleChoice(card: Flashcard, _allCards: Flashcard[])
 
   // Get semantically related wrong answers
   const relatedCards = _allCards.filter(c => 
-    c.card.category.toLowerCase().toLowerCase() === _category && c.id !== card.id
+    c.category.toLowerCase() === card.category.toLowerCase() && c.id !== card.id
   );
   
   const unrelatedCards = _allCards.filter(c => 
-    c.card.category.toLowerCase().toLowerCase() !== _category && c.id !== card.id
+    c.category.toLowerCase() !== card.category.toLowerCase() && c.id !== card.id
   );
 
   // Create plausible distractors
@@ -305,7 +305,7 @@ function generateAdvancedMultipleChoice(card: Flashcard, _allCards: Flashcard[])
 /**
  * Generate real-world context scenario question
  */
-function _generateContextScenario(card: Flashcard, _allCards: Flashcard[]): QuizQuestion {
+export function _generateContextScenario(card: Flashcard, _allCards: Flashcard[]): QuizQuestion {
   // Local variables removed - using card properties directly
 
   // Create realistic scenarios based on card _category
@@ -431,9 +431,7 @@ function _generateContextScenario(card: Flashcard, _allCards: Flashcard[]): Quiz
 /**
  * Generate conversation comprehension question
  */
-function _generateConversationComprehension(card: Flashcard, _allCards: Flashcard[]): QuizQuestion {
-  const _category = card.category.toLowerCase().toLowerCase();
-  const _luxembourgish = card.luxembourgish.toLowerCase().toLowerCase();
+export function _generateConversationComprehension(card: Flashcard, _allCards: Flashcard[]): QuizQuestion {
   
   // Create realistic conversations based on card content
   let conversation: { dialogue: string; question: string; options: string[]; correctAnswer: string } | null = null;
@@ -451,8 +449,8 @@ function _generateConversationComprehension(card: Flashcard, _allCards: Flashcar
   }
   
   // Time conversations
-  else if (card.category.toLowerCase().toLowerCase().includes('time') || card.luxembourgish.toLowerCase().toLowerCase().includes('auer') || 
-           card.card.english.toLowerCase().toLowerCase().includes('o\'clock')) {
+  else if (card.category.toLowerCase().includes('time') || card.luxembourgish.toLowerCase().includes('auer') || 
+           card.english.toLowerCase().includes('o\'clock')) {
     conversation = {
       dialogue: `"Wéi vill Auer ass et?"
 "Et ass ${card.luxembourgish}."`,
@@ -534,8 +532,7 @@ function _generateConversationComprehension(card: Flashcard, _allCards: Flashcar
 /**
  * Generate grammar in context question
  */
-function _generateGrammarContext(card: Flashcard, _allCards: Flashcard[]): QuizQuestion {
-  const _category = card.category.toLowerCase().toLowerCase();
+export function _generateGrammarContext(card: Flashcard, _allCards: Flashcard[]): QuizQuestion {
   const notes = card.notes || '';
   
   // Focus on verbs and their conjugations
@@ -595,9 +592,7 @@ function _generateGrammarContext(card: Flashcard, _allCards: Flashcard[]): QuizQ
 /**
  * Generate error correction question
  */
-function _generateErrorCorrection(card: Flashcard, _allCards: Flashcard[]): QuizQuestion {
-  const _category = card.category.toLowerCase().toLowerCase();
-  const _luxembourgish = card.luxembourgish.toLowerCase().toLowerCase();
+export function _generateErrorCorrection(card: Flashcard, _allCards: Flashcard[]): QuizQuestion {
   
   // Common Luxembourgish grammar errors
   const errors = [
@@ -648,22 +643,22 @@ function _generateErrorCorrection(card: Flashcard, _allCards: Flashcard[]): Quiz
 /**
  * Generate word association question
  */
-function _generateWordAssociation(card: Flashcard, _allCards: Flashcard[]): QuizQuestion {
-  const _category = card.category.toLowerCase().toLowerCase();
+export function _generateWordAssociation(card: Flashcard, _allCards: Flashcard[]): QuizQuestion {
+  const _category = card.category.toLowerCase();
   
-  // Get related words from the same _category
+  // Get related words from the same category
   const relatedCards = _allCards.filter(c => 
-    c.card.category.toLowerCase().toLowerCase() === _category && c.id !== card.id
+    c.category.toLowerCase() === _category && c.id !== card.id
   ).slice(0, 3);
   
   if (relatedCards.length >= 2) {
     const options = [card.english, ...relatedCards.map(c => c.english)];
     const wrongCard = _allCards.find(c => 
-      c.card.category.toLowerCase().toLowerCase() !== _category && c.id !== card.id
+      c.category.toLowerCase() !== _category && c.id !== card.id
     );
     
     if (wrongCard) {
-      options.push(wrongCard._english);
+      options.push(wrongCard.english);
     }
     
     return {
@@ -671,7 +666,7 @@ function _generateWordAssociation(card: Flashcard, _allCards: Flashcard[]): Quiz
       type: 'word-association',
       cardId: card.id,
       question: `Which word doesn't belong with the others?`,
-      correctAnswer: wrongCard?._english || options[options.length - 1],
+      correctAnswer: wrongCard?.english || options[options.length - 1],
       options: options.sort(() => Math.random() - 0.5)
     };
   }
@@ -683,9 +678,7 @@ function _generateWordAssociation(card: Flashcard, _allCards: Flashcard[]): Quiz
 /**
  * Generate sentence completion question
  */
-function _generateSentenceCompletion(card: Flashcard, _allCards: Flashcard[]): QuizQuestion {
-  const _category = card.category.toLowerCase().toLowerCase();
-  const _luxembourgish = card.luxembourgish.toLowerCase().toLowerCase();
+export function _generateSentenceCompletion(card: Flashcard, _allCards: Flashcard[]): QuizQuestion {
   
   // Create contextual sentence completions
   const completions = [
@@ -726,10 +719,7 @@ function _generateSentenceCompletion(card: Flashcard, _allCards: Flashcard[]): Q
 /**
  * Generate practical multiple choice question with real-world focus
  */
-function _generatePracticalMultipleChoice(card: Flashcard, _allCards: Flashcard[]): QuizQuestion {
-  const _category = card.category.toLowerCase().toLowerCase();
-  const _luxembourgish = card.luxembourgish.toLowerCase().toLowerCase();
-  const _english = card.english.toLowerCase().toLowerCase();
+export function _generatePracticalMultipleChoice(card: Flashcard, _allCards: Flashcard[]): QuizQuestion {
   
   // Create practical, real-world focused questions
   let questionData: { question: string; correctAnswer: string; options: string[] } | null = null;

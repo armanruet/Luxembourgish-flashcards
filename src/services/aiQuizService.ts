@@ -517,7 +517,6 @@ export async function getAIStudyRecommendations(
 ): Promise<string[]> {
   try {
     const weakAreas = userPerformance.weakAreas || [];
-    const _strongAreas = userPerformance._strongAreas || [];
     const averageScore = userPerformance.averageScore || 0;
 
     let recommendations: string[] = [];
