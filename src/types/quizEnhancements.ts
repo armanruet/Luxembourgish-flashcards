@@ -1,6 +1,34 @@
 // Enhanced Quiz System Types for Luxembourgish Learning
 import { QuizQuestion, QuizQuestionType } from './index';
 
+// ===== ENHANCED QUIZ SESSION TYPES =====
+
+export interface EnhancedQuizSessionType {
+  id: string;
+  deckId: string;
+  questions: QuizQuestion[];
+  currentQuestionIndex: number;
+  startTime: Date;
+  endTime?: Date;
+  mode: string;
+  timeLimit?: number;
+  score?: number;
+  totalQuestions: number;
+  correctAnswers: number;
+  averageTime?: number;
+  completed: boolean;
+}
+
+export interface QuizConfig {
+  questionCount: number;
+  timeLimit?: number;
+  difficulty: 'A1' | 'A2' | 'B1' | 'B2' | 'mixed';
+  questionTypes: QuizQuestionType[];
+  includeAudio: boolean;
+  includeCultural: boolean;
+  adaptiveDifficulty: boolean;
+}
+
 // ===== IMMERSIVE REAL-WORLD SCENARIOS =====
 
 export interface StoryQuiz {

@@ -15,6 +15,11 @@ import {
   QuizQuestion,
   StudyMode 
 } from '@/types';
+import { 
+  EnhancedQuizSessionType,
+  QuizConfig,
+  EnhancedQuizQuestion
+} from '@/types/quizEnhancements';
 // import { generateEnhancedQuizQuestions, calculateEnhancedQuizScore } from '@/utils/enhancedQuizGenerator';
 // import { generateAIQuizQuestions } from '@/services/aiQuizService';
 import EnhancedQuizQuestionComponent from './EnhancedQuizQuestion';

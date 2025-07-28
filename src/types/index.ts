@@ -225,7 +225,15 @@ export type QuizQuestionType =
   | 'error-correction'     // Find and fix mistakes
   | 'word-association'     // Group related words
   | 'sentence-completion'  // Complete sentences
-  | 'advanced-multiple-choice'; // Advanced practical questions
+  | 'advanced-multiple-choice' // Advanced practical questions
+  | 'pronunciation-practice'   // Pronunciation exercises
+  | 'cultural-context'         // Cultural context questions
+  | 'listening-comprehension'  // Listening exercises
+  | 'grammar-pattern'         // Grammar pattern recognition
+  | 'situational-dialogue'    // Situational dialogue practice
+  | 'vocabulary-in-context'   // Vocabulary in context
+  | 'error-detection'         // Error detection exercises
+  | 'translation-practice';   // Translation practice
 
 export interface QuizQuestion {
   id: string;
@@ -242,6 +250,11 @@ export interface QuizQuestion {
   explanation?: string;  // Explanation for the answer
   difficulty?: 'A1' | 'A2' | 'B1' | 'B2';  // Question difficulty
   category?: string;  // Question category
+  // Additional properties for enhanced quiz system
+  skillArea?: string;  // Skill area focus
+  audioUrl?: string;  // Audio URL for listening questions
+  hints?: string[];  // Hints for the question
+  culturalContext?: string;  // Cultural context information
 }
 
 export interface QuizSession {

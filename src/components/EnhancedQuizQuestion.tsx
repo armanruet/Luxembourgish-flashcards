@@ -20,6 +20,7 @@ const EnhancedQuizQuestion: React.FC<EnhancedQuizQuestionProps> = ({
   const [inputAnswer, setInputAnswer] = useState<string>('');
   const [hasAnswered, setHasAnswered] = useState(false);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
+  const [showExplanation, setShowExplanation] = useState(false);
 
   // Reset state when question changes
   useEffect(() => {
@@ -76,11 +77,13 @@ const EnhancedQuizQuestion: React.FC<EnhancedQuizQuestionProps> = ({
 
   const getDifficultyColor = () => {
     switch (question.difficulty) {
-      case 'easy':
+      case 'A1':
         return 'bg-green-100 text-green-800 border-green-200';
-      case 'medium':
+      case 'A2':
         return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'hard':
+      case 'B1':
+        return 'bg-orange-100 text-orange-800 border-orange-200';
+      case 'B2':
         return 'bg-red-100 text-red-800 border-red-200';
       default:
         return 'bg-gray-100 text-gray-800 border-gray-200';

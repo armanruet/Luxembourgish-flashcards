@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { X, Settings, Brain, Target, Volume2, Globe, BookOpen, MessageCircle } from 'lucide-react';
+import { QuizConfig } from '@/types/quizEnhancements';
 
 interface QuizConfigurationModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onStartQuiz: (config: any) => void;
-  defaultConfig?: any;
+  onStartQuiz: (config: QuizConfig) => void;
+  defaultConfig?: QuizConfig;
 }
 
 const QuizConfigurationModal: React.FC<QuizConfigurationModalProps> = ({

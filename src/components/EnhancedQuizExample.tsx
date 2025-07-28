@@ -12,19 +12,20 @@ import {
   Globe
 } from 'lucide-react';
 import { 
-  // StoryQuiz, 
-  // VisualQuestion, 
-  // AudioQuestion, 
-  // Achievement,
-  // DailyChallenge 
+  StoryQuiz, 
+  VisualQuestion, 
+  AudioQuestion, 
+  Achievement,
+  DailyChallenge 
 } from '@/types/quizEnhancements';
 
 // Example Enhanced Quiz Component
 const EnhancedQuizExample: React.FC = () => {
   const [showFeedback, setShowFeedback] = useState(false);
+  const [userAnswer, setUserAnswer] = useState<string>('');
 
   // Example Story Quiz
-  const storyQuiz: any = {
+  const storyQuiz: StoryQuiz = {
     id: 'story-1',
     title: 'A Day in Luxembourg City',
     scenario: 'You arrive in Luxembourg City for the first time. It\'s morning and you\'re hungry. You see a café nearby.',
@@ -117,7 +118,7 @@ const EnhancedQuizExample: React.FC = () => {
   };
 
   // Example Daily Challenge
-  const dailyChallenge: any = {
+  const dailyChallenge: DailyChallenge = {
     id: 'daily-1',
     date: '2025-01-17',
     theme: 'Coffee Shop Conversations',

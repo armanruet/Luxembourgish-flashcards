@@ -44,7 +44,7 @@ export async function generateAIQuizQuestions(
 
     for (const service of services) {
       try {
-        const result = await service(request);
+        const result = await service(_request);
         if (result && result.questions.length > 0) {
           return result;
         }
@@ -55,10 +55,10 @@ export async function generateAIQuizQuestions(
     }
 
     // Fallback to enhanced generator
-    return generateWithFallback(request);
+    return generateWithFallback(_request);
   } catch (error) {
     console.error('All AI services failed:', error);
-    return generateWithFallback(request);
+    return generateWithFallback(_request);
   }
 }
 
