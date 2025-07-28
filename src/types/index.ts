@@ -237,6 +237,11 @@ export interface QuizQuestion {
   userAnswer?: string;
   isCorrect?: boolean;
   timeSpent?: number;
+  // Additional properties for comprehensive quiz system
+  context?: string;  // Context or scenario for the question
+  explanation?: string;  // Explanation for the answer
+  difficulty?: 'A1' | 'A2' | 'B1' | 'B2';  // Question difficulty
+  category?: string;  // Question category
 }
 
 export interface QuizSession {
@@ -277,6 +282,15 @@ export interface QuizResult {
     isCorrect: boolean;
     timeSpent: number;
   }[];
+}
+
+// Comprehensive quiz result interface for the new system
+export interface ComprehensiveQuizResult {
+  questionId: string;
+  selectedAnswer: string;
+  isCorrect: boolean;
+  timeSpent: number;
+  question: QuizQuestion;
 }
 
 export interface ImportData {

@@ -10,6 +10,8 @@ import { SubscriptionProvider } from '@/contexts/SubscriptionContext';
 // Store imports
 import { useDeckStore } from '@/store/deckStore';
 import { useStudyStore } from '@/store/studyStore';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { QuizQuestion, ComprehensiveQuizResult } from '@/types';
 
 // Component imports
 import Navigation from '@/components/Navigation';
@@ -17,6 +19,9 @@ import Dashboard from '@/components/Dashboard';
 import DeckList from '@/components/DeckList';
 import StudySession from '@/components/StudySession';
 import QuizSession from '@/components/QuizSession';
+import ComprehensiveQuizManager from '@/components/ComprehensiveQuizManager';
+import ComprehensiveQuizSession from '@/components/ComprehensiveQuizSession';
+import ComprehensiveQuizResults from '@/components/ComprehensiveQuizResults';
 import Statistics from '@/components/Statistics';
 import Settings from '@/components/Settings';
 import ErrorReportManager from '@/components/ErrorReportManager';
@@ -30,10 +35,29 @@ import { SubscriptionCancelled } from '@/components/Subscription/SubscriptionCan
 // Data import - removed unused import
 // import { allDecks } from '@/data/vocabulary';
 
+// Wrapper component for ComprehensiveQuizSession
+const ComprehensiveQuizSessionWrapper: React.FC<{
+  questions: QuizQuestion[];
+  deckName: string;
+  onComplete: (results: ComprehensiveQuizResult[]) => void;
+  onExit: () => void;
+}> = ({ questions, deckName, onComplete, onExit }) => {
+  return (
+    <ComprehensiveQuizSession
+      questions={questions}
+      deckName={deckName}
+      onComplete={onComplete}
+      onExit={onExit}
+    />
+  );
+};
+
 function AppContent() {
   const { currentUser } = useAuth();
-  const { setUserId } = useDeckStore();
+  const { setUserId, decks } = useDeckStore();
   const { setUserId: setStudyUserId } = useStudyStore();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     if (currentUser) {
@@ -80,6 +104,58 @@ function AppContent() {
           <Route path="/quiz/:deckId?" element={
             <ProtectedRoute>
               <QuizSession />
+            </ProtectedRoute>
+          } />
+          <Route path="/comprehensive-quiz" element={
+            <ProtectedRoute>
+              <ComprehensiveQuizManager 
+                decks={decks} 
+                onStartQuiz={(questions, deckName) => {
+                  // Navigate to quiz session with questions
+                  navigate(`/comprehensive-quiz/session/${deckName}`, { 
+                    state: { questions, deckName } 
+                  });
+                }}
+              />
+            </ProtectedRoute>
+          } />
+          <Route path="/comprehensive-quiz/session/:deckId" element={
+            <ProtectedRoute>
+              <ComprehensiveQuizSessionWrapper 
+                questions={location.state?.questions || []}
+                deckName={location.state?.deckName || ''}
+                onComplete={(results) => {
+                  // Navigate to results page
+                  navigate('/comprehensive-quiz/results', { 
+                    state: { results, deckName: location.state?.deckName || '', totalTime: 0 } 
+                  });
+                }}
+                onExit={() => {
+                  navigate('/comprehensive-quiz');
+                }}
+              />
+            </ProtectedRoute>
+          } />
+          <Route path="/comprehensive-quiz/results" element={
+            <ProtectedRoute>
+              <ComprehensiveQuizResults 
+                results={location.state?.results || []}
+                deckName={location.state?.deckName || ''}
+                totalTime={location.state?.totalTime || 0}
+                onRetry={() => {
+                  // Navigate back to quiz session
+                  navigate(`/comprehensive-quiz/session/${location.state?.deckName || ''}`, { 
+                    state: { questions: location.state?.questions || [], deckName: location.state?.deckName || '' } 
+                  });
+                }}
+                onExit={() => {
+                  navigate('/comprehensive-quiz');
+                }}
+                onReviewQuestions={() => {
+                  // For now, just go back to quiz manager
+                  navigate('/comprehensive-quiz');
+                }}
+              />
             </ProtectedRoute>
           } />
           <Route path="/statistics" element={
