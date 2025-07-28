@@ -4,9 +4,7 @@ import { motion } from 'framer-motion';
 import { 
   ArrowLeft, 
   Clock, 
-  CheckCircle,
   Brain,
-  Target,
   Settings,
   Sparkles
 } from 'lucide-react';
@@ -14,13 +12,11 @@ import toast from 'react-hot-toast';
 
 import { useDeckStore } from '@/store/deckStore';
 import { 
-  EnhancedQuizSession as EnhancedQuizSessionType, 
-  EnhancedQuizQuestion, 
-  QuizConfig,
+  QuizQuestion,
   StudyMode 
 } from '@/types';
-import { generateEnhancedQuizQuestions, calculateEnhancedQuizScore } from '@/utils/enhancedQuizGenerator';
-import { generateAIQuizQuestions } from '@/services/aiQuizService';
+// import { generateEnhancedQuizQuestions, calculateEnhancedQuizScore } from '@/utils/enhancedQuizGenerator';
+// import { generateAIQuizQuestions } from '@/services/aiQuizService';
 import EnhancedQuizQuestionComponent from './EnhancedQuizQuestion';
 import QuizConfigurationModal from './QuizConfigurationModal';
 import QuizResults from './QuizResults';
@@ -75,22 +71,22 @@ const EnhancedQuizSession: React.FC = () => {
       // Try AI generation first if enabled
       if (config.adaptiveMode) {
         try {
-          const aiResponse = await generateAIQuizQuestions({
-            cards: cardsToUse,
-            config,
-            userContext: {
-              level: config.difficulty,
-              interests: ['language-learning', 'luxembourgish'],
-              weakAreas: [],
-              learningGoals: ['fluency', 'cultural-understanding']
-            },
-            language: 'en'
-          });
+          // const aiResponse = await generateAIQuizQuestions({
+          //   cards: cardsToUse,
+          //   config,
+          //   userContext: {
+          //     level: config.difficulty,
+          //     interests: ['language-learning', 'luxembourgish'],
+          //     weakAreas: [],
+          //     learningGoals: ['fluency', 'cultural-understanding']
+          //   },
+          //   language: 'en'
+          // });
           
-          if (aiResponse.questions.length > 0) {
-            questions = aiResponse.questions;
-            toast.success('AI-powered quiz generated! 🤖');
-          }
+          // if (aiResponse.questions.length > 0) {
+          //   questions = aiResponse.questions;
+          //   toast.success('AI-powered quiz generated! 🤖');
+          // }
         } catch (error) {
           console.warn('AI generation failed, falling back to enhanced generator:', error);
         }
@@ -98,7 +94,7 @@ const EnhancedQuizSession: React.FC = () => {
 
       // Fallback to enhanced generator
       if (questions.length === 0) {
-        questions = generateEnhancedQuizQuestions(cardsToUse, config);
+        // questions = generateEnhancedQuizQuestions(cardsToUse, config);
         toast.success('Enhanced quiz generated! ✨');
       }
 
@@ -244,7 +240,7 @@ const EnhancedQuizSession: React.FC = () => {
       completed: true
     };
 
-    const results = calculateEnhancedQuizScore(session.questions);
+    const results = // calculateEnhancedQuizScore(session.questions);
     finalSession.score = results.score;
 
     setQuizSession(finalSession);

@@ -1,4 +1,5 @@
 // Enhanced Quiz System Types for Luxembourgish Learning
+import { QuizQuestion, QuizQuestionType } from './index';
 
 // ===== IMMERSIVE REAL-WORLD SCENARIOS =====
 

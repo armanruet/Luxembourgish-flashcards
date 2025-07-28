@@ -1,4 +1,4 @@
-import { Flashcard, EnhancedQuizQuestion, QuizConfig } from '@/types';
+import { Flashcard, QuizQuestion } from '@/types';
 
 /**
  * AI-Powered Quiz Generation Service
@@ -6,8 +6,8 @@ import { Flashcard, EnhancedQuizQuestion, QuizConfig } from '@/types';
  */
 
 export interface AIQuizRequest {
-  cards: Flashcard[];
-  config: QuizConfig;
+  _cards: Flashcard[];
+  config: any;
   userContext?: {
     level: string;
     interests: string[];
@@ -18,7 +18,7 @@ export interface AIQuizRequest {
 }
 
 export interface AIQuizResponse {
-  questions: EnhancedQuizQuestion[];
+  questions: any[];
   metadata: {
     generatedAt: Date;
     model: string;
@@ -31,7 +31,7 @@ export interface AIQuizResponse {
  * Generate AI-powered quiz questions
  */
 export async function generateAIQuizQuestions(
-  request: AIQuizRequest
+  _request: AIQuizRequest
 ): Promise<AIQuizResponse> {
   try {
     // Try multiple AI services in order of preference
@@ -65,7 +65,7 @@ export async function generateAIQuizQuestions(
 /**
  * Generate quiz using OpenAI API
  */
-async function generateWithOpenAI(request: AIQuizRequest): Promise<AIQuizResponse> {
+async function generateWithOpenAI(_request: AIQuizRequest): Promise<AIQuizResponse> {
   const apiKey = process.env.REACT_APP_OPENAI_API_KEY;
   if (!apiKey) {
     throw new Error('OpenAI API key not configured');
@@ -109,7 +109,7 @@ async function generateWithOpenAI(request: AIQuizRequest): Promise<AIQuizRespons
 /**
  * Generate quiz using Claude API
  */
-async function generateWithClaude(request: AIQuizRequest): Promise<AIQuizResponse> {
+async function generateWithClaude(_request: AIQuizRequest): Promise<AIQuizResponse> {
   const apiKey = process.env.REACT_APP_ANTHROPIC_API_KEY;
   if (!apiKey) {
     throw new Error('Anthropic API key not configured');
@@ -149,7 +149,7 @@ async function generateWithClaude(request: AIQuizRequest): Promise<AIQuizRespons
 /**
  * Generate quiz using local AI model (if available)
  */
-async function generateWithLocalAI(request: AIQuizRequest): Promise<AIQuizResponse> {
+async function generateWithLocalAI(__request: AIQuizRequest): Promise<AIQuizResponse> {
   // This would integrate with a local AI model like Ollama or similar
   // For now, return null to fall back to other methods
   return null as any;
@@ -158,10 +158,10 @@ async function generateWithLocalAI(request: AIQuizRequest): Promise<AIQuizRespon
 /**
  * Fallback to enhanced generator
  */
-async function generateWithFallback(request: AIQuizRequest): Promise<AIQuizResponse> {
-  const { generateEnhancedQuizQuestions } = await import('@/utils/enhancedQuizGenerator');
+async function generateWithFallback(_request: AIQuizRequest): Promise<AIQuizResponse> {
+  const { generateanys } = await import('@/utils/enhancedQuizGenerator');
   
-  const questions = generateEnhancedQuizQuestions(request.cards, request.config);
+  const questions = generateanys(request.cards, request.config);
   
   return {
     questions,
@@ -181,7 +181,7 @@ async function generateWithFallback(request: AIQuizRequest): Promise<AIQuizRespo
 /**
  * Create AI prompt for quiz generation
  */
-function createAIPrompt(request: AIQuizRequest): string {
+function createAIPrompt(_request: AIQuizRequest): string {
   const { cards, config, userContext, language } = request;
   
   const cardExamples = cards.slice(0, 5).map(card => ({
@@ -264,7 +264,7 @@ Make sure the questions are:
 /**
  * Parse AI response into quiz questions
  */
-function parseAIResponse(content: string, request: AIQuizRequest): AIQuizResponse {
+function parseAIResponse(content: string, _request: AIQuizRequest): AIQuizResponse {
   try {
     // Extract JSON from response
     const jsonMatch = content.match(/\{[\s\S]*\}/);
@@ -275,7 +275,7 @@ function parseAIResponse(content: string, request: AIQuizRequest): AIQuizRespons
     const parsed = JSON.parse(jsonMatch[0]);
     
     // Validate and transform questions
-    const questions: EnhancedQuizQuestion[] = parsed.questions.map((q: any, index: number) => ({
+    const questions: any[] = parsed.questions.map((q: any, index: number) => ({
       id: q.id || `ai-${Date.now()}-${index}`,
       type: q.type || 'multiple-choice',
       cardId: q.cardId || request.cards[0]?.id || 'unknown',
@@ -315,9 +315,9 @@ function parseAIResponse(content: string, request: AIQuizRequest): AIQuizRespons
  * Generate contextual scenarios using AI
  */
 export async function generateContextualScenarios(
-  cards: Flashcard[],
+  _cards: Flashcard[],
   scenarioType: 'shopping' | 'transportation' | 'greetings' | 'weather' | 'food'
-): Promise<EnhancedQuizQuestion[]> {
+): Promise<any[]> {
   const scenarioCards = cards.filter(card => 
     card.category.toLowerCase().includes(scenarioType) ||
     card.luxembourgish.toLowerCase().includes(scenarioType) ||
@@ -328,7 +328,7 @@ export async function generateContextualScenarios(
     return [];
   }
 
-  const request: AIQuizRequest = {
+  const _request: AIQuizRequest = {
     cards: scenarioCards,
     config: {
       questionCount: 5,
@@ -354,8 +354,8 @@ export async function generateContextualScenarios(
  * Generate pronunciation practice questions
  */
 export async function generatePronunciationQuestions(
-  cards: Flashcard[]
-): Promise<EnhancedQuizQuestion[]> {
+  _cards: Flashcard[]
+): Promise<any[]> {
   const pronunciationCards = cards.filter(card => 
     card.pronunciation && card.pronunciation.length > 0
   );
@@ -364,7 +364,7 @@ export async function generatePronunciationQuestions(
     return [];
   }
 
-  const request: AIQuizRequest = {
+  const _request: AIQuizRequest = {
     cards: pronunciationCards,
     config: {
       questionCount: 5,
@@ -390,8 +390,8 @@ export async function generatePronunciationQuestions(
  * Generate grammar-focused questions
  */
 export async function generateGrammarQuestions(
-  cards: Flashcard[]
-): Promise<EnhancedQuizQuestion[]> {
+  _cards: Flashcard[]
+): Promise<any[]> {
   const grammarCards = cards.filter(card => 
     card.category.includes('verb') || 
     card.notes?.includes('Present:') ||
@@ -403,7 +403,7 @@ export async function generateGrammarQuestions(
     return [];
   }
 
-  const request: AIQuizRequest = {
+  const _request: AIQuizRequest = {
     cards: grammarCards,
     config: {
       questionCount: 5,
@@ -429,8 +429,8 @@ export async function generateGrammarQuestions(
  * Generate cultural context questions
  */
 export async function generateCulturalQuestions(
-  cards: Flashcard[]
-): Promise<EnhancedQuizQuestion[]> {
+  _cards: Flashcard[]
+): Promise<any[]> {
   const culturalCards = cards.filter(card => 
     card.category.includes('greeting') ||
     card.category.includes('culture') ||
@@ -443,7 +443,7 @@ export async function generateCulturalQuestions(
     return [];
   }
 
-  const request: AIQuizRequest = {
+  const _request: AIQuizRequest = {
     cards: culturalCards,
     config: {
       questionCount: 5,
@@ -469,8 +469,8 @@ export async function generateCulturalQuestions(
  * Generate conversation practice questions
  */
 export async function generateConversationQuestions(
-  cards: Flashcard[]
-): Promise<EnhancedQuizQuestion[]> {
+  _cards: Flashcard[]
+): Promise<any[]> {
   const conversationCards = cards.filter(card => 
     card.category.includes('greeting') ||
     card.category.includes('conversation') ||
@@ -486,7 +486,7 @@ export async function generateConversationQuestions(
     return [];
   }
 
-  const request: AIQuizRequest = {
+  const _request: AIQuizRequest = {
     cards: conversationCards,
     config: {
       questionCount: 5,
@@ -513,11 +513,11 @@ export async function generateConversationQuestions(
  */
 export async function getAIStudyRecommendations(
   userPerformance: any,
-  cards: Flashcard[]
+  _cards: Flashcard[]
 ): Promise<string[]> {
   try {
     const weakAreas = userPerformance.weakAreas || [];
-    const strongAreas = userPerformance.strongAreas || [];
+    const _strongAreas = userPerformance._strongAreas || [];
     const averageScore = userPerformance.averageScore || 0;
 
     let recommendations: string[] = [];

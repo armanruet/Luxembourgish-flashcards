@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { X, Settings, Brain, Target, Clock, Volume2, Globe, BookOpen, MessageCircle } from 'lucide-react';
-import { QuizConfig } from '@/types';
+import { X, Settings, Brain, Target, Volume2, Globe, BookOpen, MessageCircle } from 'lucide-react';
 
 interface QuizConfigurationModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onStartQuiz: (config: QuizConfig) => void;
-  defaultConfig?: QuizConfig;
+  onStartQuiz: (config: any) => void;
+  defaultConfig?: any;
 }
 
 const QuizConfigurationModal: React.FC<QuizConfigurationModalProps> = ({
@@ -27,10 +26,10 @@ const QuizConfigurationModal: React.FC<QuizConfigurationModalProps> = ({
   });
 
   const handleFocusAreaToggle = (area: string) => {
-    setConfig(prev => ({
+    setConfig((prev: any) => ({
       ...prev,
       focusAreas: prev.focusAreas.includes(area as any)
-        ? prev.focusAreas.filter(a => a !== area)
+        ? prev.focusAreas.filter((a: any) => a !== area)
         : [...prev.focusAreas, area as any]
     }));
   };
@@ -78,7 +77,7 @@ const QuizConfigurationModal: React.FC<QuizConfigurationModalProps> = ({
               {[5, 10, 15, 20].map(count => (
                 <button
                   key={count}
-                  onClick={() => setConfig(prev => ({ ...prev, questionCount: count }))}
+                  onClick={() => setConfig((prev: any) => ({ ...prev, questionCount: count }))}
                   className={`
                     px-4 py-2 rounded-lg border-2 transition-all duration-200
                     ${config.questionCount === count
@@ -106,7 +105,7 @@ const QuizConfigurationModal: React.FC<QuizConfigurationModalProps> = ({
               ].map(level => (
                 <button
                   key={level.value}
-                  onClick={() => setConfig(prev => ({ ...prev, difficulty: level.value as any }))}
+                  onClick={() => setConfig((prev: any) => ({ ...prev, difficulty: level.value as any }))}
                   className={`
                     p-4 rounded-xl border-2 transition-all duration-200 text-center
                     ${config.difficulty === level.value
@@ -167,7 +166,7 @@ const QuizConfigurationModal: React.FC<QuizConfigurationModalProps> = ({
                 <input
                   type="checkbox"
                   checked={config.adaptiveMode}
-                  onChange={(e) => setConfig(prev => ({ ...prev, adaptiveMode: e.target.checked }))}
+                  onChange={(e) => setConfig((prev: any) => ({ ...prev, adaptiveMode: e.target.checked }))}
                   className="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
                 />
                 <div className="flex items-center space-x-2">
@@ -183,7 +182,7 @@ const QuizConfigurationModal: React.FC<QuizConfigurationModalProps> = ({
                 <input
                   type="checkbox"
                   checked={config.includeSpacedRepetition}
-                  onChange={(e) => setConfig(prev => ({ ...prev, includeSpacedRepetition: e.target.checked }))}
+                  onChange={(e) => setConfig((prev: any) => ({ ...prev, includeSpacedRepetition: e.target.checked }))}
                   className="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
                 />
                 <div className="flex items-center space-x-2">
@@ -199,7 +198,7 @@ const QuizConfigurationModal: React.FC<QuizConfigurationModalProps> = ({
                 <input
                   type="checkbox"
                   checked={config.includeAudio}
-                  onChange={(e) => setConfig(prev => ({ ...prev, includeAudio: e.target.checked }))}
+                  onChange={(e) => setConfig((prev: any) => ({ ...prev, includeAudio: e.target.checked }))}
                   className="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
                 />
                 <div className="flex items-center space-x-2">
@@ -220,7 +219,7 @@ const QuizConfigurationModal: React.FC<QuizConfigurationModalProps> = ({
             </label>
             <div className="flex items-center space-x-4">
               <button
-                onClick={() => setConfig(prev => ({ ...prev, timeLimit: undefined }))}
+                onClick={() => setConfig((prev: any) => ({ ...prev, timeLimit: undefined }))}
                 className={`
                   px-4 py-2 rounded-lg border-2 transition-all duration-200
                   ${!config.timeLimit
@@ -234,7 +233,7 @@ const QuizConfigurationModal: React.FC<QuizConfigurationModalProps> = ({
               {[5, 10, 15, 20].map(minutes => (
                 <button
                   key={minutes}
-                  onClick={() => setConfig(prev => ({ ...prev, timeLimit: minutes * 60 }))}
+                  onClick={() => setConfig((prev: any) => ({ ...prev, timeLimit: minutes * 60 }))}
                   className={`
                     px-4 py-2 rounded-lg border-2 transition-all duration-200
                     ${config.timeLimit === minutes * 60

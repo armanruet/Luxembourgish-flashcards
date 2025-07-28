@@ -94,7 +94,7 @@ export function generateDeckAwareQuizQuestions(
  */
 function generateContextualQuestion(
   card: Flashcard,
-  allCards: Flashcard[],
+  _allCards: Flashcard[],
   strategy: DeckQuizStrategy,
   questionType: QuizQuestionType,
   userLevel: 'A1' | 'A2' | 'B1' | 'B2'
@@ -125,7 +125,7 @@ function generateContextualScenario(
   card: Flashcard,
   strategy: DeckQuizStrategy,
   _userLevel: 'A1' | 'A2' | 'B1' | 'B2',
-  allCards: Flashcard[] = []
+  _allCards: Flashcard[] = []
 ): QuizQuestion {
   let scenario = '';
   let question = '';
@@ -237,7 +237,7 @@ function generateContextualSentenceCompletion(
  */
 function generateContextualMultipleChoice(
   card: Flashcard,
-  allCards: Flashcard[],
+  _allCards: Flashcard[],
   strategy: DeckQuizStrategy,
   _userLevel: 'A1' | 'A2' | 'B1' | 'B2'
 ): QuizQuestion {
@@ -370,7 +370,7 @@ function generateCulturalContextQuestion(
  */
 function generateContextualWordAssociation(
   card: Flashcard,
-  allCards: Flashcard[],
+  _allCards: Flashcard[],
   strategy: DeckQuizStrategy,
   _userLevel: 'A1' | 'A2' | 'B1' | 'B2'
 ): QuizQuestion {

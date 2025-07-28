@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Check, X, Volume2, Lightbulb, Globe, BookOpen, Mic, MessageCircle } from 'lucide-react';
-import { EnhancedQuizQuestion as EnhancedQuizQuestionType } from '@/types';
+import { QuizQuestion } from '@/types';
 
 interface EnhancedQuizQuestionProps {
-  question: EnhancedQuizQuestionType;
+  question: QuizQuestion;
   onAnswer: (answer: string) => void;
   onHint?: () => void;
   showHints?: boolean;
@@ -19,7 +19,6 @@ const EnhancedQuizQuestion: React.FC<EnhancedQuizQuestionProps> = ({
   const [selectedAnswer, setSelectedAnswer] = useState<string>('');
   const [inputAnswer, setInputAnswer] = useState<string>('');
   const [hasAnswered, setHasAnswered] = useState(false);
-  const [showExplanation, setShowExplanation] = useState(false);
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
 
   // Reset state when question changes
@@ -181,7 +180,7 @@ const EnhancedQuizQuestion: React.FC<EnhancedQuizQuestionProps> = ({
       )}
       
       <div className="grid grid-cols-1 gap-4">
-        {question.options?.map((option, index) => (
+        {question.options?.map((option: string, index: number) => (
           <motion.button
             key={index}
             onClick={() => handleMultipleChoiceAnswer(option)}
@@ -228,7 +227,7 @@ const EnhancedQuizQuestion: React.FC<EnhancedQuizQuestionProps> = ({
       </h2>
       
       <div className="grid grid-cols-1 gap-4">
-        {question.options?.map((option, index) => (
+        {question.options?.map((option: string, index: number) => (
           <motion.button
             key={index}
             onClick={() => handleMultipleChoiceAnswer(option)}
@@ -281,7 +280,7 @@ const EnhancedQuizQuestion: React.FC<EnhancedQuizQuestionProps> = ({
       </div>
       
       <div className="grid grid-cols-1 gap-4">
-        {question.options?.map((option, index) => (
+        {question.options?.map((option: string, index: number) => (
           <motion.button
             key={index}
             onClick={() => handleMultipleChoiceAnswer(option)}
@@ -341,7 +340,7 @@ const EnhancedQuizQuestion: React.FC<EnhancedQuizQuestionProps> = ({
       </h2>
       
       <div className="grid grid-cols-1 gap-4">
-        {question.options?.map((option, index) => (
+        {question.options?.map((option: string, index: number) => (
           <motion.button
             key={index}
             onClick={() => handleMultipleChoiceAnswer(option)}
@@ -401,7 +400,7 @@ const EnhancedQuizQuestion: React.FC<EnhancedQuizQuestionProps> = ({
       </h2>
       
       <div className="grid grid-cols-1 gap-4">
-        {question.options?.map((option, index) => (
+        {question.options?.map((option: string, index: number) => (
           <motion.button
             key={index}
             onClick={() => handleMultipleChoiceAnswer(option)}
@@ -461,7 +460,7 @@ const EnhancedQuizQuestion: React.FC<EnhancedQuizQuestionProps> = ({
       </h2>
       
       <div className="grid grid-cols-1 gap-4">
-        {question.options?.map((option, index) => (
+        {question.options?.map((option: string, index: number) => (
           <motion.button
             key={index}
             onClick={() => handleMultipleChoiceAnswer(option)}
@@ -521,7 +520,7 @@ const EnhancedQuizQuestion: React.FC<EnhancedQuizQuestionProps> = ({
       </h2>
       
       <div className="grid grid-cols-1 gap-4">
-        {question.options?.map((option, index) => (
+        {question.options?.map((option: string, index: number) => (
           <motion.button
             key={index}
             onClick={() => handleMultipleChoiceAnswer(option)}
@@ -660,7 +659,7 @@ const EnhancedQuizQuestion: React.FC<EnhancedQuizQuestionProps> = ({
               {question.question}
             </h2>
             <div className="grid grid-cols-1 gap-4">
-              {question.options?.map((option, index) => (
+              {question.options?.map((option: string, index: number) => (
                 <motion.button
                   key={index}
                   onClick={() => handleMultipleChoiceAnswer(option)}

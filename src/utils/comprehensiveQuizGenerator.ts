@@ -307,7 +307,7 @@ function generateAdvancedMultipleChoice(card: Flashcard, allCards: Flashcard[]):
 /**
  * Generate real-world context scenario question
  */
-function generateContextScenario(card: Flashcard, allCards: Flashcard[]): QuizQuestion {
+function _generateContextScenario(card: Flashcard, _allCards: Flashcard[]): QuizQuestion {
   const category = card.category.toLowerCase();
   const luxembourgish = card.luxembourgish.toLowerCase();
   const english = card.english.toLowerCase();
@@ -435,9 +435,9 @@ function generateContextScenario(card: Flashcard, allCards: Flashcard[]): QuizQu
 /**
  * Generate conversation comprehension question
  */
-function generateConversationComprehension(card: Flashcard, allCards: Flashcard[]): QuizQuestion {
-  const category = card.category.toLowerCase();
-  const luxembourgish = card.luxembourgish.toLowerCase();
+function _generateConversationComprehension(card: Flashcard, _allCards: Flashcard[]): QuizQuestion {
+  const _category = card.category.toLowerCase();
+  const _luxembourgish = card.luxembourgish.toLowerCase();
   
   // Create realistic conversations based on card content
   let conversation: { dialogue: string; question: string; options: string[]; correctAnswer: string } | null = null;
@@ -538,8 +538,8 @@ function generateConversationComprehension(card: Flashcard, allCards: Flashcard[
 /**
  * Generate grammar in context question
  */
-function generateGrammarContext(card: Flashcard, allCards: Flashcard[]): QuizQuestion {
-  const category = card.category.toLowerCase();
+function _generateGrammarContext(card: Flashcard, _allCards: Flashcard[]): QuizQuestion {
+  const _category = card.category.toLowerCase();
   const notes = card.notes || '';
   
   // Focus on verbs and their conjugations
@@ -599,9 +599,9 @@ function generateGrammarContext(card: Flashcard, allCards: Flashcard[]): QuizQue
 /**
  * Generate error correction question
  */
-function generateErrorCorrection(card: Flashcard, allCards: Flashcard[]): QuizQuestion {
-  const category = card.category.toLowerCase();
-  const luxembourgish = card.luxembourgish.toLowerCase();
+function _generateErrorCorrection(card: Flashcard, _allCards: Flashcard[]): QuizQuestion {
+  const _category = card.category.toLowerCase();
+  const _luxembourgish = card.luxembourgish.toLowerCase();
   
   // Common Luxembourgish grammar errors
   const errors = [
@@ -652,8 +652,8 @@ function generateErrorCorrection(card: Flashcard, allCards: Flashcard[]): QuizQu
 /**
  * Generate word association question
  */
-function generateWordAssociation(card: Flashcard, allCards: Flashcard[]): QuizQuestion {
-  const category = card.category.toLowerCase();
+function _generateWordAssociation(card: Flashcard, _allCards: Flashcard[]): QuizQuestion {
+  const _category = card.category.toLowerCase();
   
   // Get related words from the same category
   const relatedCards = allCards.filter(c => 
@@ -687,9 +687,9 @@ function generateWordAssociation(card: Flashcard, allCards: Flashcard[]): QuizQu
 /**
  * Generate sentence completion question
  */
-function generateSentenceCompletion(card: Flashcard, allCards: Flashcard[]): QuizQuestion {
-  const category = card.category.toLowerCase();
-  const luxembourgish = card.luxembourgish.toLowerCase();
+function _generateSentenceCompletion(card: Flashcard, _allCards: Flashcard[]): QuizQuestion {
+  const _category = card.category.toLowerCase();
+  const _luxembourgish = card.luxembourgish.toLowerCase();
   
   // Create contextual sentence completions
   const completions = [
@@ -730,10 +730,10 @@ function generateSentenceCompletion(card: Flashcard, allCards: Flashcard[]): Qui
 /**
  * Generate practical multiple choice question with real-world focus
  */
-function generatePracticalMultipleChoice(card: Flashcard, allCards: Flashcard[]): QuizQuestion {
-  const category = card.category.toLowerCase();
-  const luxembourgish = card.luxembourgish.toLowerCase();
-  const english = card.english.toLowerCase();
+function _generatePracticalMultipleChoice(card: Flashcard, _allCards: Flashcard[]): QuizQuestion {
+  const _category = card.category.toLowerCase();
+  const _luxembourgish = card.luxembourgish.toLowerCase();
+  const _english = card.english.toLowerCase();
   
   // Create practical, real-world focused questions
   let questionData: { question: string; correctAnswer: string; options: string[] } | null = null;
