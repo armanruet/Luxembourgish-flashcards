@@ -300,7 +300,8 @@ export interface QuizResult {
 // Comprehensive quiz result interface for the new system
 export interface ComprehensiveQuizResult {
   questionId: string;
-  selectedAnswer: string;
+  userAnswer: string;
+  correctAnswer: string;
   isCorrect: boolean;
   timeSpent: number;
   question: QuizQuestion;

@@ -8,7 +8,6 @@ import {
   BookOpen, 
   Target,
   Clock,
-  BarChart3,
   Lightbulb,
   RotateCcw
 } from 'lucide-react';
@@ -31,7 +30,6 @@ const ComprehensiveQuizSession: React.FC<ComprehensiveQuizSessionProps> = ({
   const [userAnswers, setUserAnswers] = useState<Record<string, string>>({});
   const [showExplanation, setShowExplanation] = useState(false);
   const [timeSpent, setTimeSpent] = useState<Record<string, number>>({});
-  const [questionStartTime, setQuestionStartTime] = useState(Date.now());
 
   const currentQuestion = questions[currentQuestionIndex];
   const totalQuestions = questions.length;
@@ -49,9 +47,8 @@ const ComprehensiveQuizSession: React.FC<ComprehensiveQuizSessionProps> = ({
     return () => clearInterval(timer);
   }, [currentQuestion.id]);
 
-  // Reset question start time when question changes
+  // Reset explanation when question changes
   useEffect(() => {
-    setQuestionStartTime(Date.now());
     setShowExplanation(false);
   }, [currentQuestionIndex]);
 
@@ -88,7 +85,7 @@ const ComprehensiveQuizSession: React.FC<ComprehensiveQuizSessionProps> = ({
   const generateExplanation = useCallback(() => {
     if (!currentQuestion) return '';
     
-    let explanation = `"${currentQuestion.luxembourgish || currentQuestion.question.split('"')[1]}" means "${currentQuestion.correctAnswer}" in English.`;
+    let explanation = `"${currentQuestion.question.split('"')[1] || 'this word'}" means "${currentQuestion.correctAnswer}" in English.`;
     
     if (currentQuestion.explanation) {
       explanation += ` ${currentQuestion.explanation}`;
@@ -102,7 +99,6 @@ const ComprehensiveQuizSession: React.FC<ComprehensiveQuizSessionProps> = ({
   }, [currentQuestion]);
 
   const isAnswered = !!userAnswers[currentQuestion.id];
-  const isCorrect = userAnswers[currentQuestion.id] === currentQuestion.correctAnswer;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex flex-col">

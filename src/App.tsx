@@ -141,7 +141,6 @@ function AppContent() {
               <ComprehensiveQuizResults 
                 results={location.state?.results || []}
                 deckName={location.state?.deckName || ''}
-                totalTime={location.state?.totalTime || 0}
                 onRetry={() => {
                   // Navigate back to quiz session
                   navigate(`/comprehensive-quiz/session/${location.state?.deckName || ''}`, { 
@@ -149,10 +148,6 @@ function AppContent() {
                   });
                 }}
                 onExit={() => {
-                  navigate('/comprehensive-quiz');
-                }}
-                onReviewQuestions={() => {
-                  // For now, just go back to quiz manager
                   navigate('/comprehensive-quiz');
                 }}
               />
