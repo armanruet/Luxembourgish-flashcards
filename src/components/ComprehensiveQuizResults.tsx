@@ -1,449 +1,300 @@
 import React, { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { 
-  BarChart3, 
-  TrendingUp, 
+  CheckCircle, 
+  XCircle, 
   Clock, 
-  Target, 
-  Award, 
-  BookOpen, 
-  RefreshCw,
-  CheckCircle,
-  XCircle,
-  AlertTriangle,
-  Zap
+  BarChart3, 
+  Trophy, 
+  Target,
+  ArrowLeft,
+  RotateCcw,
+  Star,
+  TrendingUp,
+  BookOpen
 } from 'lucide-react';
 import { ComprehensiveQuizResult } from '@/types';
 
 interface ComprehensiveQuizResultsProps {
   results: ComprehensiveQuizResult[];
   deckName: string;
-  totalTime: number;
   onRetry: () => void;
   onExit: () => void;
-  onReviewQuestions: () => void;
-}
-
-interface PerformanceMetrics {
-  totalQuestions: number;
-  correctAnswers: number;
-  accuracy: number;
-  averageTime: number;
-  fastestAnswer: number;
-  slowestAnswer: number;
-  questionTypePerformance: Record<string, { correct: number; total: number; accuracy: number }>;
-  difficultyPerformance: Record<string, { correct: number; total: number; accuracy: number }>;
-  categoryPerformance: Record<string, { correct: number; total: number; accuracy: number }>;
-  weakAreas: string[];
-  strongAreas: string[];
-  recommendations: string[];
 }
 
 const ComprehensiveQuizResults: React.FC<ComprehensiveQuizResultsProps> = ({
   results,
   deckName,
-  totalTime,
   onRetry,
-  onExit,
-  onReviewQuestions
+  onExit
 }) => {
-  const [activeTab, setActiveTab] = useState<'overview' | 'details' | 'recommendations'>('overview');
+  const [showDetailedResults, setShowDetailedResults] = useState(false);
 
-  const metrics = useMemo((): PerformanceMetrics => {
+  const stats = useMemo(() => {
     const totalQuestions = results.length;
     const correctAnswers = results.filter(r => r.isCorrect).length;
-    const accuracy = (correctAnswers / totalQuestions) * 100;
-    const times = results.map(r => r.timeSpent);
-    const averageTime = times.reduce((a, b) => a + b, 0) / times.length;
-    const fastestAnswer = Math.min(...times);
-    const slowestAnswer = Math.max(...times);
-
-    // Question type performance
-    const questionTypePerformance: Record<string, { correct: number; total: number; accuracy: number }> = {};
-    results.forEach(result => {
-      const type = result.question.type;
-      if (!questionTypePerformance[type]) {
-        questionTypePerformance[type] = { correct: 0, total: 0, accuracy: 0 };
-      }
-      questionTypePerformance[type].total++;
-      if (result.isCorrect) questionTypePerformance[type].correct++;
-    });
-
-    Object.keys(questionTypePerformance).forEach(type => {
-      const perf = questionTypePerformance[type];
-      perf.accuracy = (perf.correct / perf.total) * 100;
-    });
-
-    // Difficulty performance
-    const difficultyPerformance: Record<string, { correct: number; total: number; accuracy: number }> = {};
-    results.forEach(result => {
-      const difficulty = result.question.difficulty || 'A2';
-      if (!difficultyPerformance[difficulty]) {
-        difficultyPerformance[difficulty] = { correct: 0, total: 0, accuracy: 0 };
-      }
-      difficultyPerformance[difficulty].total++;
-      if (result.isCorrect) difficultyPerformance[difficulty].correct++;
-    });
-
-    Object.keys(difficultyPerformance).forEach(difficulty => {
-      const perf = difficultyPerformance[difficulty];
-      perf.accuracy = (perf.correct / perf.total) * 100;
-    });
-
-    // Category performance
-    const categoryPerformance: Record<string, { correct: number; total: number; accuracy: number }> = {};
-    results.forEach(result => {
-      const category = result.question.category || 'General';
-      if (!categoryPerformance[category]) {
-        categoryPerformance[category] = { correct: 0, total: 0, accuracy: 0 };
-      }
-      categoryPerformance[category].total++;
-      if (result.isCorrect) categoryPerformance[category].correct++;
-    });
-
-    Object.keys(categoryPerformance).forEach(category => {
-      const perf = categoryPerformance[category];
-      perf.accuracy = (perf.correct / perf.total) * 100;
-    });
-
-    // Identify weak and strong areas
-    const weakAreas = Object.entries(categoryPerformance)
-      .filter(([_, perf]) => perf.accuracy < 70)
-      .map(([category, _]) => category);
-
-    const strongAreas = Object.entries(categoryPerformance)
-      .filter(([_, perf]) => perf.accuracy >= 85)
-      .map(([category, _]) => category);
-
-    // Generate recommendations
-    const recommendations: string[] = [];
-    if (accuracy < 70) {
-      recommendations.push("Focus on reviewing the basic concepts in this deck");
-    }
-    if (weakAreas.length > 0) {
-      recommendations.push(`Pay special attention to: ${weakAreas.join(', ')}`);
-    }
-    if (averageTime > 30) {
-      recommendations.push("Practice to improve your response time");
-    }
-    if (accuracy >= 90) {
-      recommendations.push("Excellent performance! Consider moving to more advanced material");
-    }
+    const accuracy = totalQuestions > 0 ? (correctAnswers / totalQuestions) * 100 : 0;
+    const averageTime = results.reduce((sum, r) => sum + r.timeSpent, 0) / totalQuestions;
+    const totalTime = results.reduce((sum, r) => sum + r.timeSpent, 0);
 
     return {
       totalQuestions,
       correctAnswers,
       accuracy,
       averageTime,
-      fastestAnswer,
-      slowestAnswer,
-      questionTypePerformance,
-      difficultyPerformance,
-      categoryPerformance,
-      weakAreas,
-      strongAreas,
-      recommendations
+      totalTime
     };
   }, [results]);
 
-  const getAccuracyColor = (accuracy: number) => {
-    if (accuracy >= 90) return 'text-green-600';
-    if (accuracy >= 80) return 'text-blue-600';
-    if (accuracy >= 70) return 'text-yellow-600';
-    return 'text-red-600';
+  const getGrade = (accuracy: number) => {
+    if (accuracy >= 90) return { grade: 'A+', color: 'text-green-600', bg: 'bg-green-100' };
+    if (accuracy >= 80) return { grade: 'A', color: 'text-green-600', bg: 'bg-green-100' };
+    if (accuracy >= 70) return { grade: 'B', color: 'text-blue-600', bg: 'bg-blue-100' };
+    if (accuracy >= 60) return { grade: 'C', color: 'text-yellow-600', bg: 'bg-yellow-100' };
+    if (accuracy >= 50) return { grade: 'D', color: 'text-orange-600', bg: 'bg-orange-100' };
+    return { grade: 'F', color: 'text-red-600', bg: 'bg-red-100' };
   };
 
-  const getAccuracyIcon = (accuracy: number) => {
-    if (accuracy >= 90) return <Award className="w-5 h-5 text-green-600" />;
-    if (accuracy >= 80) return <TrendingUp className="w-5 h-5 text-blue-600" />;
-    if (accuracy >= 70) return <AlertTriangle className="w-5 h-5 text-yellow-600" />;
-    return <XCircle className="w-5 h-5 text-red-600" />;
-  };
+  const grade = getGrade(stats.accuracy);
 
-  const formatTime = (seconds: number): string => {
+  const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
-  const getPerformanceMessage = (accuracy: number): string => {
-    if (accuracy >= 95) return "Outstanding! You've mastered this material!";
-    if (accuracy >= 90) return "Excellent work! You have a strong grasp of this content.";
-    if (accuracy >= 80) return "Good job! You're making solid progress.";
-    if (accuracy >= 70) return "Not bad! Keep practicing to improve.";
-    if (accuracy >= 60) return "You need more practice with this material.";
-    return "This material needs more attention. Consider reviewing the basics.";
-  };
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
-      <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
-          <div className="text-center">
-            <h1 className="text-3xl font-bold text-gray-800 mb-2">{deckName}</h1>
-            <p className="text-gray-600 mb-4">Quiz Results & Analysis</p>
-            
-            {/* Overall Performance */}
-            <div className="flex items-center justify-center space-x-8 mb-6">
-              <div className="text-center">
-                <div className="text-4xl font-bold text-blue-600">{metrics.accuracy.toFixed(1)}%</div>
-                <div className="text-sm text-gray-600">Accuracy</div>
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 flex flex-col">
+      {/* Header - Fixed Height */}
+      <div className="bg-white/90 backdrop-blur-sm border-b border-white/20 shadow-sm">
+        <div className="max-w-4xl mx-auto px-4 py-3">
+          <div className="flex items-center justify-between">
+            <button
+              onClick={onExit}
+              className="flex items-center space-x-2 px-3 py-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-all duration-200"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              <span className="hidden sm:inline font-medium">Back to Quiz Manager</span>
+            </button>
+
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2 text-sm text-gray-600">
+                <BookOpen className="h-4 w-4" />
+                <span className="hidden sm:inline">{deckName}</span>
               </div>
-              <div className="text-center">
-                <div className="text-4xl font-bold text-green-600">{metrics.correctAnswers}/{metrics.totalQuestions}</div>
-                <div className="text-sm text-gray-600">Correct Answers</div>
-              </div>
-              <div className="text-center">
-                <div className="text-4xl font-bold text-purple-600">{formatTime(totalTime)}</div>
-                <div className="text-sm text-gray-600">Total Time</div>
+              <div className="flex items-center space-x-2 text-sm text-gray-600">
+                <Trophy className="h-4 w-4" />
+                <span>Quiz Complete</span>
               </div>
             </div>
 
-            <p className="text-lg text-gray-700 italic">{getPerformanceMessage(metrics.accuracy)}</p>
+            <button
+              onClick={() => setShowDetailedResults(!showDetailedResults)}
+              className="flex items-center space-x-2 px-3 py-2 text-blue-600 hover:text-blue-800 hover:bg-blue-50 rounded-lg transition-all duration-200"
+            >
+              <BarChart3 className="h-4 w-4" />
+              <span className="hidden sm:inline">
+                {showDetailedResults ? 'Hide Details' : 'Show Details'}
+              </span>
+            </button>
           </div>
         </div>
+      </div>
 
-        {/* Navigation Tabs */}
-        <div className="bg-white rounded-lg shadow-lg mb-6">
-          <div className="flex border-b">
-            {[
-              { id: 'overview', label: 'Overview', icon: <BarChart3 className="w-4 h-4" /> },
-              { id: 'details', label: 'Detailed Analysis', icon: <TrendingUp className="w-4 h-4" /> },
-              { id: 'recommendations', label: 'Recommendations', icon: <Target className="w-4 h-4" /> }
-            ].map(tab => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
-                className={`flex items-center space-x-2 px-6 py-4 font-medium transition-colors ${
-                  activeTab === tab.id
-                    ? 'text-blue-600 border-b-2 border-blue-600'
-                    : 'text-gray-600 hover:text-gray-800'
-                }`}
+      {/* Main Content - Flexible Height */}
+      <div className="flex-1 flex items-center justify-center p-4">
+        <div className="w-full max-w-4xl">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 overflow-hidden"
+          >
+            {/* Results Header */}
+            <div className="bg-gradient-to-r from-green-500 to-emerald-600 p-6 text-white">
+              <div className="text-center">
+                <motion.div
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: 0.2, type: "spring" }}
+                  className="inline-flex items-center justify-center w-16 h-16 bg-white/20 rounded-full mb-4"
+                >
+                  <Trophy className="h-8 w-8" />
+                </motion.div>
+                <h1 className="text-2xl font-bold mb-2">Quiz Complete!</h1>
+                <p className="text-green-100">Great job completing the {deckName} quiz</p>
+              </div>
+            </div>
+
+            {/* Summary Stats */}
+            <div className="p-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                {/* Grade */}
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 border border-blue-200"
+                >
+                  <div className="flex items-center space-x-3">
+                    <div className="p-2 bg-blue-500 rounded-lg">
+                      <Star className="h-4 w-4 text-white" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-blue-600">Grade</p>
+                      <p className={`text-2xl font-bold ${grade.color}`}>{grade.grade}</p>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Accuracy */}
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.4 }}
+                  className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-4 border border-green-200"
+                >
+                  <div className="flex items-center space-x-3">
+                    <div className="p-2 bg-green-500 rounded-lg">
+                      <Target className="h-4 w-4 text-white" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-green-600">Accuracy</p>
+                      <p className="text-2xl font-bold text-green-700">{Math.round(stats.accuracy)}%</p>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Correct Answers */}
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.5 }}
+                  className="bg-gradient-to-br from-purple-50 to-purple-100 rounded-xl p-4 border border-purple-200"
+                >
+                  <div className="flex items-center space-x-3">
+                    <div className="p-2 bg-purple-500 rounded-lg">
+                      <CheckCircle className="h-4 w-4 text-white" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-purple-600">Correct</p>
+                      <p className="text-2xl font-bold text-purple-700">{stats.correctAnswers}/{stats.totalQuestions}</p>
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Average Time */}
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.6 }}
+                  className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-4 border border-orange-200"
+                >
+                  <div className="flex items-center space-x-3">
+                    <div className="p-2 bg-orange-500 rounded-lg">
+                      <Clock className="h-4 w-4 text-white" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-orange-600">Avg Time</p>
+                      <p className="text-2xl font-bold text-orange-700">{formatTime(stats.averageTime)}</p>
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
+
+              {/* Performance Message */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.7 }}
+                className="text-center mb-6"
               >
-                {tab.icon}
-                <span>{tab.label}</span>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Tab Content */}
-        <div className="bg-white rounded-lg shadow-lg p-6">
-          {activeTab === 'overview' && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="space-y-6"
-            >
-              {/* Performance Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-4 rounded-lg">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <div className="text-2xl font-bold text-blue-600">{metrics.accuracy.toFixed(1)}%</div>
-                      <div className="text-sm text-blue-700">Overall Accuracy</div>
-                    </div>
-                    {getAccuracyIcon(metrics.accuracy)}
+                {stats.accuracy >= 90 && (
+                  <div className="inline-flex items-center space-x-2 px-4 py-2 bg-green-100 text-green-800 rounded-full">
+                    <Trophy className="h-4 w-4" />
+                    <span className="font-medium">Excellent! You're a Luxembourgish master!</span>
                   </div>
-                </div>
-
-                <div className="bg-gradient-to-br from-green-50 to-green-100 p-4 rounded-lg">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <div className="text-2xl font-bold text-green-600">{formatTime(metrics.averageTime)}</div>
-                      <div className="text-sm text-green-700">Average Time</div>
-                    </div>
-                    <Clock className="w-6 h-6 text-green-600" />
+                )}
+                {stats.accuracy >= 70 && stats.accuracy < 90 && (
+                  <div className="inline-flex items-center space-x-2 px-4 py-2 bg-blue-100 text-blue-800 rounded-full">
+                    <TrendingUp className="h-4 w-4" />
+                    <span className="font-medium">Great job! Keep practicing to improve further!</span>
                   </div>
-                </div>
-
-                <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-4 rounded-lg">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <div className="text-2xl font-bold text-purple-600">{Object.keys(metrics.questionTypePerformance).length}</div>
-                      <div className="text-sm text-purple-700">Question Types</div>
-                    </div>
-                    <BookOpen className="w-6 h-6 text-purple-600" />
+                )}
+                {stats.accuracy < 70 && (
+                  <div className="inline-flex items-center space-x-2 px-4 py-2 bg-yellow-100 text-yellow-800 rounded-full">
+                    <BookOpen className="h-4 w-4" />
+                    <span className="font-medium">Good effort! Review the material and try again!</span>
                   </div>
-                </div>
+                )}
+              </motion.div>
 
-                <div className="bg-gradient-to-br from-orange-50 to-orange-100 p-4 rounded-lg">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <div className="text-2xl font-bold text-orange-600">{metrics.weakAreas.length}</div>
-                      <div className="text-sm text-orange-700">Areas to Improve</div>
-                    </div>
-                    <Target className="w-6 h-6 text-orange-600" />
-                  </div>
-                </div>
+              {/* Action Buttons */}
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <button
+                  onClick={onRetry}
+                  className="flex items-center justify-center space-x-2 px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-xl hover:from-blue-600 hover:to-indigo-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
+                >
+                  <RotateCcw className="h-4 w-4" />
+                  <span>Retry Quiz</span>
+                </button>
+                <button
+                  onClick={onExit}
+                  className="flex items-center justify-center space-x-2 px-6 py-3 bg-gradient-to-r from-gray-500 to-gray-600 text-white rounded-xl hover:from-gray-600 hover:to-gray-700 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                  <span>Back to Quiz Manager</span>
+                </button>
               </div>
+            </div>
 
-              {/* Quick Stats */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-800 mb-3">Performance by Question Type</h3>
-                  <div className="space-y-2">
-                    {Object.entries(metrics.questionTypePerformance).map(([type, perf]) => (
-                      <div key={type} className="flex items-center justify-between p-2 bg-gray-50 rounded">
-                        <span className="capitalize text-sm">{type.replace('-', ' ')}</span>
-                        <span className={`font-medium ${getAccuracyColor(perf.accuracy)}`}>
-                          {perf.accuracy.toFixed(1)}%
-                        </span>
-                      </div>
+            {/* Detailed Results - Collapsible */}
+            {showDetailedResults && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className="border-t border-gray-200 bg-gray-50"
+              >
+                <div className="p-6">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Detailed Results</h3>
+                  <div className="space-y-3 max-h-96 overflow-y-auto">
+                    {results.map((result, index) => (
+                      <motion.div
+                        key={result.questionId}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: 0.1 * index }}
+                        className={`p-4 rounded-lg border-2 ${
+                          result.isCorrect 
+                            ? 'border-green-200 bg-green-50' 
+                            : 'border-red-200 bg-red-50'
+                        }`}
+                      >
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <div className="flex items-center space-x-2 mb-2">
+                              <span className="text-sm font-medium text-gray-600">Q{index + 1}</span>
+                              {result.isCorrect ? (
+                                <CheckCircle className="h-4 w-4 text-green-500" />
+                              ) : (
+                                <XCircle className="h-4 w-4 text-red-500" />
+                              )}
+                            </div>
+                            <p className="text-sm text-gray-800 mb-1">{result.question.question}</p>
+                            <div className="text-xs text-gray-600 space-y-1">
+                              <div>Your answer: <span className="font-medium">{result.userAnswer}</span></div>
+                              <div>Correct answer: <span className="font-medium text-green-600">{result.correctAnswer}</span></div>
+                              <div>Time: <span className="font-medium">{formatTime(result.timeSpent)}</span></div>
+                            </div>
+                          </div>
+                        </div>
+                      </motion.div>
                     ))}
                   </div>
                 </div>
-
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-800 mb-3">Performance by Difficulty</h3>
-                  <div className="space-y-2">
-                    {Object.entries(metrics.difficultyPerformance).map(([difficulty, perf]) => (
-                      <div key={difficulty} className="flex items-center justify-between p-2 bg-gray-50 rounded">
-                        <span className="text-sm font-medium">{difficulty}</span>
-                        <span className={`font-medium ${getAccuracyColor(perf.accuracy)}`}>
-                          {perf.accuracy.toFixed(1)}%
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          )}
-
-          {activeTab === 'details' && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="space-y-6"
-            >
-              {/* Category Performance */}
-              <div>
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">Detailed Category Analysis</h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {Object.entries(metrics.categoryPerformance).map(([category, perf]) => (
-                    <div key={category} className="bg-gray-50 p-4 rounded-lg">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="font-medium text-gray-800">{category}</span>
-                        <span className={`font-bold ${getAccuracyColor(perf.accuracy)}`}>
-                          {perf.accuracy.toFixed(1)}%
-                        </span>
-                      </div>
-                      <div className="w-full bg-gray-200 rounded-full h-2">
-                        <div
-                          className={`h-2 rounded-full ${
-                            perf.accuracy >= 80 ? 'bg-green-500' :
-                            perf.accuracy >= 60 ? 'bg-yellow-500' : 'bg-red-500'
-                          }`}
-                          style={{ width: `${perf.accuracy}%` }}
-                        />
-                      </div>
-                      <div className="text-xs text-gray-600 mt-1">
-                        {perf.correct}/{perf.total} correct
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Time Analysis */}
-              <div>
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">Time Analysis</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div className="bg-blue-50 p-4 rounded-lg text-center">
-                    <div className="text-2xl font-bold text-blue-600">{formatTime(metrics.averageTime)}</div>
-                    <div className="text-sm text-blue-700">Average Time</div>
-                  </div>
-                  <div className="bg-green-50 p-4 rounded-lg text-center">
-                    <div className="text-2xl font-bold text-green-600">{formatTime(metrics.fastestAnswer)}</div>
-                    <div className="text-sm text-green-700">Fastest Answer</div>
-                  </div>
-                  <div className="bg-orange-50 p-4 rounded-lg text-center">
-                    <div className="text-2xl font-bold text-orange-600">{formatTime(metrics.slowestAnswer)}</div>
-                    <div className="text-sm text-orange-700">Slowest Answer</div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          )}
-
-          {activeTab === 'recommendations' && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="space-y-6"
-            >
-              {/* Recommendations */}
-              <div>
-                <h3 className="text-lg font-semibold text-gray-800 mb-4">Personalized Recommendations</h3>
-                <div className="space-y-3">
-                  {metrics.recommendations.map((rec, index) => (
-                    <div key={index} className="flex items-start space-x-3 p-3 bg-blue-50 rounded-lg">
-                      <Zap className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
-                      <span className="text-blue-800">{rec}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Weak Areas */}
-              {metrics.weakAreas.length > 0 && (
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-800 mb-4">Areas Needing Attention</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {metrics.weakAreas.map((area, index) => (
-                      <div key={index} className="flex items-center space-x-2 p-3 bg-red-50 rounded-lg">
-                        <AlertTriangle className="w-5 h-5 text-red-600" />
-                        <span className="text-red-800">{area}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* Strong Areas */}
-              {metrics.strongAreas.length > 0 && (
-                <div>
-                  <h3 className="text-lg font-semibold text-gray-800 mb-4">Your Strengths</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {metrics.strongAreas.map((area, index) => (
-                      <div key={index} className="flex items-center space-x-2 p-3 bg-green-50 rounded-lg">
-                        <CheckCircle className="w-5 h-5 text-green-600" />
-                        <span className="text-green-800">{area}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-            </motion.div>
-          )}
-        </div>
-
-        {/* Action Buttons */}
-        <div className="flex justify-center space-x-4 mt-6">
-          <button
-            onClick={onRetry}
-            className="flex items-center space-x-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-          >
-            <RefreshCw className="w-4 h-4" />
-            <span>Retry Quiz</span>
-          </button>
-
-          <button
-            onClick={onReviewQuestions}
-            className="flex items-center space-x-2 px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-          >
-            <BookOpen className="w-4 h-4" />
-            <span>Review Questions</span>
-          </button>
-
-          <button
-            onClick={onExit}
-            className="flex items-center space-x-2 px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
-          >
-            <span>Back to Decks</span>
-          </button>
+              </motion.div>
+            )}
+          </motion.div>
         </div>
       </div>
     </div>

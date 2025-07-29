@@ -37,21 +37,6 @@ const ComprehensiveQuizManager: React.FC<ComprehensiveQuizManagerProps> = ({
   const [questionsPerCard, setQuestionsPerCard] = useState(2); // Changed from 3 to 2 as requested
   const [showStatistics, setShowStatistics] = useState(false);
 
-  // Add debugging on component mount
-  useEffect(() => {
-    console.log('🔍 ComprehensiveQuizManager mounted');
-    console.log('📦 Received decks prop:', decks);
-    console.log('📊 Decks count:', decks?.length || 0);
-    console.log('🎯 onStartQuiz function:', typeof onStartQuiz);
-    
-    if (decks && decks.length > 0) {
-      console.log('📋 First deck sample:', decks[0]);
-      console.log('🎴 First deck cards count:', decks[0]?.cards?.length || 0);
-    } else {
-      console.warn('⚠️ No decks available!');
-    }
-  }, [decks, onStartQuiz]);
-
   // Load existing quiz data
   useEffect(() => {
     try {
@@ -85,54 +70,34 @@ const ComprehensiveQuizManager: React.FC<ComprehensiveQuizManagerProps> = ({
   }, []);
 
   const handleGenerateAllQuizSets = async () => {
-    console.log('🚀 Starting quiz generation for all decks...');
-    console.log('Available decks:', decks);
-    
     if (!decks || decks.length === 0) {
-      console.error('❌ No decks available for quiz generation');
       alert('No decks available for quiz generation. Please check that flashcard data is loaded.');
       return;
     }
 
     try {
       setIsGenerating(true);
-      console.log(`📚 Generating quizzes for ${decks.length} decks...`);
-      
-      const results = await comprehensiveQuizService.generateAllQuizSets(decks, questionsPerCard);
-      console.log('✅ Quiz generation completed:', results);
-      
+      await comprehensiveQuizService.generateAllQuizSets(decks, questionsPerCard);
       setQuizData(comprehensiveQuizService.getAllQuizSets());
-      console.log('📊 Updated quiz data state');
-      
     } catch (error) {
-      console.error('❌ Failed to generate quiz sets:', error);
+      console.error('Failed to generate quiz sets:', error);
       alert(`Failed to generate quiz sets: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
       setIsGenerating(false);
-      console.log('🏁 Quiz generation process finished');
     }
   };
 
   const handleGenerateQuizSetForDeck = async (deck: Deck) => {
-    console.log('🎯 Starting quiz generation for single deck:', deck);
-    
     if (!deck || !deck.cards || deck.cards.length === 0) {
-      console.error('❌ Invalid deck or no cards:', deck);
       alert('Invalid deck or no cards available for quiz generation.');
       return;
     }
 
     try {
-      console.log(`📝 Generating quiz for "${deck.name}" with ${deck.cards.length} cards...`);
-      
-      const result = await comprehensiveQuizService.generateQuizSetForDeck(deck, questionsPerCard);
-      console.log('✅ Single deck quiz generation completed:', result);
-      
+      await comprehensiveQuizService.generateQuizSetForDeck(deck, questionsPerCard);
       setQuizData(comprehensiveQuizService.getAllQuizSets());
-      console.log('📊 Updated quiz data state');
-      
     } catch (error) {
-      console.error('❌ Failed to generate quiz set for deck:', error);
+      console.error('Failed to generate quiz set for deck:', error);
       alert(`Failed to generate quiz set for "${deck.name}": ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
   };
@@ -190,42 +155,10 @@ const ComprehensiveQuizManager: React.FC<ComprehensiveQuizManagerProps> = ({
   const summary = comprehensiveQuizService.getQuizSetsSummary();
   const recentlyAccessed = comprehensiveQuizService.getRecentlyAccessedQuizSets(3);
 
-  // Add a debug button click handler
-  const handleDebugButton = () => {
-    console.log('🧪 Debug Button Clicked!');
-    console.log('Current decks:', decks);
-    console.log('Current quiz data:', quizData);
-    console.log('Is generating:', isGenerating);
-    console.log('Questions per card:', questionsPerCard);
-    
-    // Test if we can access the service
-    try {
-      console.log('🔧 Testing quiz service access...');
-      const testResult = comprehensiveQuizService.getAllQuizSets();
-      console.log('✅ Quiz service accessible, current sets:', testResult);
-    } catch (error) {
-      console.error('❌ Quiz service error:', error);
-    }
-  };
-
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 p-6">
       <div className="max-w-7xl mx-auto space-y-8">
         
-        {/* DEBUG BUTTON - REMOVE AFTER TESTING */}
-        <div className="mb-4 p-4 bg-red-100 border border-red-300 rounded-lg">
-          <button
-            onClick={handleDebugButton}
-            className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-          >
-            🧪 Debug Info (Click Me First!)
-          </button>
-          <p className="text-red-700 text-sm mt-2">
-            Click this button, then check browser console (F12 → Console) for debug info
-          </p>
-        </div>
-
         {/* Enhanced Header */}
         <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
           <div className="flex items-center justify-between">

@@ -126,6 +126,9 @@ function generateFillInBlankContextQuestion(
   // Generate a realistic Luxembourgish sentence using the word
   const contextSentence = generateContextSentence(card);
   
+  // Generate a DIFFERENT context sentence for the context display
+  const displayContextSentence = generateDifferentContextSentence(card);
+  
   // Create options for the fill-in-the-blank based on the word's function
   const options = generateContextOptions(card, _allCards);
 
@@ -139,7 +142,7 @@ function generateFillInBlankContextQuestion(
     difficulty: card.difficulty,
     category: card.category,
     explanation: `In this context, "${card.luxembourgish}" means "${card.english}". ${card.notes || ''}`,
-    context: `Context: "${contextSentence.lux}"`
+    context: `Context: "${displayContextSentence.lux}"`
   };
 }
 
@@ -199,7 +202,73 @@ function generateContextSentence(card: Flashcard): { lux: string; eng: string } 
   return randomPattern;
 }
 
+/**
+ * Generate a DIFFERENT context sentence for display purposes
+ */
+function generateDifferentContextSentence(card: Flashcard): { lux: string; eng: string } {
+  // More varied and authentic Luxembourgish sentence patterns - DIFFERENT from the question
+  const patterns = {
+    // Verbs - different patterns
+    verb: [
+      { lux: `Ech wëll ${card.luxembourgish} léieren.`, eng: `I want to learn to ${card.english}.` },
+      { lux: `Kanns du mir ${card.luxembourgish}?`, eng: `Can you teach me to ${card.english}?` },
+      { lux: `Mir mussen dat ${card.luxembourgish}.`, eng: `We must ${card.english} that.` },
+      { lux: `Wéi kann ech ${card.luxembourgish}?`, eng: `How can I ${card.english}?` },
+      { lux: `Si huet gëschter ${card.luxembourgish}.`, eng: `She ${card.english} yesterday.` },
+      { lux: `Ech hunn nach ni ${card.luxembourgish}.`, eng: `I have never ${card.english}.` },
+      { lux: `Wëlls du mat mir ${card.luxembourgish}?`, eng: `Do you want to ${card.english} with me?` },
+      { lux: `Dat ass net einfach ze ${card.luxembourgish}.`, eng: `That is not easy to ${card.english}.` }
+    ],
+    // Nouns - different patterns  
+    noun: [
+      { lux: `Ech brauch eng nei ${card.luxembourgish}.`, eng: `I need a new ${card.english}.` },
+      { lux: `Wou kann ech eng ${card.luxembourgish} kaaft?`, eng: `Where can I buy a ${card.english}?` },
+      { lux: `Déi ${card.luxembourgish} ass ganz deier.`, eng: `That ${card.english} is very expensive.` },
+      { lux: `Ech hunn eng grouss ${card.luxembourgish}.`, eng: `I have a big ${card.english}.` },
+      { lux: `D'${card.luxembourgish} ass net do.`, eng: `The ${card.english} is not there.` },
+      { lux: `Meng ${card.luxembourgish} ass kaputt.`, eng: `My ${card.english} is broken.` },
+      { lux: `Ech wëll eng schéin ${card.luxembourgish}.`, eng: `I want a beautiful ${card.english}.` },
+      { lux: `Dëst ass meng éischt ${card.luxembourgish}.`, eng: `This is my first ${card.english}.` }
+    ],
+    // Adjectives - different patterns
+    adjective: [
+      { lux: `Ech fillen ech sinn ${card.luxembourgish}.`, eng: `I feel I am ${card.english}.` },
+      { lux: `Dëst ass net ${card.luxembourgish} genuch.`, eng: `This is not ${card.english} enough.` },
+      { lux: `Si ass ëmmer ${card.luxembourgish}.`, eng: `She is always ${card.english}.` },
+      { lux: `Ech wëll ${card.luxembourgish} sinn.`, eng: `I want to be ${card.english}.` },
+      { lux: `Dat ass ganz ${card.luxembourgish}.`, eng: `That is very ${card.english}.` },
+      { lux: `Ech hunn eng ${card.luxembourgish} Iddi.`, eng: `I have a ${card.english} idea.` },
+      { lux: `Dëst ass ze ${card.luxembourgish}.`, eng: `This is too ${card.english}.` },
+      { lux: `Ech sinn net ${card.luxembourgish}.`, eng: `I am not ${card.english}.` }
+    ],
+    // Default/Other word types - different patterns
+    default: [
+      { lux: `Ech weess net wéi een ${card.luxembourgish} seet.`, eng: `I don't know how to say ${card.english}.` },
+      { lux: `${card.luxembourgish} ass wichteg.`, eng: `${card.english} is important.` },
+      { lux: `Ech hunn ${card.luxembourgish} vergiess.`, eng: `I forgot ${card.english}.` },
+      { lux: `Wéi seet een ${card.luxembourgish}?`, eng: `How do you say ${card.english}?` },
+      { lux: `Ech verstinn ${card.luxembourgish} net.`, eng: `I don't understand ${card.english}.` },
+      { lux: `${card.luxembourgish} ass net einfach.`, eng: `${card.english} is not easy.` },
+      { lux: `Ech léieren ${card.luxembourgish}.`, eng: `I am learning ${card.english}.` },
+      { lux: `Dat Wuert ${card.luxembourgish} kënnen ech.`, eng: `I know the word ${card.english}.` }
+    ]
+  };
 
+  // Determine word type based on category or tags
+  let wordType: 'verb' | 'noun' | 'adjective' | 'default' = 'default';
+  if (card.category?.includes('verb') || card.tags?.includes('verb')) {
+    wordType = 'verb';
+  } else if (card.category?.includes('noun') || card.tags?.includes('noun')) {
+    wordType = 'noun';
+  } else if (card.category?.includes('adjective') || card.tags?.includes('adjective')) {
+    wordType = 'adjective';
+  }
+
+  const sentencePatterns = patterns[wordType] || patterns.default;
+  const randomPattern = sentencePatterns[Math.floor(Math.random() * sentencePatterns.length)];
+  
+  return randomPattern;
+}
 
 /**
  * Generate context-appropriate options for fill-in-the-blank
