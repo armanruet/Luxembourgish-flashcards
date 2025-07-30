@@ -52,9 +52,9 @@ const Statistics: React.FC = () => {
   const getStoredProgress = () => {
     try {
       const stored = localStorage.getItem('previousProgress');
-      return stored ? JSON.parse(stored) : userProgress;
+      return stored ? JSON.parse(stored) : null;
     } catch {
-      return userProgress;
+      return null;
     }
   };
 
@@ -70,6 +70,14 @@ const Statistics: React.FC = () => {
   useEffect(() => {
     const previousProgress = getStoredProgress();
     
+    // If no previous progress exists, this is the first load
+    if (!previousProgress) {
+      // Initialize stored progress for future comparisons
+      setStoredProgress(userProgress);
+      return;
+    }
+    
+    // Check if there are actual improvements
     const celebrations = {
       streak: userProgress.currentStreak > previousProgress.currentStreak,
       accuracy: userProgress.accuracy > previousProgress.accuracy + 5,
@@ -87,11 +95,12 @@ const Statistics: React.FC = () => {
       setTimeout(() => {
         setCelebrateStats({ streak: false, accuracy: false, cards: false, time: false });
       }, 2000);
+      
+      // Store current progress as "previous" for next comparison
+      setStoredProgress(userProgress);
     }
-    
-      // Store current progress for next comparison
-  setStoredProgress(userProgress);
-}, [userProgress.currentStreak, userProgress.accuracy, userProgress.cardsStudied, userProgress.totalStudyTime]);
+    // If no improvements, don't update stored progress - keep the previous one for future comparisons
+  }, [userProgress.currentStreak, userProgress.accuracy, userProgress.cardsStudied, userProgress.totalStudyTime]);
 
   // Setup real-time synchronization
   useEffect(() => {
