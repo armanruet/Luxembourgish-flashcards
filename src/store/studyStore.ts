@@ -7,7 +7,8 @@ import {
   saveDailyActivityToFirebase,
   loadDailyActivitiesFromFirebase,
   subscribeToDailyActivities,
-  subscribeToUserProgress
+  subscribeToUserProgress,
+  saveStudySessionToFirebase
 } from '@/services/firestoreService';
 
 // Real-time update events
@@ -37,6 +38,7 @@ interface StudyStore {
   sessionStartTime: Date | null;
   sessionTimer: NodeJS.Timeout | null;
   firebaseUnsubscribers: (() => void)[];
+  isLoading: boolean;
   realTimeStats: {
     sessionAccuracy: number;
     sessionCorrect: number;
@@ -121,8 +123,6 @@ const defaultProgress: UserProgress = {
   
   // Achievement tracking
   achievements: [],
-  lastAchievement: undefined,
-  nextMilestone: undefined,
 };
 
 // Helper function to get today's date string
@@ -195,6 +195,7 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
   sessionStartTime: null,
   sessionTimer: null,
   firebaseUnsubscribers: [],
+  isLoading: false,
   realTimeStats: {
     sessionAccuracy: 0,
     sessionCorrect: 0,
@@ -319,6 +320,7 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
       currentUserId,
       (progress) => {
         if (progress) {
+          console.log('🔄 Real-time progress update received:', progress);
           set({ userProgress: progress });
           
           // Emit events for UI updates
@@ -331,6 +333,10 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
             type: 'accuracy_changed',
             data: { accuracy: progress.accuracy }
           });
+        } else {
+          console.log('⚠️ Real-time listener: No progress document found, keeping current data');
+          // Don't override the current progress if no document exists
+          // This prevents the real-time listener from resetting data to null
         }
       }
     );
@@ -376,6 +382,8 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
 
   // User management
   setUserId: (userId) => {
+    console.log('🔐 setUserId called with:', userId);
+    
     const { sessionTimer } = get();
     if (sessionTimer) {
       clearInterval(sessionTimer);
@@ -387,46 +395,100 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
     
     set({ currentUserId: userId });
     if (userId) {
-      get().loadUserProgress(userId);
-      get().loadDailyActivities();
+      console.log('📥 Loading user data for:', userId);
       
-      // Setup real-time listeners for cross-device sync
-      get().setupRealtimeListeners();
+      // Load data first, then setup real-time listeners
+      Promise.all([
+        get().loadUserProgress(userId),
+        get().loadDailyActivities()
+      ]).then(() => {
+        console.log('✅ Data loaded, setting up real-time listeners');
+        // Setup real-time listeners after data is loaded
+        get().setupRealtimeListeners();
+      }).catch((error) => {
+        console.error('❌ Error loading user data:', error);
+        // Still setup real-time listeners even if loading fails
+        get().setupRealtimeListeners();
+      });
     } else {
+      console.log('🚪 User logged out, clearing data');
       set({ 
         userProgress: defaultProgress,
-        dailyActivities: []
+        dailyActivities: [],
+        isLoading: false
       });
     }
   },
   
   loadUserProgress: async (userId?: string) => {
     const targetUserId = userId || get().currentUserId;
+    console.log('📊 loadUserProgress called for:', targetUserId);
+    
     if (!targetUserId) {
-      set({ userProgress: defaultProgress });
+      console.log('❌ No user ID provided, using default progress');
+      set({ userProgress: defaultProgress, isLoading: false });
       return;
     }
     
+    set({ isLoading: true });
+    
     try {
+      console.log('🔄 Loading progress from Firebase...');
       const progress = await loadUserProgressFromFirebase(targetUserId);
-      set({ userProgress: progress || defaultProgress });
+      console.log('📊 Progress loaded from Firebase:', progress);
+      
+      if (progress) {
+        console.log('✅ Using loaded progress data');
+        // Ensure achievements array is always initialized
+        const safeProgress = {
+          ...progress,
+          achievements: progress.achievements || []
+        };
+        set({ userProgress: safeProgress, isLoading: false });
+      } else {
+        console.log('⚠️ No progress data found, creating initial data for new user');
+        // Create initial data for new user
+        try {
+          await saveUserProgressToFirebase(targetUserId, defaultProgress);
+          console.log('✅ Initial user progress created in Firebase');
+          
+          // Create initial daily activity
+          const initialDailyActivity = createEmptyDailyActivity();
+          await saveDailyActivityToFirebase(targetUserId, initialDailyActivity);
+          console.log('✅ Initial daily activity created in Firebase');
+          
+          set({ userProgress: defaultProgress, isLoading: false });
+        } catch (error) {
+          console.error('❌ Error creating initial data:', error);
+          set({ userProgress: defaultProgress, isLoading: false });
+        }
+      }
     } catch (error) {
-      console.error('Error loading user progress:', error);
-      set({ userProgress: defaultProgress });
+      console.error('❌ Error loading user progress:', error);
+      set({ userProgress: defaultProgress, isLoading: false });
     }
   },
   
   updateProgress: async (updates) => {
     const { currentUserId } = get();
+    console.log('🔄 updateProgress called with updates:', updates);
+    console.log('👤 Current user ID:', currentUserId);
+    
     const updatedProgress = { ...get().userProgress, ...updates };
+    console.log('📊 Updated progress:', updatedProgress);
+    
     set({ userProgress: updatedProgress });
     
     if (currentUserId) {
       try {
+        console.log('💾 Saving progress to Firebase...');
         await saveUserProgressToFirebase(currentUserId, updatedProgress);
+        console.log('✅ Progress saved to Firebase successfully');
       } catch (error) {
-        console.error('Error updating progress in Firebase:', error);
+        console.error('❌ Error updating progress in Firebase:', error);
       }
+    } else {
+      console.log('⚠️ No user ID, skipping Firebase save');
     }
   },
   
@@ -537,7 +599,7 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
     const achievements = [];
     
     // Check for new achievements
-    if (userProgress.currentStreak === 7 && !userProgress.achievements.some(a => a.id === 'week_streak')) {
+    if (userProgress.currentStreak === 7 && !(userProgress.achievements || []).some(a => a.id === 'week_streak')) {
       achievements.push({
         id: 'week_streak',
         title: 'Week Warrior',
@@ -549,7 +611,7 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
       });
     }
     
-    if (todaysActivity.averageAccuracy >= 95 && !userProgress.achievements.some(a => a.id === 'perfectionist')) {
+    if (todaysActivity.averageAccuracy >= 95 && !(userProgress.achievements || []).some(a => a.id === 'perfectionist')) {
       achievements.push({
         id: 'perfectionist',
         title: 'Perfectionist',
@@ -561,7 +623,7 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
       });
     }
     
-    if (userProgress.cardsStudied >= 100 && !userProgress.achievements.some(a => a.id === 'century')) {
+    if (userProgress.cardsStudied >= 100 && !(userProgress.achievements || []).some(a => a.id === 'century')) {
       achievements.push({
         id: 'century',
         title: 'Century Club',
@@ -577,7 +639,7 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
     if (achievements.length > 0) {
       const updatedProgress = {
         ...userProgress,
-        achievements: [...userProgress.achievements, ...achievements],
+        achievements: [...(userProgress.achievements || []), ...achievements],
         lastAchievement: achievements[achievements.length - 1]
       };
       
@@ -603,7 +665,7 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
     const { userProgress, currentUserId } = get();
     
     // Check if achievement already exists
-    const existingAchievement = userProgress.achievements.find(a => a.id === achievement.id);
+    const existingAchievement = (userProgress.achievements || []).find(a => a.id === achievement.id);
     if (existingAchievement) {
       return; // Achievement already unlocked
     }
@@ -617,7 +679,7 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
     
     const updatedProgress = {
       ...userProgress,
-      achievements: [...userProgress.achievements, newAchievement],
+      achievements: [...(userProgress.achievements || []), newAchievement],
       lastAchievement: newAchievement
     };
     
@@ -762,10 +824,29 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
     // Check for achievements
     get().checkAchievements();
     
+    // Update store state first
+    set({ userProgress: updatedProgress });
+    
     // Save everything to Firebase
     try {
       await saveUserProgressToFirebase(currentUserId, updatedProgress);
       await get().saveTodaysActivity();
+      
+      // Save study session to Firebase
+      const sessionData = {
+        userId: currentUserId,
+        startTime: sessionStartTime,
+        endTime: endTime,
+        mode: currentSession.mode,
+        totalCards: currentSession.results.length,
+        correctAnswers: correctAnswers,
+        accuracy: sessionAccuracy,
+        timeSpent: sessionTime,
+        results: currentSession.results
+      };
+      
+      await saveStudySessionToFirebase(sessionData);
+      console.log('✅ Study session saved to Firebase');
     } catch (error) {
       console.error('Error saving progress to Firebase:', error);
     }

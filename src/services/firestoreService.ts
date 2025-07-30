@@ -9,7 +9,8 @@ import {
   where,
   orderBy,
   limit,
-  getDocs
+  getDocs,
+  addDoc
 } from 'firebase/firestore';
 import { db } from '@/config/firebase';
 import { Deck, UserProgress, DailyActivity } from '@/types';
@@ -18,15 +19,23 @@ import { Deck, UserProgress, DailyActivity } from '@/types';
 const COLLECTIONS = {
   userProgress: 'userProgress',
   decks: 'decks',
-  studySessions: 'studySessions'
+  studySessions: 'studySessions',
+  dailyActivities: 'dailyActivities'
 } as const;
 
 // Save user progress to Firestore
 export const saveUserProgressToFirebase = async (userId: string, progress: UserProgress) => {
-  if (!db) throw new Error('Firestore not available');
+  console.log('💾 saveUserProgressToFirebase called for user:', userId);
+  console.log('📊 Progress to save:', progress);
+  
+  if (!db) {
+    console.error('❌ Firestore not available');
+    throw new Error('Firestore not available');
+  }
   
   try {
     const progressRef = doc(db, COLLECTIONS.userProgress, userId);
+    console.log('📄 Document reference:', progressRef.path);
     
     // Convert dates to Firestore timestamps
     const firebaseProgress = {
@@ -34,34 +43,49 @@ export const saveUserProgressToFirebase = async (userId: string, progress: UserP
       lastStudyDate: progress.lastStudyDate ? Timestamp.fromDate(progress.lastStudyDate) : null
     };
     
+    console.log('🔄 Saving to Firebase...');
     await setDoc(progressRef, firebaseProgress);
+    console.log('✅ Progress saved successfully to Firebase');
   } catch (error) {
-    console.error('Error saving user progress:', error);
+    console.error('❌ Error saving user progress:', error);
     throw error;
   }
 };
 
 // Load user progress from Firestore
 export const loadUserProgressFromFirebase = async (userId: string): Promise<UserProgress | null> => {
-  if (!db) return null;
+  console.log('📥 loadUserProgressFromFirebase called for user:', userId);
+  
+  if (!db) {
+    console.error('❌ Firestore not available');
+    return null;
+  }
   
   try {
     const progressRef = doc(db, COLLECTIONS.userProgress, userId);
+    console.log('📄 Document reference:', progressRef.path);
+    
     const progressSnapshot = await getDoc(progressRef);
+    console.log('📊 Document exists:', progressSnapshot.exists());
     
     if (progressSnapshot.exists()) {
       const data = progressSnapshot.data();
+      console.log('📊 Raw data from Firebase:', data);
       
       // Convert Firestore timestamps back to dates
-      return {
+      const progress = {
         ...data,
         lastStudyDate: data.lastStudyDate ? data.lastStudyDate.toDate() : undefined
       } as UserProgress;
+      
+      console.log('✅ Progress loaded successfully:', progress);
+      return progress;
     }
     
+    console.log('⚠️ No progress document found for user:', userId);
     return null;
   } catch (error) {
-    console.error('Error loading user progress:', error);
+    console.error('❌ Error loading user progress:', error);
     throw error;
   }
 };
@@ -145,22 +169,30 @@ export const subscribeToUserProgress = (
   userId: string, 
   callback: (progress: UserProgress | null) => void
 ) => {
+  console.log('📡 Setting up real-time listener for user:', userId);
+  
   if (!db) {
+    console.log('❌ Firestore not available for real-time listener');
     callback(null);
     return () => {}; // Return empty unsubscribe function
   }
   
   const progressRef = doc(db, COLLECTIONS.userProgress, userId);
+  console.log('📄 Real-time listener document reference:', progressRef.path);
   
   return onSnapshot(progressRef, (doc) => {
+    console.log('📡 Real-time listener triggered, document exists:', doc.exists());
+    
     if (doc.exists()) {
       const data = doc.data();
+      console.log('📊 Real-time listener data:', data);
       const progress = {
         ...data,
         lastStudyDate: data.lastStudyDate ? data.lastStudyDate.toDate() : undefined
       } as UserProgress;
       callback(progress);
     } else {
+      console.log('⚠️ Real-time listener: Document does not exist');
       callback(null);
     }
   });
@@ -247,7 +279,7 @@ export const saveDailyActivityToFirebase = async (userId: string, activity: Dail
   if (!db) throw new Error('Firestore not available');
   
   try {
-    const activityRef = doc(db, 'dailyActivities', `${userId}_${activity.date}`);
+    const activityRef = doc(db, COLLECTIONS.dailyActivities, `${userId}_${activity.date}`);
     await setDoc(activityRef, activity);
   } catch (error) {
     console.error('Error saving daily activity:', error);
@@ -259,7 +291,7 @@ export const loadDailyActivitiesFromFirebase = async (userId: string): Promise<D
   if (!db) return [];
   
   try {
-    const activitiesRef = collection(db, 'dailyActivities');
+    const activitiesRef = collection(db, COLLECTIONS.dailyActivities);
     const q = query(
       activitiesRef,
       where('__name__', '>=', `${userId}_`),
@@ -290,7 +322,7 @@ export const getWeeklyActivitiesFromFirebase = async (userId: string): Promise<D
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
     const startDate = sevenDaysAgo.toISOString().split('T')[0];
     
-    const activitiesRef = collection(db, 'dailyActivities');
+    const activitiesRef = collection(db, COLLECTIONS.dailyActivities);
     const q = query(
       activitiesRef,
       where('__name__', '>=', `${userId}_${startDate}`),
@@ -322,7 +354,7 @@ export const subscribeToDailyActivities = (
     return () => {};
   }
   
-  const activitiesRef = collection(db, 'dailyActivities');
+  const activitiesRef = collection(db, COLLECTIONS.dailyActivities);
   const q = query(
     activitiesRef,
     where('__name__', '>=', `${userId}_`),
@@ -338,4 +370,20 @@ export const subscribeToDailyActivities = (
     });
     callback(activities.sort((a, b) => b.date.localeCompare(a.date)));
   });
+};
+
+// Study session functions
+export const saveStudySessionToFirebase = async (session: any) => {
+  if (!db) throw new Error('Firestore not available');
+  
+  try {
+    const sessionRef = collection(db, COLLECTIONS.studySessions);
+    await addDoc(sessionRef, {
+      ...session,
+      createdAt: new Date()
+    });
+  } catch (error) {
+    console.error('Error saving study session:', error);
+    throw error;
+  }
 };

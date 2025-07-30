@@ -38,8 +38,11 @@ import ProgressRing from './ProgressRing';
 
 const Statistics: React.FC = () => {
   const { getAllCards, decks } = useDeckStore();
-  const { userProgress } = useStudyStore();
+  const userProgress = useStudyStore(state => state.userProgress);
+  const isLoading = useStudyStore(state => state.isLoading);
   const { userProfile, currentUser } = useAuth();
+  
+
   const [celebrateStats, setCelebrateStats] = useState({
     streak: false,
     accuracy: false,
@@ -140,10 +143,26 @@ const Statistics: React.FC = () => {
     };
   }, []);
 
+  // Debug: Track data loading state
+  useEffect(() => {
+    console.log('📊 Statistics Debug:', {
+      userProgress,
+      isLoading,
+      currentUserId: currentUser?.uid,
+      hasProgressData: userProgress.cardsStudied > 0 || userProgress.totalStudyTime > 0 || userProgress.currentStreak > 0
+    });
+  }, [userProgress, isLoading, currentUser]);
+
+  // Temporary function to create test data
+
+
   // Get real user data with enhanced fallbacks
   getAllCards(); // Keep for potential future use
   const userName = userProfile?.firstName || userProfile?.displayName?.split(' ')[0] || currentUser?.displayName?.split(' ')[0] || 'Student';
   const userPhoto = userProfile?.photoURL || currentUser?.photoURL;
+  
+  // Check if user has any progress data
+  const hasProgressData = userProgress.cardsStudied > 0 || userProgress.totalStudyTime > 0 || userProgress.currentStreak > 0;
   
   // Calculate enhanced statistics based on real data
   const levelData = useMemo(() => 
@@ -292,12 +311,21 @@ const Statistics: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 p-6">
       <div className="max-w-7xl mx-auto">
-        {/* Header with enhanced styling */}
-        <motion.div
-          className="mb-8"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
+        {isLoading ? (
+          <div className="flex items-center justify-center min-h-[400px]">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+              <p className="text-gray-600">Loading your progress...</p>
+            </div>
+          </div>
+                      ) : (
+                <>
+            {/* Header with enhanced styling */}
+            <motion.div
+              className="mb-8"
+              initial={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-5xl font-bold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent mb-2">
@@ -332,6 +360,30 @@ const Statistics: React.FC = () => {
             </div>
           </div>
         </motion.div>
+
+        {/* No Progress Data Message */}
+        {!hasProgressData && (
+          <motion.div
+            className="col-span-full bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-2xl p-6 mb-8"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+          >
+            <div className="text-center">
+              <div className="text-2xl mb-2">🎯</div>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Welcome to Your Learning Journey!</h3>
+              <p className="text-gray-600 mb-4">
+                You haven't started studying yet. Begin your Luxembourgish learning adventure by studying some flashcards!
+              </p>
+              <Link
+                to="/study"
+                className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-medium rounded-lg hover:from-blue-700 hover:to-indigo-700 transition-all duration-200"
+              >
+                Start Studying
+              </Link>
+            </div>
+          </motion.div>
+        )}
 
         {/* Quick Stats Row */}
         <motion.div 
@@ -745,6 +797,8 @@ const Statistics: React.FC = () => {
             </div>
           </motion.div>
         </div>
+        </>
+        )}
       </div>
     </div>
   );

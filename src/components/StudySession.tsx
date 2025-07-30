@@ -104,7 +104,7 @@ const StudySession: React.FC = () => {
   const isAchievementUnlocked = (achievementId: string) => {
     // Check both local session state and persistent achievements
     return unlockedAchievements.has(achievementId) || 
-           userProgress.achievements.some(achievement => achievement.id === achievementId);
+           (userProgress.achievements || []).some(achievement => achievement.id === achievementId);
   };
 
   // Achievement detection

@@ -39,12 +39,15 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
 
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      console.log('🔐 Auth state changed:', user ? `User ${user.uid} logged in` : 'User logged out');
       setCurrentUser(user);
       
       if (user) {
+        console.log('👤 User authenticated:', user.uid);
         try {
           // Get user profile from Firestore
           const profile = await getUserProfile(user.uid);
+          console.log('📋 User profile loaded:', profile);
           setUserProfile(profile);
           
           // Check if this is a first-time login and migrate local data
@@ -52,20 +55,24 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
                                localStorage.getItem('luxembourgish-flashcards-progress');
           
           if (hasLocalData && profile) {
+            console.log('🔄 Migrating local data to Firebase...');
             try {
               await migrateLocalDataToFirebase(user.uid);
               // Clear local storage after successful migration
               localStorage.removeItem('luxembourgish-flashcards-decks');
               localStorage.removeItem('luxembourgish-flashcards-progress');
-              console.log('Local data migrated and cleared');
+              console.log('✅ Local data migrated and cleared');
             } catch (error) {
-              console.error('Failed to migrate local data:', error);
+              console.error('❌ Failed to migrate local data:', error);
             }
+          } else {
+            console.log('📝 No local data to migrate');
           }
         } catch (error) {
-          console.error('Error loading user profile:', error);
+          console.error('❌ Error loading user profile:', error);
         }
       } else {
+        console.log('🚪 User logged out, clearing profile');
         setUserProfile(null);
       }
       

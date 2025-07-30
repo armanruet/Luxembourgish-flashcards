@@ -53,23 +53,44 @@ const ComprehensiveQuizSessionWrapper: React.FC<{
 };
 
 function AppContent() {
-  const { currentUser } = useAuth();
+  const { currentUser, loading } = useAuth();
   const { setUserId, decks } = useDeckStore();
   const { setUserId: setStudyUserId } = useStudyStore();
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    if (currentUser) {
-      // Set user ID in stores - this will trigger automatic content migration
-      setUserId(currentUser.uid);
-      setStudyUserId(currentUser.uid);
+    console.log('🔄 App useEffect - currentUser changed:', currentUser?.uid, 'loading:', loading);
+    
+    // Wait for auth loading to complete before setting user ID
+    if (!loading) {
+      if (currentUser) {
+        console.log('👤 Setting user ID in stores:', currentUser.uid);
+        // Set user ID in stores - this will trigger automatic content migration
+        setUserId(currentUser.uid);
+        setStudyUserId(currentUser.uid);
+      } else {
+        console.log('🚪 Clearing user data from stores');
+        // Clear user data when logged out
+        setUserId(null);
+        setStudyUserId(null);
+      }
     } else {
-      // Clear user data when logged out
-      setUserId(null);
-      setStudyUserId(null);
+      console.log('⏳ Auth still loading, waiting...');
     }
-  }, [currentUser, setUserId, setStudyUserId]);
+  }, [currentUser, loading, setUserId, setStudyUserId]);
+
+  // Show loading state while auth is initializing
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-base-100 via-base-200 to-base-300 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading your account...</p>
+        </div>
+      </div>
+    );
+  }
 
   if (!currentUser) {
     return <AuthForm />;
