@@ -27,6 +27,7 @@ import {
 import { useDeckStore } from '@/store/deckStore';
 import { useStudyStore } from '@/store/studyStore';
 import { useAuth } from '@/contexts/AuthContext';
+import realTimeService from '@/services/realTimeService';
 import { 
   calculateLanguageLevel, 
   calculateUserRating, 
@@ -39,16 +40,36 @@ const Statistics: React.FC = () => {
   const { getAllCards, decks } = useDeckStore();
   const { userProgress } = useStudyStore();
   const { userProfile, currentUser } = useAuth();
-  const [previousProgress, setPreviousProgress] = useState(userProgress);
   const [celebrateStats, setCelebrateStats] = useState({
     streak: false,
     accuracy: false,
     cards: false,
     time: false
   });
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+
+  // Use localStorage to persist previous progress for comparison
+  const getStoredProgress = () => {
+    try {
+      const stored = localStorage.getItem('previousProgress');
+      return stored ? JSON.parse(stored) : userProgress;
+    } catch {
+      return userProgress;
+    }
+  };
+
+  const setStoredProgress = (progress: any) => {
+    try {
+      localStorage.setItem('previousProgress', JSON.stringify(progress));
+    } catch (error) {
+      console.error('Error storing progress:', error);
+    }
+  };
 
   // Detect improvements and trigger celebrations
   useEffect(() => {
+    const previousProgress = getStoredProgress();
+    
     const celebrations = {
       streak: userProgress.currentStreak > previousProgress.currentStreak,
       accuracy: userProgress.accuracy > previousProgress.accuracy + 5,
@@ -56,15 +77,59 @@ const Statistics: React.FC = () => {
       time: userProgress.totalStudyTime > previousProgress.totalStudyTime + 60
     };
     
-    setCelebrateStats(celebrations);
+    // Only trigger celebrations if there are actual improvements
+    const hasImprovements = Object.values(celebrations).some(Boolean);
     
-    // Reset celebrations after animation
-    setTimeout(() => {
-      setCelebrateStats({ streak: false, accuracy: false, cards: false, time: false });
-    }, 2000);
+    if (hasImprovements) {
+      setCelebrateStats(celebrations);
+      
+      // Reset celebrations after animation
+      setTimeout(() => {
+        setCelebrateStats({ streak: false, accuracy: false, cards: false, time: false });
+      }, 2000);
+    }
     
-    setPreviousProgress(userProgress);
-  }, [userProgress.currentStreak, userProgress.accuracy, userProgress.cardsStudied, userProgress.totalStudyTime]);
+      // Store current progress for next comparison
+  setStoredProgress(userProgress);
+}, [userProgress.currentStreak, userProgress.accuracy, userProgress.cardsStudied, userProgress.totalStudyTime]);
+
+  // Setup real-time synchronization
+  useEffect(() => {
+    if (currentUser?.uid) {
+      // Connect to real-time service
+      realTimeService.connect(currentUser.uid).catch(console.error);
+      
+      // Subscribe to real-time updates
+      const unsubscribeProgress = realTimeService.addEventListener('progress_updated', () => {
+        // The userProgress will be updated through the store
+        // This ensures real-time updates across all components
+      });
+      
+      const unsubscribeAchievement = realTimeService.addEventListener('achievement_unlocked', () => {
+        // Trigger celebration for achievements
+        setCelebrateStats(prev => ({ ...prev, cards: true }));
+      });
+      
+      return () => {
+        unsubscribeProgress();
+        unsubscribeAchievement();
+      };
+    }
+  }, [currentUser?.uid]);
+
+  // Monitor online/offline status
+  useEffect(() => {
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+    
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+    
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, []);
 
   // Get real user data with enhanced fallbacks
   getAllCards(); // Keep for potential future use
@@ -231,6 +296,20 @@ const Statistics: React.FC = () => {
               </h1>
               <p className="text-lg text-gray-600">Track your Luxembourgish learning journey</p>
             </div>
+            
+            {/* Connection Status Indicator */}
+            <motion.div
+              className={`flex items-center space-x-2 px-3 py-2 rounded-full text-sm font-medium ${
+                isOnline 
+                  ? 'bg-green-100 text-green-700 border border-green-200' 
+                  : 'bg-red-100 text-red-700 border border-red-200'
+              }`}
+              animate={isOnline ? { scale: [1, 1.05, 1] } : {}}
+              transition={{ duration: 2, repeat: Infinity }}
+            >
+              <div className={`w-2 h-2 rounded-full ${isOnline ? 'bg-green-500' : 'bg-red-500'}`}></div>
+              <span>{isOnline ? 'Live Updates' : 'Offline Mode'}</span>
+            </motion.div>
             <div className="hidden md:flex items-center space-x-4">
               <div className="text-right">
                 <div className="text-sm text-gray-500">Today's Goal</div>
