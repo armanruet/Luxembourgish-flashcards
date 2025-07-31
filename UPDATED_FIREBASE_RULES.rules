@@ -1,0 +1,48 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ✅ Users collection
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // ✅ User progress collection (statistics, achievements, goals)
+    match /userProgress/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // ✅ User decks collection with batch support
+    // Handles both single documents (userId) and batch chunks (userId_chunk_N)
+    match /decks/{document} {
+      allow read, write: if request.auth != null && 
+                           (document == request.auth.uid || 
+                            document.matches(request.auth.uid + "_chunk_.*"));
+    }
+    
+    // ✅ FIXED: Daily activities collection (was causing permission errors)
+    // Document ID format: {userId}_{date} (e.g., "user123_2025-01-17")
+    match /dailyActivities/{document} {
+      allow read, write: if request.auth != null && 
+                           document.matches(request.auth.uid + "_.*");
+    }
+    
+    // ✅ ADDITIONAL: Allow direct dailyActivities subcollection access
+    match /dailyActivities/{userId}/{document=**} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    
+    // ✅ Study sessions collection
+    match /studySessions/{sessionId} {
+      allow read, write: if request.auth != null && 
+                           (resource == null || resource.data.userId == request.auth.uid);
+    }
+    
+    // ✅ ADDITIONAL: General user data collections
+    match /{collection}/{userId} {
+      allow read, write: if request.auth != null && 
+                           request.auth.uid == userId &&
+                           collection in ['userSettings', 'userStats', 'achievements'];
+    }
+  }
+}

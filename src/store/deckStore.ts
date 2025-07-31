@@ -88,23 +88,37 @@ export const useDeckStore = create<DeckStore>((set, get) => ({
       console.log('✅ Loaded', userDecks.length, 'decks');
       set({ decks: userDecks });
       
-      // Check for content updates and auto-migrate
-      const migrationSuccess = await checkAndMigrateUserContent(targetUserId);
+      // 🚨 CRITICAL FIX: Only run migration if user has NO progress to preserve
+      const hasUserProgress = userDecks.some(deck => 
+        deck.cards.some(card => card.reviewCount > 0 || card.successCount > 0)
+      );
       
-      if (migrationSuccess) {
-        // Reload decks after migration (use batch method again)
-        let updatedDecks = await loadUserDecksBatch(targetUserId);
-        if (updatedDecks.length === 0) {
-          updatedDecks = await loadUserDecksFromFirebase(targetUserId);
-        }
-        
+      if (hasUserProgress) {
+        console.log('🛡️ User has card progress - SKIPPING migration to preserve data');
         set({ 
-          decks: updatedDecks, 
           migrationStatus: 'completed',
           lastMigrationCheck: new Date()
         });
       } else {
-        set({ migrationStatus: 'failed' });
+        console.log('🔄 No user progress found - running migration for new content');
+        // Check for content updates and auto-migrate
+        const migrationSuccess = await checkAndMigrateUserContent(targetUserId);
+        
+        if (migrationSuccess) {
+          // Reload decks after migration (use batch method again)
+          let updatedDecks = await loadUserDecksBatch(targetUserId);
+          if (updatedDecks.length === 0) {
+            updatedDecks = await loadUserDecksFromFirebase(targetUserId);
+          }
+          
+          set({ 
+            decks: updatedDecks, 
+            migrationStatus: 'completed',
+            lastMigrationCheck: new Date()
+          });
+        } else {
+          set({ migrationStatus: 'failed' });
+        }
       }
       
     } catch (error) {

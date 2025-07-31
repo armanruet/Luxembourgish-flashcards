@@ -672,21 +672,25 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
     }
   },
 
-  // Real-time synchronization
+  // Real-time synchronization with data protection
   setupRealtimeListeners: () => {
     const { currentUserId } = get();
     if (!currentUserId) return;
     
     try {
+      console.log('🔄 Setting up real-time listeners for user:', currentUserId);
+      
       // Subscribe to user progress updates
       const progressUnsubscribe = subscribeToUserProgress(currentUserId, (progress) => {
         if (progress) {
+          console.log('📊 Real-time progress update received');
           set({ userProgress: progress });
         }
       });
       
-      // Subscribe to daily activities updates
+      // Subscribe to daily activities updates with error handling
       const activitiesUnsubscribe = subscribeToDailyActivities(currentUserId, (activities) => {
+        console.log('📅 Real-time activities update received:', activities.length, 'activities');
         set({ dailyActivities: activities });
       });
       
@@ -694,8 +698,14 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
       set({ 
         firebaseUnsubscribers: [progressUnsubscribe, activitiesUnsubscribe] 
       });
+      
+      console.log('✅ Real-time listeners set up successfully');
     } catch (error) {
-      console.error('Error setting up realtime listeners:', error);
+      console.error('❌ Error setting up realtime listeners:', error);
+      // Don't fail silently - this might be causing permission issues
+      if (error && typeof error === 'object' && 'code' in error && (error as any).code === 'permission-denied') {
+        console.error('🚨 Permission denied - check Firebase rules for dailyActivities collection');
+      }
     }
   },
 
