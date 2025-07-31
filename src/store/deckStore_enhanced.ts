@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 import { Deck, Flashcard } from '@/types';
-import { getDueStatus, getLearnedStatus } from '@/utils/cardStatus';
+import { getLearnedStatus } from '@/utils/cardStatus';
 import { 
   loadUserDecksFromFirebase
 } from '@/services/firestoreService';
