@@ -193,7 +193,7 @@ const StudySession: React.FC = () => {
     }
     
     setPreviousStats(currentStats);
-  }, [stats, userProgress.achievements]);
+  }, [stats.total, stats.correct, stats.accuracy, userProgress.achievements.length]);
 
   // Cleanup achievements when session ends or component unmounts
   useEffect(() => {

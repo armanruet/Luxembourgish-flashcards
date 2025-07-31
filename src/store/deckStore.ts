@@ -1,14 +1,16 @@
 import { create } from 'zustand';
 import { Deck, Flashcard } from '@/types';
 import { 
-  saveUserDecksToFirebase, 
   loadUserDecksFromFirebase
 } from '@/services/firestoreService';
 import { 
   checkAndMigrateUserContent,
   getContentUpdateSummary
 } from '@/services/migrationService';
-import { loadUserDecksBatch } from '@/services/batchFirestoreService';
+import { 
+  loadUserDecksBatch,
+  saveUserDecksBatch  // Use batch save to handle large datasets
+} from '@/services/batchFirestoreService';
 
 interface DeckStore {
   decks: Deck[];
@@ -133,7 +135,7 @@ export const useDeckStore = create<DeckStore>((set, get) => ({
     set({ decks: updatedDecks });
     
     try {
-      await saveUserDecksToFirebase(currentUserId, updatedDecks);
+      await saveUserDecksBatch(currentUserId, updatedDecks);
     } catch (error) {
       console.error('Error saving deck to Firebase:', error);
       // Revert on error
@@ -155,7 +157,7 @@ export const useDeckStore = create<DeckStore>((set, get) => ({
     set({ decks: updatedDecks });
     
     try {
-      await saveUserDecksToFirebase(currentUserId, updatedDecks);
+      await saveUserDecksBatch(currentUserId, updatedDecks);
     } catch (error) {
       console.error('Error updating deck in Firebase:', error);
       // Revert on error
@@ -177,7 +179,7 @@ export const useDeckStore = create<DeckStore>((set, get) => ({
     });
     
     try {
-      await saveUserDecksToFirebase(currentUserId, updatedDecks);
+      await saveUserDecksBatch(currentUserId, updatedDecks);
     } catch (error) {
       console.error('Error deleting deck from Firebase:', error);
       // Revert on error
@@ -225,7 +227,7 @@ export const useDeckStore = create<DeckStore>((set, get) => ({
     set({ decks: updatedDecks });
     
     try {
-      await saveUserDecksToFirebase(currentUserId, updatedDecks);
+      await saveUserDecksBatch(currentUserId, updatedDecks);
     } catch (error) {
       console.error('Error adding card to Firebase:', error);
       // Revert on error
@@ -255,7 +257,7 @@ export const useDeckStore = create<DeckStore>((set, get) => ({
     set({ decks: updatedDecks });
     
     try {
-      await saveUserDecksToFirebase(currentUserId, updatedDecks);
+      await saveUserDecksBatch(currentUserId, updatedDecks);
     } catch (error) {
       console.error('Error updating card in Firebase:', error);
       // Revert on error
@@ -282,7 +284,7 @@ export const useDeckStore = create<DeckStore>((set, get) => ({
     set({ decks: updatedDecks });
     
     try {
-      await saveUserDecksToFirebase(currentUserId, updatedDecks);
+      await saveUserDecksBatch(currentUserId, updatedDecks);
     } catch (error) {
       console.error('Error deleting card from Firebase:', error);
       // Revert on error
@@ -352,3 +354,15 @@ export const useDeckStore = create<DeckStore>((set, get) => ({
     }
   },
 }));
+
+// Expose deck store instance globally for cross-store communication
+if (typeof window !== 'undefined') {
+  (window as any).deckStoreInstance = useDeckStore.getState();
+  
+  // Update the global reference whenever the store changes
+  useDeckStore.subscribe((state) => {
+    (window as any).deckStoreInstance = state;
+  });
+  
+  console.log('🌐 Deck store exposed globally for cross-store communication');
+}

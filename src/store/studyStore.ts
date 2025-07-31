@@ -49,6 +49,9 @@ interface StudyStore {
   // Event system for real-time updates
   eventListeners: ((event: StudyEventData) => void)[];
   
+  // Cross-store communication
+  getDeckStore: () => any;
+  
   // Session actions
   startStudySession: (cards: Flashcard[], mode: StudyMode) => void;
   endStudySession: () => void;
@@ -91,48 +94,44 @@ interface StudyStore {
     timeSpent: number;
   };
 }
-
 const defaultProgress: UserProgress = {
   totalStudyTime: 0,
   cardsStudied: 0,
   currentStreak: 0,
   longestStreak: 0,
   accuracy: 0,
-  weeklyGoal: 100,
+  lastStudyDate: undefined,
+  weeklyGoal: 50,
   weeklyProgress: 0,
   categoryProgress: {},
-  
-  // Enhanced statistics for dashboard
   currentLevel: 'A1',
   levelProgress: 0,
-  userRating: 1.0,
+  userRating: 0,
   totalSessions: 0,
   averageSessionTime: 0,
-  
-  // Goal tracking
   currentGoal: {
-    id: 'daily_practice',
-    title: 'Daily Practice',
-    description: 'Study 20 cards per day',
+    id: 'daily-cards',
+    title: 'Daily Cards Goal',
+    description: 'Study cards every day',
     type: 'cards_per_day',
     target: 20,
     current: 0,
     isActive: true
   },
   goalProgress: 0,
-  
-  // Achievement tracking
   achievements: [],
+  lastAchievement: undefined,
+  nextMilestone: undefined,
 };
 
-// Helper function to get today's date string
-const getTodayString = (): string => {
+// Helper function to get current date in YYYY-MM-DD format
+const getCurrentDateString = (): string => {
   return new Date().toISOString().split('T')[0];
 };
 
 // Helper function to create empty daily activity
 const createEmptyDailyActivity = (): DailyActivity => ({
-  date: getTodayString(),
+  date: getCurrentDateString(),
   studyTime: 0,
   cardsStudied: 0,
   sessionsCompleted: 0,
@@ -140,51 +139,6 @@ const createEmptyDailyActivity = (): DailyActivity => ({
   averageAccuracy: 0,
   bestStreak: 0,
 });
-
-// Helper function to calculate consecutive study days
-const calculateConsecutiveStudyDays = (activities: DailyActivity[]): number => {
-  if (activities.length === 0) return 0;
-  
-  // Sort activities by date (newest first)
-  const sortedActivities = activities.sort((a, b) => b.date.localeCompare(a.date));
-  
-  let streak = 0;
-  const today = getTodayString();
-  const yesterday = new Date();
-  yesterday.setDate(yesterday.getDate() - 1);
-  const yesterdayString = yesterday.toISOString().split('T')[0];
-  
-  // Check if there's activity today or yesterday
-  const todayActivity = sortedActivities.find(a => a.date === today);
-  const yesterdayActivity = sortedActivities.find(a => a.date === yesterdayString);
-  
-  if (!todayActivity && !yesterdayActivity) {
-    return 0; // No recent activity
-  }
-  
-  // Count consecutive days with activity
-  for (let i = 0; i < sortedActivities.length; i++) {
-    const activity = sortedActivities[i];
-    if (activity.cardsStudied > 0) {
-      streak++;
-      
-      // Check if next day is consecutive
-      if (i + 1 < sortedActivities.length) {
-        const currentDate = new Date(activity.date);
-        const nextDate = new Date(sortedActivities[i + 1].date);
-        const diffDays = Math.floor((currentDate.getTime() - nextDate.getTime()) / (1000 * 60 * 60 * 24));
-        
-        if (diffDays > 1) {
-          break; // Gap in consecutive days
-        }
-      }
-    } else {
-      break; // No cards studied on this day
-    }
-  }
-  
-  return streak;
-};
 
 export const useStudyStore = create<StudyStore>((set, get) => ({
   currentSession: null,
@@ -200,702 +154,57 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
     sessionAccuracy: 0,
     sessionCorrect: 0,
     sessionTotal: 0,
-    sessionTime: 0
+    sessionTime: 0,
   },
   eventListeners: [],
-  
-  // Event system
-  emitEvent: (event) => {
-    const { eventListeners } = get();
-    eventListeners.forEach(listener => listener(event));
+
+  // Helper function to get deck store instance
+  getDeckStore: () => {
+    // Use window-level access to avoid circular dependency issues
+    if (typeof window !== 'undefined' && (window as any).deckStoreInstance) {
+      return (window as any).deckStoreInstance;
+    }
+    
+    // Fallback to dynamic import
+    try {
+      const { useDeckStore } = require('@/store/deckStore');  
+      const instance = useDeckStore.getState();
+      // Cache for future use
+      if (typeof window !== 'undefined') {
+        (window as any).deckStoreInstance = instance;
+      }
+      return instance;
+    } catch (error) {
+      console.error('❌ Failed to access deck store:', error);
+      return null;
+    }
   },
-  
+
+  // Event system for real-time updates
+  emitEvent: (event) => {
+    get().eventListeners.forEach(listener => listener(event));
+  },
+
   addEventListener: (listener) => {
-    set(state => ({
-      eventListeners: [...state.eventListeners, listener]
-    }));
+    const currentListeners = get().eventListeners;
+    set({ eventListeners: [...currentListeners, listener] });
     
     // Return unsubscribe function
     return () => {
-      set(state => ({
-        eventListeners: state.eventListeners.filter(l => l !== listener)
-      }));
+      const listeners = get().eventListeners.filter(l => l !== listener);
+      set({ eventListeners: listeners });
     };
   },
-  
-  // Session timer management
-  startSessionTimer: () => {
-    const { sessionTimer } = get();
-    if (sessionTimer) {
-      clearInterval(sessionTimer);
-    }
-    
-    const timer = setInterval(() => {
-      get().updateSessionStats();
-    }, 1000); // Update every second
-    
-    set({ sessionTimer: timer });
-  },
-  
-  stopSessionTimer: () => {
-    const { sessionTimer } = get();
-    if (sessionTimer) {
-      clearInterval(sessionTimer);
-      set({ sessionTimer: null });
-    }
-  },
 
-  // Daily activity functions
-  getTodaysActivity: () => {
-    const { dailyActivities } = get();
-    const today = getTodayString();
-    return dailyActivities.find(activity => activity.date === today) || null;
-  },
-  
-  updateTodaysActivity: (updates) => {
-    const { dailyActivities } = get();
-    const today = getTodayString();
-    
-    const existingActivityIndex = dailyActivities.findIndex(activity => activity.date === today);
-    
-    if (existingActivityIndex >= 0) {
-      // Update existing activity
-      const updatedActivities = [...dailyActivities];
-      updatedActivities[existingActivityIndex] = {
-        ...updatedActivities[existingActivityIndex],
-        ...updates
-      };
-      set({ dailyActivities: updatedActivities });
-    } else {
-      // Create new activity for today
-      const newActivity: DailyActivity = {
-        ...createEmptyDailyActivity(),
-        ...updates
-      };
-      set({ dailyActivities: [newActivity, ...dailyActivities] });
-    }
-    
-    // Emit event for real-time updates
-    get().emitEvent({
-      type: 'daily_activity_updated',
-      data: { activity: get().getTodaysActivity() }
-    });
-  },
-  
-  saveTodaysActivity: async () => {
-    const { currentUserId } = get();
-    const todaysActivity = get().getTodaysActivity();
-    
-    if (currentUserId && todaysActivity) {
-      try {
-        await saveDailyActivityToFirebase(currentUserId, todaysActivity);
-      } catch (error) {
-        console.error('Error saving daily activity:', error);
-      }
-    }
-  },
-  
-  loadDailyActivities: async () => {
-    const { currentUserId } = get();
-    if (!currentUserId) return;
-    
-    try {
-      const activities = await loadDailyActivitiesFromFirebase(currentUserId);
-      set({ dailyActivities: activities });
-    } catch (error) {
-      console.error('Error loading daily activities:', error);
-    }
-  },
-
-  // Real-time synchronization setup
-  setupRealtimeListeners: () => {
-    const { currentUserId } = get();
-    if (!currentUserId) return;
-
-    // Cleanup any existing listeners first
-    get().cleanupRealtimeListeners();
-
-    // Subscribe to user progress changes (achievements, streak, etc.)
-    const userProgressUnsubscribe = subscribeToUserProgress(
-      currentUserId,
-      (progress) => {
-        if (progress) {
-          console.log('🔄 Real-time progress update received:', progress);
-          set({ userProgress: progress });
-          
-          // Emit events for UI updates
-          get().emitEvent({
-            type: 'streak_updated',
-            data: { streak: progress.currentStreak }
-          });
-          
-          get().emitEvent({
-            type: 'accuracy_changed',
-            data: { accuracy: progress.accuracy }
-          });
-        } else {
-          console.log('⚠️ Real-time listener: No progress document found, keeping current data');
-          // Don't override the current progress if no document exists
-          // This prevents the real-time listener from resetting data to null
-        }
-      }
-    );
-
-    // Subscribe to daily activities changes
-    const dailyActivitiesUnsubscribe = subscribeToDailyActivities(
-      currentUserId,
-      (activities) => {
-        set({ dailyActivities: activities });
-        
-        // Recalculate streak when daily activities change
-        get().calculateStreak();
-        
-        // Emit event for real-time updates
-        get().emitEvent({
-          type: 'daily_activity_updated',
-          data: { activities }
-        });
-      }
-    );
-
-    // Store unsubscribers
-    set(state => ({
-      firebaseUnsubscribers: [...state.firebaseUnsubscribers, userProgressUnsubscribe, dailyActivitiesUnsubscribe]
-    }));
-  },
-
-  cleanupRealtimeListeners: () => {
-    const { firebaseUnsubscribers } = get();
-    
-    // Unsubscribe from all Firebase listeners
-    firebaseUnsubscribers.forEach(unsubscribe => {
-      try {
-        unsubscribe();
-      } catch (error) {
-        console.error('Error unsubscribing from Firebase listener:', error);
-      }
-    });
-    
-    // Clear the unsubscribers array
-    set({ firebaseUnsubscribers: [] });
-  },
-
-  // User management
-  setUserId: (userId) => {
-    console.log('🔐 setUserId called with:', userId);
-    
-    const { sessionTimer } = get();
-    if (sessionTimer) {
-      clearInterval(sessionTimer);
-      set({ sessionTimer: null });
-    }
-    
-    // Cleanup existing listeners
-    get().cleanupRealtimeListeners();
-    
-    set({ currentUserId: userId });
-    if (userId) {
-      console.log('📥 Loading user data for:', userId);
-      
-      // Load data first, then setup real-time listeners
-      Promise.all([
-        get().loadUserProgress(userId),
-        get().loadDailyActivities()
-      ]).then(() => {
-        console.log('✅ Data loaded, setting up real-time listeners');
-        // Setup real-time listeners after data is loaded
-        get().setupRealtimeListeners();
-      }).catch((error) => {
-        console.error('❌ Error loading user data:', error);
-        // Still setup real-time listeners even if loading fails
-        get().setupRealtimeListeners();
-      });
-    } else {
-      console.log('🚪 User logged out, clearing data');
-      set({ 
-        userProgress: defaultProgress,
-        dailyActivities: [],
-        isLoading: false
-      });
-    }
-  },
-  
-  loadUserProgress: async (userId?: string) => {
-    const targetUserId = userId || get().currentUserId;
-    console.log('📊 loadUserProgress called for:', targetUserId);
-    
-    if (!targetUserId) {
-      console.log('❌ No user ID provided, using default progress');
-      set({ userProgress: defaultProgress, isLoading: false });
-      return;
-    }
-    
-    set({ isLoading: true });
-    
-    try {
-      console.log('🔄 Loading progress from Firebase...');
-      const progress = await loadUserProgressFromFirebase(targetUserId);
-      console.log('📊 Progress loaded from Firebase:', progress);
-      
-      if (progress) {
-        console.log('✅ Using loaded progress data');
-        // Ensure achievements array is always initialized
-        const safeProgress = {
-          ...progress,
-          achievements: progress.achievements || []
-        };
-        set({ userProgress: safeProgress, isLoading: false });
-      } else {
-        console.log('⚠️ No progress data found, creating initial data for new user');
-        // Create initial data for new user
-        try {
-          await saveUserProgressToFirebase(targetUserId, defaultProgress);
-          console.log('✅ Initial user progress created in Firebase');
-          
-          // Create initial daily activity
-          const initialDailyActivity = createEmptyDailyActivity();
-          await saveDailyActivityToFirebase(targetUserId, initialDailyActivity);
-          console.log('✅ Initial daily activity created in Firebase');
-          
-          set({ userProgress: defaultProgress, isLoading: false });
-        } catch (error) {
-          console.error('❌ Error creating initial data:', error);
-          set({ userProgress: defaultProgress, isLoading: false });
-        }
-      }
-    } catch (error) {
-      console.error('❌ Error loading user progress:', error);
-      set({ userProgress: defaultProgress, isLoading: false });
-    }
-  },
-  
-  updateProgress: async (updates) => {
-    const { currentUserId } = get();
-    console.log('🔄 updateProgress called with updates:', updates);
-    console.log('👤 Current user ID:', currentUserId);
-    
-    const updatedProgress = { ...get().userProgress, ...updates };
-    console.log('📊 Updated progress:', updatedProgress);
-    
-    set({ userProgress: updatedProgress });
-    
-    if (currentUserId) {
-      try {
-        console.log('💾 Saving progress to Firebase...');
-        await saveUserProgressToFirebase(currentUserId, updatedProgress);
-        console.log('✅ Progress saved to Firebase successfully');
-      } catch (error) {
-        console.error('❌ Error updating progress in Firebase:', error);
-      }
-    } else {
-      console.log('⚠️ No user ID, skipping Firebase save');
-    }
-  },
-  
-  // Enhanced streak calculation
-  calculateStreak: () => {
-    const { dailyActivities } = get();
-    const streak = calculateConsecutiveStudyDays(dailyActivities);
-    const { userProgress } = get();
-    
-    if (streak !== userProgress.currentStreak) {
-      const updatedProgress = {
-        ...userProgress,
-        currentStreak: streak,
-        longestStreak: Math.max(streak, userProgress.longestStreak)
-      };
-      
-      set({ userProgress: updatedProgress });
-      
-      // Emit streak update event
-      get().emitEvent({
-        type: 'streak_updated',
-        data: { streak, isNewRecord: streak > userProgress.longestStreak }
-      });
-      
-      // Save to Firebase
-      if (get().currentUserId) {
-        saveUserProgressToFirebase(get().currentUserId!, updatedProgress);
-      }
-    }
-    
-    return streak;
-  },
-
-  // Goal progress tracking
-  updateGoalProgress: () => {
-    const { userProgress } = get();
-    const todaysActivity = get().getTodaysActivity();
-    
-    if (!todaysActivity || !userProgress.currentGoal) return;
-    
-    let currentValue = 0;
-    
-    switch (userProgress.currentGoal.type) {
-      case 'cards_per_day':
-        currentValue = todaysActivity.cardsStudied;
-        break;
-      case 'study_time':
-        currentValue = todaysActivity.studyTime;
-        break;
-      case 'accuracy':
-        currentValue = todaysActivity.averageAccuracy;
-        break;
-      case 'streak':
-        currentValue = userProgress.currentStreak;
-        break;
-      default:
-        return;
-    }
-    
-    const updatedGoal = {
-      ...userProgress.currentGoal,
-      current: currentValue
-    };
-    
-    const goalProgress = Math.min(100, (currentValue / userProgress.currentGoal.target) * 100);
-    const wasCompleted = userProgress.goalProgress >= 100;
-    const isNowCompleted = goalProgress >= 100;
-    
-    const updatedProgress = {
-      ...userProgress,
-      currentGoal: updatedGoal,
-      goalProgress
-    };
-    
-    set({ userProgress: updatedProgress });
-    
-    // Emit goal progress event
-    get().emitEvent({
-      type: 'goal_progress_updated',
-      data: { 
-        goal: updatedGoal, 
-        progress: goalProgress,
-        isComplete: isNowCompleted
-      }
-    });
-    
-    // Emit goal completion event if just completed
-    if (!wasCompleted && isNowCompleted) {
-      get().emitEvent({
-        type: 'goal_completed',
-        data: { goal: updatedGoal }
-      });
-    }
-    
-    // Save to Firebase
-    if (get().currentUserId) {
-      saveUserProgressToFirebase(get().currentUserId!, updatedProgress);
-    }
-  },
-  
-  // Achievement checking
-  checkAchievements: () => {
-    const { userProgress } = get();
-    const todaysActivity = get().getTodaysActivity();
-    
-    if (!todaysActivity) return;
-    
-    const achievements = [];
-    
-    // Check for new achievements
-    if (userProgress.currentStreak === 7 && !(userProgress.achievements || []).some(a => a.id === 'week_streak')) {
-      achievements.push({
-        id: 'week_streak',
-        title: 'Week Warrior',
-        description: 'Studied for 7 consecutive days',
-        icon: 'flame',
-        category: 'streak' as const,
-        unlockedAt: new Date(),
-        points: 100
-      });
-    }
-    
-    if (todaysActivity.averageAccuracy >= 95 && !(userProgress.achievements || []).some(a => a.id === 'perfectionist')) {
-      achievements.push({
-        id: 'perfectionist',
-        title: 'Perfectionist',
-        description: 'Achieved 95% accuracy in a day',
-        icon: 'target',
-        category: 'accuracy' as const,
-        unlockedAt: new Date(),
-        points: 150
-      });
-    }
-    
-    if (userProgress.cardsStudied >= 100 && !(userProgress.achievements || []).some(a => a.id === 'century')) {
-      achievements.push({
-        id: 'century',
-        title: 'Century Club',
-        description: 'Studied 100 cards',
-        icon: 'trophy',
-        category: 'volume' as const,
-        unlockedAt: new Date(),
-        points: 200
-      });
-    }
-    
-    // Add new achievements
-    if (achievements.length > 0) {
-      const updatedProgress = {
-        ...userProgress,
-        achievements: [...(userProgress.achievements || []), ...achievements],
-        lastAchievement: achievements[achievements.length - 1]
-      };
-      
-      set({ userProgress: updatedProgress });
-      
-      // Emit achievement events
-      achievements.forEach(achievement => {
-        get().emitEvent({
-          type: 'achievement_unlocked',
-          data: { achievement }
-        });
-      });
-      
-      // Save to Firebase
-      if (get().currentUserId) {
-        saveUserProgressToFirebase(get().currentUserId!, updatedProgress);
-      }
-    }
-  },
-
-  // Manually add achievement (for session-based achievements)
-  addAchievement: (achievement) => {
-    const { userProgress, currentUserId } = get();
-    
-    // Check if achievement already exists
-    const existingAchievement = (userProgress.achievements || []).find(a => a.id === achievement.id);
-    if (existingAchievement) {
-      return; // Achievement already unlocked
-    }
-    
-    // Create new achievement
-    const newAchievement: Achievement = {
-      ...achievement,
-      unlockedAt: new Date(),
-      points: achievement.points || 100
-    };
-    
-    const updatedProgress = {
-      ...userProgress,
-      achievements: [...(userProgress.achievements || []), newAchievement],
-      lastAchievement: newAchievement
-    };
-    
-    set({ userProgress: updatedProgress });
-    
-    // Emit achievement event
-    get().emitEvent({
-      type: 'achievement_unlocked',
-      data: { achievement: newAchievement }
-    });
-    
-    // Save to Firebase
-    if (currentUserId) {
-      saveUserProgressToFirebase(currentUserId, updatedProgress);
-    }
-  },
-
-  // Study session management
-  startStudySession: (cards, mode) => {
-    const session: StudySession = {
-      id: crypto.randomUUID(),
-      cards: [...cards],
-      currentCardIndex: 0,
-      startTime: new Date(),
-      mode,
-      results: [],
-    };
-    
-    set({ 
-      currentSession: session,
-      isStudying: true,
-      sessionStartTime: new Date(),
-      realTimeStats: {
-        sessionAccuracy: 0,
-        sessionCorrect: 0,
-        sessionTotal: 0,
-        sessionTime: 0
-      }
-    });
-    
-    // Start the real-time timer
-    get().startSessionTimer();
-    
-    // Emit session start event
-    get().emitEvent({
-      type: 'session_started',
-      data: { session, mode }
-    });
-  },
-  
-  endStudySession: async () => {
-    const { currentSession, userProgress, currentUserId, sessionStartTime } = get();
-    
-    if (!currentSession || !currentUserId) return;
-    
-    // Stop the timer
-    get().stopSessionTimer();
-    
-    const endTime = new Date();
-    const sessionTime = sessionStartTime ? 
-      Math.round((endTime.getTime() - sessionStartTime.getTime()) / 60000) : 0;
-    
-    // Calculate session statistics
-    const correctAnswers = currentSession.results.filter(
-      result => result.response === 'good' || result.response === 'easy'
-    ).length;
-    
-    const sessionAccuracy = currentSession.results.length > 0 ? 
-      (correctAnswers / currentSession.results.length) * 100 : 0;
-    
-    // Update user progress
-    const updatedProgress: UserProgress = {
-      ...userProgress,
-      totalStudyTime: userProgress.totalStudyTime + sessionTime,
-      cardsStudied: userProgress.cardsStudied + currentSession.results.length,
-      totalSessions: userProgress.totalSessions + 1,
-      averageSessionTime: userProgress.totalSessions > 0 ? 
-        Math.round((userProgress.totalStudyTime + sessionTime) / (userProgress.totalSessions + 1)) : 
-        sessionTime,
-      lastStudyDate: endTime,
-    };
-    
-    // Update overall accuracy
-    if (currentSession.results.length > 0) {
-      const totalCardsBeforeSession = userProgress.cardsStudied;
-      const totalCardsAfterSession = totalCardsBeforeSession + currentSession.results.length;
-      
-      if (totalCardsBeforeSession === 0) {
-        updatedProgress.accuracy = sessionAccuracy;
-      } else {
-        updatedProgress.accuracy = 
-          ((userProgress.accuracy * totalCardsBeforeSession) + 
-           (sessionAccuracy * currentSession.results.length)) / totalCardsAfterSession;
-      }
-    }
-    
-    // Update today's activity
-    const todaysActivity = get().getTodaysActivity() || createEmptyDailyActivity();
-    const updatedTodaysActivity: DailyActivity = {
-      ...todaysActivity,
-      studyTime: todaysActivity.studyTime + sessionTime,
-      cardsStudied: todaysActivity.cardsStudied + currentSession.results.length,
-      sessionsCompleted: todaysActivity.sessionsCompleted + 1,
-      averageAccuracy: todaysActivity.cardsStudied > 0 ?
-        ((todaysActivity.averageAccuracy * todaysActivity.cardsStudied) + 
-         (sessionAccuracy * currentSession.results.length)) / 
-        (todaysActivity.cardsStudied + currentSession.results.length) :
-        sessionAccuracy,
-      bestStreak: Math.max(todaysActivity.bestStreak, userProgress.currentStreak),
-    };
-    
-    // Update weekly progress
-    const { dailyActivities } = get();
-    const weeklyCards = dailyActivities
-      .filter(activity => {
-        const activityDate = new Date(activity.date);
-        const weekAgo = new Date();
-        weekAgo.setDate(weekAgo.getDate() - 7);
-        return activityDate >= weekAgo;
-      })
-      .reduce((sum, activity) => sum + activity.cardsStudied, 0) + currentSession.results.length;
-    
-    updatedProgress.weeklyProgress = weeklyCards;
-    
-    // Update store
-    set({ 
-      userProgress: updatedProgress,
-      currentSession: null,
-      isStudying: false,
-      sessionStartTime: null
-    });
-    
-    // Update today's activity
-    get().updateTodaysActivity(updatedTodaysActivity);
-    
-    // Calculate new streak
-    get().calculateStreak();
-    
-    // Update goal progress
-    get().updateGoalProgress();
-    
-    // Check for achievements
-    get().checkAchievements();
-    
-    // Update store state first
-    set({ userProgress: updatedProgress });
-    
-    // Save everything to Firebase
-    try {
-      await saveUserProgressToFirebase(currentUserId, updatedProgress);
-      await get().saveTodaysActivity();
-      
-      // Save study session to Firebase
-      const sessionData = {
-        userId: currentUserId,
-        startTime: sessionStartTime,
-        endTime: endTime,
-        mode: currentSession.mode,
-        totalCards: currentSession.results.length,
-        correctAnswers: correctAnswers,
-        accuracy: sessionAccuracy,
-        timeSpent: sessionTime,
-        results: currentSession.results
-      };
-      
-      await saveStudySessionToFirebase(sessionData);
-      console.log('✅ Study session saved to Firebase');
-    } catch (error) {
-      console.error('Error saving progress to Firebase:', error);
-    }
-    
-    // Emit session end event
-    get().emitEvent({
-      type: 'session_ended',
-      data: { 
-        sessionStats: {
-          cardsStudied: currentSession.results.length,
-          accuracy: sessionAccuracy,
-          timeSpent: sessionTime,
-          correct: correctAnswers,
-          total: currentSession.results.length
-        }
-      }
-    });
-  },
-
-  nextCard: () => {
-    const { currentSession } = get();
-    if (currentSession && currentSession.currentCardIndex < currentSession.cards.length - 1) {
-      set({
-        currentSession: {
-          ...currentSession,
-          currentCardIndex: currentSession.currentCardIndex + 1,
-        }
-      });
-    }
-  },
-  
-  previousCard: () => {
-    const { currentSession } = get();
-    if (currentSession && currentSession.currentCardIndex > 0) {
-      set({
-        currentSession: {
-          ...currentSession,
-          currentCardIndex: currentSession.currentCardIndex - 1,
-        }
-      });
-    }
-  },
-  
+  // ===== CRITICAL FIX: Enhanced answerCard with deck store persistence =====
   answerCard: (quality) => {
     const { currentSession, userProgress } = get();
     if (!currentSession) return;
     
     const currentCard = currentSession.cards[currentSession.currentCardIndex];
     if (!currentCard) return;
+    
+    console.log('📚 Processing card answer:', { cardId: currentCard.id, quality });
     
     // Create study result
     const result: StudyResult = {
@@ -905,7 +214,7 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
       timestamp: new Date(),
     };
     
-    // Update spaced repetition data
+    // Update spaced repetition data using SM-2 algorithm
     const sm2Result = calculateSM2(currentCard, quality);
     
     // Update card with new spaced repetition data
@@ -920,7 +229,90 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
       updatedAt: new Date(),
     };
     
-    // Update session
+    console.log('🔄 Updated card data:', {
+      cardId: updatedCard.id,
+      reviewCount: updatedCard.reviewCount,
+      successCount: updatedCard.successCount,
+      nextReview: updatedCard.nextReview,
+      interval: updatedCard.interval
+    });
+    
+    // ===== CRITICAL FIX: Persist changes to deck store =====
+    try {
+      console.log('🔗 Attempting to get deck store instance...');
+      const deckStore = get().getDeckStore();
+      
+      if (!deckStore) {
+        console.error('❌ Failed to get deck store instance!');
+        return;
+      }
+      
+      console.log('✅ Got deck store, searching for deck containing card...');
+      console.log('📊 Available decks:', deckStore.decks?.length || 0);
+      
+      const targetDeck = deckStore.decks.find((deck: any) => {
+        const hasCard = deck.cards.some((card: any) => card.id === currentCard.id);
+        if (hasCard) {
+          console.log('🎯 Found target deck:', deck.name, 'with', deck.cards.length, 'cards');
+        }
+        return hasCard;
+      });
+      
+      if (targetDeck) {
+        console.log('💾 Persisting card update to deck store...', {
+          deckId: targetDeck.id,
+          deckName: targetDeck.name,
+          cardId: currentCard.id,
+          updateData: {
+            reviewCount: updatedCard.reviewCount,
+            successCount: updatedCard.successCount,
+            nextReview: updatedCard.nextReview,
+            interval: updatedCard.interval
+          }
+        });
+        
+        // Check if updateCard method exists
+        if (typeof deckStore.updateCard === 'function') {
+          // Update the card in the deck store - this will trigger Firebase save
+          deckStore.updateCard(targetDeck.id, currentCard.id, {
+            ...sm2Result,
+            lastReviewed: new Date(),
+            reviewCount: updatedCard.reviewCount,
+            successCount: updatedCard.successCount,
+            updatedAt: new Date(),
+          });
+          
+          console.log('✅ Card successfully persisted to deck store!');
+          
+          // Force a small delay to allow state propagation
+          setTimeout(() => {
+            console.log('🔄 State should be updated now - checking...');
+            const updatedDeckStore = get().getDeckStore();
+            const updatedDeck = updatedDeckStore?.decks.find((d: any) => d.id === targetDeck.id);
+            const updatedCardCheck = updatedDeck?.cards.find((c: any) => c.id === currentCard.id);
+            console.log('📋 Updated card check:', {
+              reviewCount: updatedCardCheck?.reviewCount,
+              successCount: updatedCardCheck?.successCount,
+              nextReview: updatedCardCheck?.nextReview
+            });
+          }, 1000);
+          
+        } else {
+          console.error('❌ deckStore.updateCard is not a function!', typeof deckStore.updateCard);
+        }
+      } else {
+        console.warn('⚠️ Could not find deck containing card:', currentCard.id);
+        console.log('🔍 Available deck IDs and card counts:');
+        deckStore.decks.forEach((deck: any, index: number) => {
+          console.log(`  Deck ${index + 1}: ${deck.name} (${deck.cards.length} cards)`);
+        });
+      }
+    } catch (error) {
+      console.error('❌ Error persisting card update to deck store:', error);
+      console.error('Stack trace:', error instanceof Error ? error.stack : 'No stack trace available');
+    }
+
+    // Update session with updated card
     const updatedSession: StudySession = {
       ...currentSession,
       cards: currentSession.cards.map((card, index) =>
@@ -982,7 +374,8 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
         accuracy: sessionAccuracy, 
         correct: sessionCorrect, 
         total: sessionTotal,
-        cardId: currentCard.id
+        cardId: currentCard.id,
+        cardUpdated: true  // Flag indicating successful persistence
       }
     });
     
@@ -998,61 +391,470 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
     // Check for achievements in real-time
     get().checkAchievements();
     
+    console.log('🎯 Card answer processing complete - Due/Learned stats should update!');
+    
     // Auto-advance to next card
     setTimeout(() => {
       get().nextCard();
     }, 500);
   },
 
-  // Real-time session stats updates
-  updateSessionStats: () => {
-    const { currentSession, sessionStartTime } = get();
-    if (!currentSession || !sessionStartTime) return;
+  startStudySession: (cards, mode) => {
+    const sessionId = crypto.randomUUID();
+    const now = new Date();
     
-    const sessionTime = Math.round((new Date().getTime() - sessionStartTime.getTime()) / 60000);
-    const correct = currentSession.results.filter(r => r.response === 'good' || r.response === 'easy').length;
-    const total = currentSession.results.length;
-    const accuracy = total > 0 ? (correct / total) * 100 : 0;
-    
-    const realTimeStats = {
-      sessionAccuracy: accuracy,
-      sessionCorrect: correct,
-      sessionTotal: total,
-      sessionTime
+    const session: StudySession = {
+      id: sessionId,
+      cards: [...cards], // Create a copy to avoid mutations
+      currentCardIndex: 0,
+      startTime: now,
+      mode,
+      results: [],
     };
     
-    set({ realTimeStats });
+    set({ 
+      currentSession: session, 
+      isStudying: true,
+      sessionStartTime: now,
+      realTimeStats: {
+        sessionAccuracy: 0,
+        sessionCorrect: 0,
+        sessionTotal: 0,
+        sessionTime: 0,
+      }
+    });
     
-    // Update today's activity with current session time
-    const todaysActivity = get().getTodaysActivity();
-    if (todaysActivity) {
-      const updatedActivity = {
-        ...todaysActivity,
-        studyTime: todaysActivity.studyTime + sessionTime
+    // Start session timer
+    get().startSessionTimer();
+    
+    // Update today's activity
+    const todaysActivity = get().getTodaysActivity() || createEmptyDailyActivity();
+    get().updateTodaysActivity({
+      ...todaysActivity,
+      sessionsCompleted: todaysActivity.sessionsCompleted + 1,
+    });
+    
+    // Emit session started event
+    get().emitEvent({
+      type: 'session_started',
+      data: { sessionId, cardCount: cards.length, mode }
+    });
+    
+    console.log('🚀 Study session started:', { sessionId, cardCount: cards.length, mode });
+  },
+
+  endStudySession: () => {
+    const { currentSession, realTimeStats } = get();
+    if (!currentSession) return;
+    
+    // Stop session timer
+    get().stopSessionTimer();
+    
+    const sessionDuration = Math.round((new Date().getTime() - currentSession.startTime.getTime()) / 60000);
+    
+    // Update user progress
+    const updatedProgress = {
+      ...get().userProgress,
+      totalStudyTime: get().userProgress.totalStudyTime + sessionDuration,
+      totalSessions: get().userProgress.totalSessions + 1,
+      averageSessionTime: Math.round(
+        (get().userProgress.averageSessionTime * get().userProgress.totalSessions + sessionDuration) / 
+        (get().userProgress.totalSessions + 1)
+      ),
+      lastStudyDate: new Date(),
+    };
+    
+    set({ userProgress: updatedProgress });
+    
+    // Update today's activity
+    const todaysActivity = get().getTodaysActivity() || createEmptyDailyActivity();
+    get().updateTodaysActivity({
+      ...todaysActivity,
+      studyTime: todaysActivity.studyTime + sessionDuration,
+    });
+    
+    // Save session to Firebase (async)
+    const { currentUserId } = get();
+    if (currentUserId && currentSession) {
+      const sessionToSave = {
+        ...currentSession,
+        endTime: new Date(),
       };
+      saveStudySessionToFirebase(sessionToSave).catch(error => {
+        console.error('Error saving study session to Firebase:', error);
+      });
+    }
+    
+    // Save updated progress
+    get().updateProgress(updatedProgress);
+    
+    // Clear session
+    set({ 
+      currentSession: null, 
+      isStudying: false,
+      sessionStartTime: null,
+      realTimeStats: {
+        sessionAccuracy: 0,
+        sessionCorrect: 0,
+        sessionTotal: 0,
+        sessionTime: 0,
+      }
+    });
+    
+    // Emit session ended event
+    get().emitEvent({
+      type: 'session_ended',
+      data: { 
+        duration: sessionDuration, 
+        cardsStudied: currentSession.results.length,
+        accuracy: realTimeStats.sessionAccuracy 
+      }
+    });
+    
+    console.log('🏁 Study session ended:', { 
+      duration: sessionDuration, 
+      cardsStudied: currentSession.results.length,
+      accuracy: Math.round(realTimeStats.sessionAccuracy)
+    });
+  },
+
+  nextCard: () => {
+    const { currentSession } = get();
+    if (currentSession && currentSession.currentCardIndex < currentSession.cards.length - 1) {
+      set({
+        currentSession: {
+          ...currentSession,
+          currentCardIndex: currentSession.currentCardIndex + 1,
+        }
+      });
+    }
+  },
+
+  previousCard: () => {
+    const { currentSession } = get();
+    if (currentSession && currentSession.currentCardIndex > 0) {
+      set({
+        currentSession: {
+          ...currentSession,
+          currentCardIndex: currentSession.currentCardIndex - 1,
+        }
+      });
+    }
+  },
+
+  // Timer management
+  startSessionTimer: () => {
+    const timer = setInterval(() => {
+      const { sessionStartTime } = get();
+      if (sessionStartTime) {
+        const sessionTime = Math.round((new Date().getTime() - sessionStartTime.getTime()) / 60000);
+        set(state => ({
+          realTimeStats: {
+            ...state.realTimeStats,
+            sessionTime
+          }
+        }));
+      }
+    }, 60000); // Update every minute
+    
+    set({ sessionTimer: timer });
+  },
+
+  stopSessionTimer: () => {
+    const { sessionTimer } = get();
+    if (sessionTimer) {
+      clearInterval(sessionTimer);
+      set({ sessionTimer: null });
+    }
+  },
+
+  // User progress management
+  setUserId: (userId) => {
+    set({ currentUserId: userId });
+    if (userId) {
+      get().loadUserProgress(userId);
+      get().loadDailyActivities();
+      get().setupRealtimeListeners();
+    } else {
+      set({ 
+        userProgress: defaultProgress, 
+        dailyActivities: [],
+        currentSession: null,
+        isStudying: false
+      });
+      get().cleanupRealtimeListeners();
+    }
+  },
+
+  loadUserProgress: async (userId) => {
+    const targetUserId = userId || get().currentUserId;
+    if (!targetUserId) return;
+    
+    set({ isLoading: true });
+    
+    try {
+      const progress = await loadUserProgressFromFirebase(targetUserId);
+      set({ userProgress: progress || defaultProgress });
+    } catch (error) {
+      console.error('Error loading user progress:', error);
+      set({ userProgress: defaultProgress });
+    } finally {
+      set({ isLoading: false });
+    }
+  },
+
+  updateProgress: (updates) => {
+    const { currentUserId } = get();
+    const updatedProgress = { ...get().userProgress, ...updates };
+    
+    set({ userProgress: updatedProgress });
+    
+    // Save to Firebase asynchronously
+    if (currentUserId) {
+      saveUserProgressToFirebase(currentUserId, updatedProgress).catch(error => {
+        console.error('Error saving user progress:', error);
+      });
+    }
+  },
+
+  // Daily activity management
+  getTodaysActivity: () => {
+    const today = getCurrentDateString();
+    return get().dailyActivities.find(activity => activity.date === today) || null;
+  },
+
+  updateTodaysActivity: (updates) => {
+    const today = getCurrentDateString();
+    const currentActivities = get().dailyActivities;
+    const existingIndex = currentActivities.findIndex(activity => activity.date === today);
+    
+    let updatedActivities;
+    if (existingIndex >= 0) {
+      updatedActivities = currentActivities.map((activity, index) =>
+        index === existingIndex ? { ...activity, ...updates } : activity
+      );
+    } else {
+      const newActivity = { ...createEmptyDailyActivity(), ...updates };
+      updatedActivities = [...currentActivities, newActivity];
+    }
+    
+    set({ dailyActivities: updatedActivities });
+    
+    // Emit event
+    get().emitEvent({
+      type: 'daily_activity_updated',
+      data: updates
+    });
+  },
+
+  saveTodaysActivity: async () => {
+    const { currentUserId } = get();
+    const todaysActivity = get().getTodaysActivity();
+    
+    if (currentUserId && todaysActivity) {
+      try {
+        await saveDailyActivityToFirebase(currentUserId, todaysActivity);
+      } catch (error) {
+        console.error('Error saving daily activity:', error);
+      }
+    }
+  },
+
+  loadDailyActivities: async () => {
+    const { currentUserId } = get();
+    if (!currentUserId) return;
+    
+    try {
+      const activities = await loadDailyActivitiesFromFirebase(currentUserId);
+      set({ dailyActivities: activities });
+    } catch (error) {
+      console.error('Error loading daily activities:', error);
+    }
+  },
+
+  // Real-time synchronization
+  setupRealtimeListeners: () => {
+    const { currentUserId } = get();
+    if (!currentUserId) return;
+    
+    try {
+      // Subscribe to user progress updates
+      const progressUnsubscribe = subscribeToUserProgress(currentUserId, (progress) => {
+        if (progress) {
+          set({ userProgress: progress });
+        }
+      });
       
-      // Don't emit event for time updates to avoid spam
-      const { dailyActivities } = get();
-      const today = getTodayString();
-      const existingActivityIndex = dailyActivities.findIndex(activity => activity.date === today);
+      // Subscribe to daily activities updates
+      const activitiesUnsubscribe = subscribeToDailyActivities(currentUserId, (activities) => {
+        set({ dailyActivities: activities });
+      });
       
-      if (existingActivityIndex >= 0) {
-        const updatedActivities = [...dailyActivities];
-        updatedActivities[existingActivityIndex] = updatedActivity;
-        set({ dailyActivities: updatedActivities });
+      // Store unsubscribe functions
+      set({ 
+        firebaseUnsubscribers: [progressUnsubscribe, activitiesUnsubscribe] 
+      });
+    } catch (error) {
+      console.error('Error setting up realtime listeners:', error);
+    }
+  },
+
+  cleanupRealtimeListeners: () => {
+    const { firebaseUnsubscribers } = get();
+    firebaseUnsubscribers.forEach(unsubscribe => {
+      if (typeof unsubscribe === 'function') {
+        unsubscribe();
+      }
+    });
+    set({ firebaseUnsubscribers: [] });
+  },
+
+  // Achievement system
+  calculateStreak: () => {
+    const { dailyActivities } = get();
+    if (dailyActivities.length === 0) return 0;
+    
+    const sortedActivities = dailyActivities
+      .filter(activity => activity.cardsStudied > 0)
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    
+    if (sortedActivities.length === 0) return 0;
+    
+    let streak = 0;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    for (let i = 0; i < sortedActivities.length; i++) {
+      const activityDate = new Date(sortedActivities[i].date);
+      const expectedDate = new Date(today);
+      expectedDate.setDate(today.getDate() - i);
+      
+      if (activityDate.getTime() === expectedDate.getTime()) {
+        streak++;
+      } else {
+        break;
       }
     }
     
-    // Emit time update event for dashboard
-    get().emitEvent({
-      type: 'time_updated',
-      data: { 
-        sessionTime,
-        sessionStats: realTimeStats
+    return streak;
+  },
+
+  updateGoalProgress: () => {
+    const { userProgress } = get();
+    const todaysActivity = get().getTodaysActivity();
+    
+    if (userProgress.currentGoal && todaysActivity) {
+      const current = todaysActivity.cardsStudied;
+      const target = userProgress.currentGoal.target;
+      const progress = Math.min(100, (current / target) * 100);
+      
+      const updatedGoal = {
+        ...userProgress.currentGoal,
+        current
+      };
+      
+      get().updateProgress({
+        currentGoal: updatedGoal,
+        goalProgress: progress
+      });
+      
+      // Check if goal completed
+      if (current >= target && !userProgress.currentGoal.isActive) {
+        get().emitEvent({
+          type: 'goal_completed',
+          data: { goal: updatedGoal }
+        });
       }
+      
+      // Emit progress update
+      get().emitEvent({
+        type: 'goal_progress_updated',
+        data: { progress, current, target }
+      });
+    }
+  },
+
+  checkAchievements: () => {
+    const { userProgress } = get();
+    const newAchievements: Achievement[] = [];
+    
+    // Check for streak achievements
+    const currentStreak = get().calculateStreak();
+    if (currentStreak >= 7 && !userProgress.achievements.some(a => a.id === 'streak-7')) {
+      newAchievements.push({
+        id: 'streak-7',
+        title: 'Week Warrior',
+        description: 'Study for 7 days in a row',
+        icon: 'flame',
+        category: 'streak',
+        unlockedAt: new Date(),
+        points: 100
+      });
+    }
+    
+    // Check for accuracy achievements  
+    if (userProgress.accuracy >= 90 && !userProgress.achievements.some(a => a.id === 'accuracy-90')) {
+      newAchievements.push({
+        id: 'accuracy-90',
+        title: 'Precision Master',
+        description: 'Achieve 90% accuracy',
+        icon: 'target',
+        category: 'accuracy',
+        unlockedAt: new Date(),
+        points: 150
+      });
+    }
+    
+    // Check for volume achievements
+    if (userProgress.cardsStudied >= 100 && !userProgress.achievements.some(a => a.id === 'cards-100')) {
+      newAchievements.push({
+        id: 'cards-100',
+        title: 'Centurion',
+        description: 'Study 100 cards',
+        icon: 'book-open',
+        category: 'volume',
+        unlockedAt: new Date(),
+        points: 75
+      });
+    }
+    
+    // Add new achievements
+    if (newAchievements.length > 0) {
+      const updatedAchievements = [...userProgress.achievements, ...newAchievements];
+      get().updateProgress({ 
+        achievements: updatedAchievements,
+        lastAchievement: newAchievements[newAchievements.length - 1]
+      });
+      
+      // Emit achievement events
+      newAchievements.forEach(achievement => {
+        get().emitEvent({
+          type: 'achievement_unlocked',
+          data: achievement
+        });
+      });
+    }
+  },
+
+  addAchievement: (achievement) => {
+    const { userProgress } = get();
+    const newAchievement: Achievement = {
+      ...achievement,
+      unlockedAt: new Date()
+    };
+    
+    const updatedAchievements = [...userProgress.achievements, newAchievement];
+    get().updateProgress({ 
+      achievements: updatedAchievements,
+      lastAchievement: newAchievement
+    });
+    
+    get().emitEvent({
+      type: 'achievement_unlocked',
+      data: newAchievement
     });
   },
-  
+
   // Utility functions
   getCurrentCard: () => {
     const { currentSession } = get();
@@ -1060,20 +862,43 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
     
     return currentSession.cards[currentSession.currentCardIndex] || null;
   },
-  
+
   getSessionStats: () => {
-    const { currentSession, realTimeStats } = get();
-    if (!currentSession) {
-      return { correct: 0, total: 0, accuracy: 0, timeSpent: 0 };
-    }
-    
-    // Use real-time stats for immediate updates
+    const { realTimeStats } = get();
     return {
       correct: realTimeStats.sessionCorrect,
       total: realTimeStats.sessionTotal,
       accuracy: realTimeStats.sessionAccuracy,
       timeSpent: realTimeStats.sessionTime
     };
+  },
+
+  // Enhanced session stats updates
+  updateSessionStats: () => {
+    const { currentSession, sessionStartTime } = get();
+    if (!currentSession || !sessionStartTime) return;
+    
+    const sessionCorrect = currentSession.results.filter(r => 
+      r.response === 'good' || r.response === 'easy'
+    ).length;
+    const sessionTotal = currentSession.results.length;
+    const sessionAccuracy = sessionTotal > 0 ? (sessionCorrect / sessionTotal) * 100 : 0;
+    const sessionTime = Math.round((new Date().getTime() - sessionStartTime.getTime()) / 60000);
+    
+    set({
+      realTimeStats: {
+        sessionAccuracy,
+        sessionCorrect,
+        sessionTotal,
+        sessionTime
+      }
+    });
+    
+    // Emit real-time stats update
+    get().emitEvent({
+      type: 'time_updated',
+      data: { sessionTime, accuracy: sessionAccuracy }
+    });
   },
 }));
 
@@ -1083,3 +908,5 @@ if (typeof window !== 'undefined') {
     useStudyStore.getState().cleanupRealtimeListeners();
   });
 }
+
+console.log('🎓 Enhanced StudyStore initialized with Due/Learned statistics fix!');

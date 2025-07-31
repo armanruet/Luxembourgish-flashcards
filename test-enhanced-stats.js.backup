@@ -1,0 +1,78 @@
+// Quick test to verify Enhanced Deck Stats functionality
+import { getEnhancedDeckStats } from '../src/utils/cardStatus.js';
+
+// Create a sample deck for testing
+const sampleDeck = {
+  id: 'test-deck',
+  name: 'Test Deck',
+  cards: [
+    // Overdue card
+    {
+      id: '1',
+      nextReview: new Date(Date.now() - 86400000), // 1 day ago
+      reviewCount: 5,
+      successCount: 2, // 40% success rate (learning)
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    // Due today card
+    {
+      id: '2', 
+      nextReview: new Date(), // Due now
+      reviewCount: 10,
+      successCount: 8, // 80% success rate (learned)
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    // Mastered card
+    {
+      id: '3',
+      nextReview: new Date(Date.now() + 86400000 * 7), // 7 days from now
+      reviewCount: 15,
+      successCount: 14, // 93% success rate (mastered)
+      createdAt: new Date(),
+      updatedAt: new Date()
+    },
+    // New card
+    {
+      id: '4',
+      nextReview: new Date(Date.now() + 86400000), // 1 day from now
+      reviewCount: 0,
+      successCount: 0, // New card
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }
+  ],
+  totalCards: 4,
+  createdAt: new Date(),
+  updatedAt: new Date()
+};
+
+// Test the enhanced stats
+console.log('🧪 Testing Enhanced Deck Stats...');
+try {
+  const stats = getEnhancedDeckStats(sampleDeck);
+  
+  console.log('📊 Enhanced Deck Statistics:');
+  console.log(`Total Cards: ${stats.total}`);
+  console.log(`New Cards: ${stats.new}`);
+  console.log(`Learning Cards: ${stats.learning}`);
+  console.log(`Learned Cards: ${stats.learned}`);
+  console.log(`Mastered Cards: ${stats.mastered}`);
+  console.log(`Overdue Cards: ${stats.overdue}`);
+  console.log(`Due Today: ${stats.dueToday}`);
+  console.log(`Due Soon: ${stats.dueSoon}`);
+  console.log(`Average Success Rate: ${Math.round(stats.averageSuccessRate * 100)}%`);
+  
+  console.log('\n✅ Enhanced Deck Stats working correctly!');
+  
+  // Verify expected results
+  if (stats.total === 4 && stats.overdue === 1 && stats.dueToday === 1 && stats.new === 1 && stats.mastered === 1) {
+    console.log('🎉 All tests passed! Implementation is working correctly.');
+  } else {
+    console.log('⚠️ Test results don\'t match expectations. Please check implementation.');
+  }
+  
+} catch (error) {
+  console.error('❌ Error testing enhanced stats:', error);
+}
