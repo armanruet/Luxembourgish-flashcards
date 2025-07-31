@@ -1,7 +1,6 @@
 import { create } from 'zustand';
 import { StudySession, StudyMode, Flashcard, ResponseQuality, StudyResult, UserProgress, DailyActivity, Achievement } from '@/types';
 import { calculateSM2 } from '@/utils/spacedRepetition';
-import { useDeckStore } from '@/store/deckStore';
 import { 
   saveUserProgressToFirebase, 
   loadUserProgressFromFirebase,
@@ -50,6 +49,9 @@ interface StudyStore {
   // Event system for real-time updates
   eventListeners: ((event: StudyEventData) => void)[];
   
+  // Cross-store communication
+  getDeckStore: () => any;
+  
   // Session actions
   startStudySession: (cards: Flashcard[], mode: StudyMode) => void;
   endStudySession: () => void;
@@ -92,7 +94,6 @@ interface StudyStore {
     timeSpent: number;
   };
 }
-
 const defaultProgress: UserProgress = {
   totalStudyTime: 0,
   cardsStudied: 0,
@@ -157,6 +158,28 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
   },
   eventListeners: [],
 
+  // Helper function to get deck store instance
+  getDeckStore: () => {
+    // Use window-level access to avoid circular dependency issues
+    if (typeof window !== 'undefined' && (window as any).deckStoreInstance) {
+      return (window as any).deckStoreInstance;
+    }
+    
+    // Fallback to dynamic import
+    try {
+      const { useDeckStore } = require('@/store/deckStore');  
+      const instance = useDeckStore.getState();
+      // Cache for future use
+      if (typeof window !== 'undefined') {
+        (window as any).deckStoreInstance = instance;
+      }
+      return instance;
+    } catch (error) {
+      console.error('❌ Failed to access deck store:', error);
+      return null;
+    }
+  },
+
   // Event system for real-time updates
   emitEvent: (event) => {
     get().eventListeners.forEach(listener => listener(event));
@@ -173,7 +196,7 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
     };
   },
 
-  // ===== ENHANCED: Simplified and Robust answerCard function =====
+  // ===== CRITICAL FIX: Enhanced answerCard with deck store persistence =====
   answerCard: (quality) => {
     const { currentSession, userProgress } = get();
     if (!currentSession) return;
@@ -214,47 +237,79 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
       interval: updatedCard.interval
     });
     
-    // ===== SIMPLIFIED: Direct deck store access =====
+    // ===== CRITICAL FIX: Persist changes to deck store =====
     try {
-      console.log('💾 Updating card in deck store...');
+      console.log('🔗 Attempting to get deck store instance...');
+      const deckStore = get().getDeckStore();
       
-      // Find the deck containing this card
-      const deckStore = useDeckStore.getState();
-      const targetDeck = deckStore.decks.find(deck => 
-        deck.cards.some(card => card.id === currentCard.id)
-      );
-      
-      if (targetDeck) {
-        console.log('🎯 Found target deck:', targetDeck.name);
-        
-        // Update the card in the deck store (async, but don't await for immediate UI response)
-        deckStore.updateCard(targetDeck.id, currentCard.id, {
-          ...sm2Result,
-          lastReviewed: new Date(),
-          reviewCount: updatedCard.reviewCount,
-          successCount: updatedCard.successCount,
-          updatedAt: new Date(),
-        }).then(() => {
-          console.log('✅ Card update completed successfully!');
-          
-          // Trigger deck statistics recalculation after successful save
-          setTimeout(() => {
-            console.log('🔄 Triggering deck statistics refresh...');
-            // This will cause components to re-render with updated stats
-            deckStore.loadDecks();
-          }, 100);
-        }).catch((error) => {
-          console.error('❌ Error updating card:', error);
-        });
-        
-        console.log('✅ Card update initiated');
-        
-      } else {
-        console.warn('⚠️ Could not find deck containing card:', currentCard.id);
+      if (!deckStore) {
+        console.error('❌ Failed to get deck store instance!');
+        return;
       }
       
+      console.log('✅ Got deck store, searching for deck containing card...');
+      console.log('📊 Available decks:', deckStore.decks?.length || 0);
+      
+      const targetDeck = deckStore.decks.find((deck: any) => {
+        const hasCard = deck.cards.some((card: any) => card.id === currentCard.id);
+        if (hasCard) {
+          console.log('🎯 Found target deck:', deck.name, 'with', deck.cards.length, 'cards');
+        }
+        return hasCard;
+      });
+      
+      if (targetDeck) {
+        console.log('💾 Persisting card update to deck store...', {
+          deckId: targetDeck.id,
+          deckName: targetDeck.name,
+          cardId: currentCard.id,
+          updateData: {
+            reviewCount: updatedCard.reviewCount,
+            successCount: updatedCard.successCount,
+            nextReview: updatedCard.nextReview,
+            interval: updatedCard.interval
+          }
+        });
+        
+        // Check if updateCard method exists
+        if (typeof deckStore.updateCard === 'function') {
+          // Update the card in the deck store - this will trigger Firebase save
+          deckStore.updateCard(targetDeck.id, currentCard.id, {
+            ...sm2Result,
+            lastReviewed: new Date(),
+            reviewCount: updatedCard.reviewCount,
+            successCount: updatedCard.successCount,
+            updatedAt: new Date(),
+          });
+          
+          console.log('✅ Card successfully persisted to deck store!');
+          
+          // Force a small delay to allow state propagation
+          setTimeout(() => {
+            console.log('🔄 State should be updated now - checking...');
+            const updatedDeckStore = get().getDeckStore();
+            const updatedDeck = updatedDeckStore?.decks.find((d: any) => d.id === targetDeck.id);
+            const updatedCardCheck = updatedDeck?.cards.find((c: any) => c.id === currentCard.id);
+            console.log('📋 Updated card check:', {
+              reviewCount: updatedCardCheck?.reviewCount,
+              successCount: updatedCardCheck?.successCount,
+              nextReview: updatedCardCheck?.nextReview
+            });
+          }, 1000);
+          
+        } else {
+          console.error('❌ deckStore.updateCard is not a function!', typeof deckStore.updateCard);
+        }
+      } else {
+        console.warn('⚠️ Could not find deck containing card:', currentCard.id);
+        console.log('🔍 Available deck IDs and card counts:');
+        deckStore.decks.forEach((deck: any, index: number) => {
+          console.log(`  Deck ${index + 1}: ${deck.name} (${deck.cards.length} cards)`);
+        });
+      }
     } catch (error) {
-      console.error('❌ Error updating card:', error);
+      console.error('❌ Error persisting card update to deck store:', error);
+      console.error('Stack trace:', error instanceof Error ? error.stack : 'No stack trace available');
     }
 
     // Update session with updated card
@@ -320,7 +375,7 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
         correct: sessionCorrect, 
         total: sessionTotal,
         cardId: currentCard.id,
-        cardUpdated: true
+        cardUpdated: true  // Flag indicating successful persistence
       }
     });
     
@@ -433,15 +488,6 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
     // Save updated progress
     get().updateProgress(updatedProgress);
     
-    // ===== ENHANCED: Trigger deck refresh after session =====
-    try {
-      console.log('🔄 Refreshing deck statistics after session end...');
-      const deckStore = useDeckStore.getState();
-      deckStore.loadDecks();
-    } catch (error) {
-      console.error('Error refreshing decks:', error);
-    }
-    
     // Clear session
     set({ 
       currentSession: null, 
@@ -465,7 +511,11 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
       }
     });
     
-    console.log('🏁 Study session ended - deck stats should be refreshed!');
+    console.log('🏁 Study session ended:', { 
+      duration: sessionDuration, 
+      cardsStudied: currentSession.results.length,
+      accuracy: Math.round(realTimeStats.sessionAccuracy)
+    });
   },
 
   nextCard: () => {
@@ -597,7 +647,6 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
     });
   },
 
-  // Utility functions and remaining methods
   saveTodaysActivity: async () => {
     const { currentUserId } = get();
     const todaysActivity = get().getTodaysActivity();
@@ -623,7 +672,7 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
     }
   },
 
-  // Real-time synchronization
+  // Real-time synchronization with data protection
   setupRealtimeListeners: () => {
     const { currentUserId } = get();
     if (!currentUserId) return;
@@ -631,6 +680,7 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
     try {
       console.log('🔄 Setting up real-time listeners for user:', currentUserId);
       
+      // Subscribe to user progress updates
       const progressUnsubscribe = subscribeToUserProgress(currentUserId, (progress) => {
         if (progress) {
           console.log('📊 Real-time progress update received');
@@ -638,11 +688,13 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
         }
       });
       
+      // Subscribe to daily activities updates with error handling
       const activitiesUnsubscribe = subscribeToDailyActivities(currentUserId, (activities) => {
         console.log('📅 Real-time activities update received:', activities.length, 'activities');
         set({ dailyActivities: activities });
       });
       
+      // Store unsubscribe functions
       set({ 
         firebaseUnsubscribers: [progressUnsubscribe, activitiesUnsubscribe] 
       });
@@ -650,6 +702,10 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
       console.log('✅ Real-time listeners set up successfully');
     } catch (error) {
       console.error('❌ Error setting up realtime listeners:', error);
+      // Don't fail silently - this might be causing permission issues
+      if (error && typeof error === 'object' && 'code' in error && (error as any).code === 'permission-denied') {
+        console.error('🚨 Permission denied - check Firebase rules for dailyActivities collection');
+      }
     }
   },
 
@@ -712,6 +768,7 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
         goalProgress: progress
       });
       
+      // Check if goal completed
       if (current >= target && !userProgress.currentGoal.isActive) {
         get().emitEvent({
           type: 'goal_completed',
@@ -719,6 +776,7 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
         });
       }
       
+      // Emit progress update
       get().emitEvent({
         type: 'goal_progress_updated',
         data: { progress, current, target }
@@ -730,6 +788,7 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
     const { userProgress } = get();
     const newAchievements: Achievement[] = [];
     
+    // Check for streak achievements
     const currentStreak = get().calculateStreak();
     if (currentStreak >= 7 && !userProgress.achievements.some(a => a.id === 'streak-7')) {
       newAchievements.push({
@@ -743,6 +802,7 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
       });
     }
     
+    // Check for accuracy achievements  
     if (userProgress.accuracy >= 90 && !userProgress.achievements.some(a => a.id === 'accuracy-90')) {
       newAchievements.push({
         id: 'accuracy-90',
@@ -755,6 +815,7 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
       });
     }
     
+    // Check for volume achievements
     if (userProgress.cardsStudied >= 100 && !userProgress.achievements.some(a => a.id === 'cards-100')) {
       newAchievements.push({
         id: 'cards-100',
@@ -767,6 +828,7 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
       });
     }
     
+    // Add new achievements
     if (newAchievements.length > 0) {
       const updatedAchievements = [...userProgress.achievements, ...newAchievements];
       get().updateProgress({ 
@@ -774,6 +836,7 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
         lastAchievement: newAchievements[newAchievements.length - 1]
       });
       
+      // Emit achievement events
       newAchievements.forEach(achievement => {
         get().emitEvent({
           type: 'achievement_unlocked',
@@ -820,6 +883,7 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
     };
   },
 
+  // Enhanced session stats updates
   updateSessionStats: () => {
     const { currentSession, sessionStartTime } = get();
     if (!currentSession || !sessionStartTime) return;
@@ -840,6 +904,7 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
       }
     });
     
+    // Emit real-time stats update
     get().emitEvent({
       type: 'time_updated',
       data: { sessionTime, accuracy: sessionAccuracy }
@@ -854,4 +919,4 @@ if (typeof window !== 'undefined') {
   });
 }
 
-console.log('🎓 Enhanced StudyStore initialized with simplified Due/Learned fix!');
+console.log('🎓 Enhanced StudyStore initialized with Due/Learned statistics fix!');

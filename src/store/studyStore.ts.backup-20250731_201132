@@ -227,27 +227,23 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
       if (targetDeck) {
         console.log('🎯 Found target deck:', targetDeck.name);
         
-        // Update the card in the deck store (async, but don't await for immediate UI response)
-        deckStore.updateCard(targetDeck.id, currentCard.id, {
+        // Update the card in the deck store
+        await deckStore.updateCard(targetDeck.id, currentCard.id, {
           ...sm2Result,
           lastReviewed: new Date(),
           reviewCount: updatedCard.reviewCount,
           successCount: updatedCard.successCount,
           updatedAt: new Date(),
-        }).then(() => {
-          console.log('✅ Card update completed successfully!');
-          
-          // Trigger deck statistics recalculation after successful save
-          setTimeout(() => {
-            console.log('🔄 Triggering deck statistics refresh...');
-            // This will cause components to re-render with updated stats
-            deckStore.loadDecks();
-          }, 100);
-        }).catch((error) => {
-          console.error('❌ Error updating card:', error);
         });
         
-        console.log('✅ Card update initiated');
+        console.log('✅ Card update completed successfully!');
+        
+        // Trigger deck statistics recalculation
+        setTimeout(() => {
+          console.log('🔄 Triggering deck statistics refresh...');
+          // This will cause components to re-render with updated stats
+          deckStore.loadDecks();
+        }, 100);
         
       } else {
         console.warn('⚠️ Could not find deck containing card:', currentCard.id);

@@ -13,7 +13,7 @@ import {
   saveUserDecksBatch
 } from '@/services/batchFirestoreService';
 
-interface DeckStore {
+interface EnhancedDeckStore {
   decks: Deck[];
   currentDeck: Deck | null;
   currentUserId: string | null;
@@ -73,10 +73,13 @@ interface DeckStore {
 
 // ===== ENHANCED: Dynamic statistics calculation helper =====
 const calculateDeckStats = (cards: Flashcard[]) => {
+  const now = new Date();
   let newCards = 0;
+  let reviewCards = 0; 
   let learnedCards = 0;
   
   cards.forEach(card => {
+    const dueStatus = getDueStatus(card);
     const learnedStatus = getLearnedStatus(card);
     
     // New cards: never been reviewed
@@ -84,26 +87,27 @@ const calculateDeckStats = (cards: Flashcard[]) => {
       newCards++;
     }
     
-    // Learned cards: good success rate (80% or higher)
+    // Review cards: due for review (this is what shows as "Due")
+    if (dueStatus.isOverdue || dueStatus.isDueToday) {
+      reviewCards++;
+    }
+    
+    // Learned cards: good success rate
     if (learnedStatus.isLearned) {
       learnedCards++;
     }
   });
   
-  // Due cards = Total cards minus learned cards
-  // This includes both new cards and cards that need review
-  const dueCards = cards.length - learnedCards;
-  
   return {
     totalCards: cards.length,
     newCards,
-    reviewCards: dueCards - newCards, // Cards that have been studied but need review
+    reviewCards,
     learnedCards,
-    dueCards, // Simple: total - learned
+    dueCards: newCards + reviewCards, // Total "Due" = new + review cards
   };
 };
 
-export const useDeckStore = create<DeckStore>((set, get) => ({
+export const useDeckStore = create<EnhancedDeckStore>((set, get) => ({
   decks: [],
   currentDeck: null,
   currentUserId: null,
@@ -424,18 +428,8 @@ export const useDeckStore = create<DeckStore>((set, get) => ({
 
   // Content migration actions (keeping existing implementation)
   checkForContentUpdates: async () => {
-    const { currentUserId } = get();
-    if (!currentUserId) {
-      return {
-        hasUpdates: false,
-        newDecks: 0,
-        updatedDecks: 0,
-        newCards: 0,
-      };
-    }
-    
     try {
-      const summary = await getContentUpdateSummary(currentUserId);
+      const summary = await getContentUpdateSummary();
       return summary;
     } catch (error) {
       console.error('Error checking for content updates:', error);
@@ -456,13 +450,13 @@ export const useDeckStore = create<DeckStore>((set, get) => ({
       console.log('🔄 Starting content migration...');
       const migrationResult = await checkAndMigrateUserContent(currentUserId);
       
-      if (migrationResult) {
+      if (migrationResult.success) {
         console.log('✅ Migration completed successfully');
         // Reload decks after migration
         await get().loadDecks();
         return true;
       } else {
-        console.error('❌ Migration failed');
+        console.error('❌ Migration failed:', migrationResult.error);
         return false;
       }
     } catch (error) {
