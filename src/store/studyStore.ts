@@ -178,6 +178,17 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
     const { currentSession, userProgress } = get();
     if (!currentSession) return;
     
+    // Prevent multiple rapid calls
+    if (currentSession.isProcessingAnswer) return;
+    
+    // Mark as processing
+    set({ 
+      currentSession: {
+        ...currentSession,
+        isProcessingAnswer: true
+      }
+    });
+    
     const currentCard = currentSession.cards[currentSession.currentCardIndex];
     if (!currentCard) return;
     
@@ -341,6 +352,16 @@ export const useStudyStore = create<StudyStore>((set, get) => ({
     // Auto-advance to next card
     setTimeout(() => {
       get().nextCard();
+      // Reset processing state
+      const currentSession = get().currentSession;
+      if (currentSession) {
+        set({
+          currentSession: {
+            ...currentSession,
+            isProcessingAnswer: false
+          }
+        });
+      }
     }, 500);
   },
 

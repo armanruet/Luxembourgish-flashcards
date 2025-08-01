@@ -4682,7 +4682,7 @@ export const initialDecks: Deck[] = [
     },
     {
       "id": "cat1-14",
-      "luxembourgish": "D'Leit gesinn glécklech aus",
+      "luxembourgish": "D'Leit gesi glécklech aus",
       "english": "The people look happy",
       "pronunciation": "d-lait ge-SIN glek-lech ous",
       "category": "opening-phrases-framework",

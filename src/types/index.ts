@@ -33,6 +33,7 @@ export interface StudySession {
   endTime?: Date;
   mode: StudyMode;
   results: StudyResult[];
+  isProcessingAnswer?: boolean;
 }
 
 export interface StudyResult {

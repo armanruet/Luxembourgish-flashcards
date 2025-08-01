@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -47,6 +47,9 @@ const StudySession: React.FC = () => {
   const [previousStats, setPreviousStats] = useState({ accuracy: 0, correct: 0, total: 0 });
   const [unlockedAchievements, setUnlockedAchievements] = useState<Set<string>>(new Set());
   const [settings] = useState(() => loadAppSettings());
+  const [isProcessingAnswer, setIsProcessingAnswer] = useState(false);
+  const isProcessingRef = useRef(false);
+  const lastAnswerTimeRef = useRef(0);
 
   const currentDeck = deckId ? getDeckById(deckId) : null;
   const currentCard = getCurrentCard();
@@ -70,22 +73,22 @@ const StudySession: React.FC = () => {
         case 'Digit1':
         case 'KeyQ':
           e.preventDefault();
-          if (isFlipped) handleAnswer('again');
+          if (isFlipped && !isProcessingRef.current) handleAnswer('again');
           break;
         case 'Digit2':
         case 'KeyW':
           e.preventDefault();
-          if (isFlipped) handleAnswer('hard');
+          if (isFlipped && !isProcessingRef.current) handleAnswer('hard');
           break;
         case 'Digit3':
         case 'KeyE':
           e.preventDefault();
-          if (isFlipped) handleAnswer('good');
+          if (isFlipped && !isProcessingRef.current) handleAnswer('good');
           break;
         case 'Digit4':
         case 'KeyR':
           e.preventDefault();
-          if (isFlipped) handleAnswer('easy');
+          if (isFlipped && !isProcessingRef.current) handleAnswer('easy');
           break;
         case 'KeyH':
           e.preventDefault();
@@ -258,8 +261,16 @@ const StudySession: React.FC = () => {
   };
 
   const handleAnswer = (quality: ResponseQuality) => {
-    if (!currentCard) return;
+    if (!currentCard || isProcessingRef.current) return;
 
+    // Prevent rapid successive calls (debounce)
+    const now = Date.now();
+    if (now - lastAnswerTimeRef.current < 300) return;
+    lastAnswerTimeRef.current = now;
+
+    isProcessingRef.current = true;
+    setIsProcessingAnswer(true);
+    
     answerCard(quality);
     setIsFlipped(false);
 
@@ -280,6 +291,12 @@ const StudySession: React.FC = () => {
         fontWeight: 'bold'
       }
     });
+
+    // Reset processing state after a short delay
+    setTimeout(() => {
+      setIsProcessingAnswer(false);
+      isProcessingRef.current = false;
+    }, 500);
 
     // Check if session is complete
     if (currentSession && currentSession.currentCardIndex >= currentSession.cards.length - 1) {
@@ -588,10 +605,17 @@ const StudySession: React.FC = () => {
               return (
                 <motion.button
                   key={option.quality}
-                  onClick={() => handleAnswer(option.quality)}
-                  className={`p-4 rounded-xl text-white font-medium transition-all duration-200 ${option.color} shadow-lg hover:shadow-xl`}
-                  whileHover={{ y: -2 }}
-                  whileTap={{ scale: 0.95 }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleAnswer(option.quality);
+                  }}
+                  disabled={isProcessingAnswer}
+                  className={`p-4 rounded-xl text-white font-medium transition-all duration-200 ${option.color} shadow-lg hover:shadow-xl ${
+                    isProcessingAnswer ? 'opacity-50 cursor-not-allowed' : ''
+                  }`}
+                  whileHover={isProcessingAnswer ? {} : { y: -2 }}
+                  whileTap={isProcessingAnswer ? {} : { scale: 0.95 }}
                 >
                   <div className="flex items-center justify-center space-x-2">
                     <Icon className="h-5 w-5" />
