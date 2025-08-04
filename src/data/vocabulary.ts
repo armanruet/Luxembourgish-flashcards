@@ -4687,7 +4687,7 @@ export const initialDecks: Deck[] = [
       "pronunciation": "d-lait ge-SIN glek-lech ous",
       "category": "opening-phrases-framework",
       "difficulty": "A2",
-      "notes": "Emotional observation. Alternative: Si gesinn zefridde aus. (They look satisfied.)",
+      "notes": "Emotional observation. Alternative: Si gesinn zefridden aus. (They look satisfied.)",
       "tags": ["conclusion", "emotion", "people"],
       "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
@@ -5006,7 +5006,7 @@ export const initialDecks: Deck[] = [
       "pronunciation": "froo",
       "category": "people-description",
       "difficulty": "A2",
-      "notes": "Adjective. Also: glécklech (happy), zefridde (satisfied) - Si gesinn all frou aus. (They all look happy.) ",
+      "notes": "Adjective. Also: glécklech (happy), zefridden (satisfied) - Si gesinn all frou aus. (They all look happy.) ",
       "tags": ["adjective", "emotion", "people"],
       "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
@@ -5017,7 +5017,7 @@ export const initialDecks: Deck[] = [
       "pronunciation": "sim-pa-TESH",
       "category": "people-description",
       "difficulty": "B1",
-      "notes": "Adjective. - Hie gesäit sympathesch an zefridde aus. (He looks likeable and satisfied.)",
+      "notes": "Adjective. - Hie gesäit sympathesch an zefridden aus. (He looks likeable and satisfied.)",
       "tags": ["adjective", "emotion", "people"],
       "easeFactor": 2.5, "interval": 0, "repetition": 0, nextReview: new Date(), "reviewCount": 0, "successCount": 0, createdAt: new Date(), updatedAt: new Date()
     },
